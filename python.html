@@ -39,6 +39,35 @@
       padding: 18px 14px 64px;
     }
 
+    /* Splash Screen (3 Seconds) */
+    #splashScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: #0b1938;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #splashScreen img {
+      max-width: min(460px, 90vw);
+      max-height: 80vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    #splashScreen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
     .app {
       max-width: 1060px;
       margin: 0 auto;
@@ -302,9 +331,18 @@
       box-shadow: 0 0 18px rgba(56, 189, 248, 0.45), 0 6px 18px rgba(37, 99, 235, 0.35);
     }
 
+    /* زوج زوج جنب بعض مع سكرول لأسفل */
     .grid {
       display: grid;
-      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 680px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .lesson-card {
@@ -312,6 +350,10 @@
       border-radius: 16px;
       background: rgba(15, 23, 42, 0.68);
       border: 1px solid rgba(148, 163, 184, 0.14);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .lesson-main {
@@ -326,7 +368,7 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      flex: 1 1 280px;
+      flex: 1 1 220px;
       min-width: 0;
     }
 
@@ -664,6 +706,11 @@
   </style>
 </head>
 <body>
+  <!-- Splash Screen (3 Seconds) -->
+  <div id="splashScreen" aria-hidden="true">
+    <img src="splash.png" alt="Python Course Splash" />
+  </div>
+
   <div class="app" id="app">
     <header class="top glass">
       <div class="brand">
@@ -1867,6 +1914,11 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          const splash = document.getElementById("splashScreen");
+          if (splash) splash.classList.add("hide");
+        }, 3000);
+
         try {
           document.querySelectorAll(".tab-btn").forEach(btn => {
             btn.onclick = () => {
