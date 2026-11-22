@@ -3,103 +3,487 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mastering Python — متابعة الكورس (30 يوماً)</title>
+  <title>Mastering Python — منصة متابعة الكورس</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%233776ab' d='M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z'/%3E%3Cpath fill='%23ffd43b' d='M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z'/%3E%3C/svg%3E" />
   <style>
     :root {
-      --bg1: #090e1c;
-      --bg2: #121b34;
-      --glass: rgba(255, 255, 255, 0.08);
-      --glass-strong: rgba(255, 255, 255, 0.14);
-      --border: rgba(255, 255, 255, 0.16);
-      --text: #f4f7ff;
-      --muted: #a6b4d4;
-      --accent: #38bdf8;
-      --accent2: #facc15;
-      --success: #22c55e;
-      --radius: 18px;
+      --bg-base: #070b14;
+      --bg-grad-1: #0b1224;
+      --bg-grad-2: #0f172a;
+      --card-bg: rgba(15, 23, 42, 0.72);
+      --card-elevated: rgba(23, 33, 58, 0.85);
+      --border: rgba(148, 163, 184, 0.16);
+      --border-glow: rgba(56, 189, 248, 0.35);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --navy-accent: #1d4ed8;
+      --sky-accent: #38bdf8;
+      --gold-accent: #facc15;
+      --green-accent: #10b981;
+      --red-accent: #e11d48;
+      --radius: 20px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
     body {
       min-height: 100vh;
-      color: var(--text);
-      background: radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.22), transparent 40%),
-                  radial-gradient(circle at 86% 18%, rgba(250, 204, 21, 0.14), transparent 38%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
-      padding: 20px 14px 60px;
+      color: var(--text-main);
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(29, 78, 216, 0.25), transparent 42%),
+        radial-gradient(circle at 85% 18%, rgba(56, 189, 248, 0.14), transparent 38%),
+        radial-gradient(circle at 50% 95%, rgba(30, 58, 138, 0.22), transparent 50%),
+        linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+      padding: 18px 14px 64px;
     }
-    .app { max-width: 1120px; margin: 0 auto; }
+
+    .app {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
     .glass {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 18px 40px rgba(2, 6, 23, 0.55);
     }
+
+    /* Header */
     header.top {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 14px; padding: 18px 22px; margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
     .brand-icon {
-      width: 48px; height: 48px; border-radius: 14px;
-      background: rgba(255, 255, 255, 0.09); border: 1px solid var(--border);
-      display: grid; place-items: center; flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(30, 58, 138, 0.55), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border-glow);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
     }
-    .brand h1 { font-size: 1.25rem; font-weight: 700; }
-    .brand p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-    .controls-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-    select, input[type="date"], input[type="text"], button {
-      background: var(--glass-strong); color: var(--text);
-      border: 1px solid var(--border); border-radius: 11px;
-      padding: 8px 12px; font-size: 0.88rem; cursor: pointer; transition: 0.2s ease;
+
+    .brand h1 {
+      font-size: 1.28rem;
+      font-weight: 800;
+      letter-spacing: -0.2px;
     }
-    input[type="text"], input[type="date"] { cursor: text; }
-    button:hover, select:hover { background: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
-    button.primary { background: linear-gradient(135deg, #0284c7, #2563eb); border-color: transparent; font-weight: 600; }
-    button.success { background: rgba(34, 197, 94, 0.22); border-color: rgba(34, 197, 94, 0.45); color: #bbf7d0; }
-    button.warn { background: rgba(250, 204, 21, 0.18); border-color: rgba(250, 204, 21, 0.4); color: #fef08a; }
 
-    .today-card { padding: 20px; margin-bottom: 18px; }
-    .today-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .progress-wrap { height: 10px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 10px 0 14px; }
-    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.35s ease; }
+    .brand p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
 
-    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-    .tab-btn { padding: 10px 16px; border-radius: 12px; font-weight: 600; }
-    .tab-btn.active { background: var(--accent); color: #061324; border-color: transparent; }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
 
-    .grid { display: grid; gap: 12px; }
-    .lesson-card { padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-    .lesson-main { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-    .lesson-left { display: flex; align-items: center; gap: 10px; }
-    .badge-num { background: rgba(56,189,248,0.18); color: #7dd3fc; padding: 4px 9px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; }
-    .lesson-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+    button, select, input[type="text"] {
+      background: rgba(30, 41, 59, 0.75);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-    .sub-ex-list { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.14); display: grid; gap: 8px; }
+    input[type="text"] {
+      cursor: text;
+      font-weight: 400;
+    }
+
+    button:hover, select:hover {
+      background: rgba(51, 65, 85, 0.85);
+      border-color: rgba(148, 163, 184, 0.32);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: rgba(96, 165, 250, 0.4);
+      color: #fff;
+    }
+
+    button.primary:hover {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    button.success {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+
+    button.success-solid {
+      background: #059669;
+      border-color: #10b981;
+      color: #fff;
+    }
+
+    button.youtube-btn {
+      background: #e11d48;
+      border-color: rgba(251, 113, 133, 0.45);
+      color: #fff;
+    }
+
+    button.gold-btn {
+      background: #facc15;
+      border-color: #fde047;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* Continue / Overview Card */
+    .hero-card {
+      padding: 20px;
+      margin-bottom: 16px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(30, 58, 138, 0.26));
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .progress-wrap {
+      height: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8, #facc15);
+      transition: width 0.35s ease;
+    }
+
+    /* Navigation Tabs */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      border-radius: 13px;
+      background: rgba(15, 23, 42, 0.78);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      border-color: rgba(56, 189, 248, 0.55);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Lessons & Exercises */
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .lesson-card {
+      padding: 15px 16px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      transition: border-color 0.2s ease;
+    }
+
+    .lesson-card:hover {
+      border-color: rgba(56, 189, 248, 0.32);
+    }
+
+    .lesson-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .lesson-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-num {
+      background: rgba(37, 99, 235, 0.24);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #93c5fd;
+      padding: 4px 10px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .lesson-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sub-ex-list {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.18);
+      display: grid;
+      gap: 8px;
+    }
+
     .sub-ex-item {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
-      padding: 9px 12px; border-radius: 11px; background: rgba(250, 204, 21, 0.08); border: 1px solid rgba(250, 204, 21, 0.22);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(250, 204, 21, 0.06);
+      border: 1px solid rgba(250, 204, 21, 0.22);
       font-size: 0.86rem;
     }
-    .sub-tag { background: rgba(250, 204, 21, 0.22); color: #fde047; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
 
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(8px);
-      display: none; place-items: center; padding: 16px; z-index: 999;
+    .sub-tag {
+      background: rgba(250, 204, 21, 0.2);
+      color: #fde047;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      margin-left: 6px;
     }
-    .modal-backdrop.open { display: grid; }
-    .modal { width: 100%; max-width: 780px; max-height: 92vh; overflow-y: auto; padding: 20px; }
-    .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .media-box { background: #050811; border-radius: 14px; padding: 14px; border: 1px solid var(--border); margin-bottom: 12px; }
-    video, audio, iframe { width: 100%; border-radius: 10px; background: #000; min-height: 320px; border: 0; }
-    .wave { display: flex; align-items: flex-end; gap: 4px; height: 42px; margin: 10px 0; }
-    .wave span { flex: 1; background: linear-gradient(to top, var(--accent), var(--accent2)); border-radius: 4px; height: 35%; transition: height 0.2s; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
-    .stat-box { padding: 16px; text-align: center; }
-    .stat-val { font-size: 1.6rem; font-weight: 800; color: var(--accent2); margin-top: 6px; }
-    .muted { color: var(--muted); font-size: 0.85rem; }
+
+    /* Dark Navy Player Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      place-items: center;
+      padding: 14px;
+      z-index: 999;
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 780px;
+      max-height: 94vh;
+      overflow-y: auto;
+      padding: 18px;
+      background: #0d1526;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+    }
+
+    .modal-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .modal-icon-btns {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .icon-pill {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(30, 41, 59, 0.85);
+    }
+
+    .icon-pill.close-pill {
+      background: rgba(225, 29, 72, 0.22);
+      border-color: rgba(225, 29, 72, 0.45);
+      color: #fda4af;
+    }
+
+    .player-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #050914;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      margin-bottom: 12px;
+    }
+
+    .player-viewport iframe,
+    .player-viewport video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .audio-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: 100%;
+      padding: 20px;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(29, 78, 216, 0.28), #070d1c);
+    }
+
+    .audio-overlay.active {
+      display: flex;
+    }
+
+    .wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 44px;
+      width: 220px;
+    }
+
+    .wave span {
+      flex: 1;
+      background: linear-gradient(to top, #2563eb, #38bdf8, #facc15);
+      border-radius: 4px;
+      transition: height 0.25s ease;
+    }
+
+    .player-controls-panel {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .speed-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .speed-pills {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .speed-pill {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 9px;
+    }
+
+    .speed-pill.active {
+      background: #2563eb;
+      border-color: #60a5fa;
+      color: #fff;
+    }
+
+    .modal-footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
+
+    .stat-box {
+      padding: 18px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.72);
+    }
+
+    .stat-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--sky-accent);
+      margin-top: 6px;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
   </style>
 </head>
 <body>
@@ -109,32 +493,25 @@
         <div class="brand-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 64 64">
             <path fill="#3776ab" d="M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z"/>
-            <path fill="#ffd43b" d="M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z"/>
+            <path fill="#ffd43b" d="M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0-4.2z"/>
           </svg>
         </div>
         <div>
-          <h1>Mastering Python — خطة 30 يوماً</h1>
-          <p>متابعة 152 درساً وتوزيع تمارين التكليفات (#1–#26) حسب الدرس</p>
+          <h1>Mastering Python — Elzero</h1>
+          <p>152 درساً بالترتيب المباشر + 26 تكليفاً موزعة على الدروس</p>
         </div>
       </div>
       <div class="controls-row">
-        <select id="planDaysSelect" title="مدة الخطة">
-          <option value="30" selected>خطة 30 يوماً</option>
-          <option value="45">خطة 45 يوماً</option>
-          <option value="60">خطة 60 يوماً</option>
-        </select>
-        <input type="date" id="startDateInput" title="تاريخ البداية" />
         <button id="exportJsonBtn">تصدير JSON</button>
         <button id="importJsonBtn">استيراد JSON</button>
         <input type="file" id="importFileInput" accept="application/json" hidden />
       </div>
     </header>
 
-    <section class="today-card glass" id="todayCard"></section>
+    <section class="hero-card glass" id="heroCard"></section>
 
     <nav class="tabs" role="tablist">
-      <button class="tab-btn active" data-tab="schedule">الجدول اليومي</button>
-      <button class="tab-btn" data-tab="lessons">كل الدروس (152)</button>
+      <button class="tab-btn active" data-tab="lessons">كل الدروس (152)</button>
       <button class="tab-btn" data-tab="assignments">التكليفات (#1–#26)</button>
       <button class="tab-btn" data-tab="stats">الإحصائيات</button>
     </nav>
@@ -142,26 +519,50 @@
     <main id="tabContent" class="glass" style="padding: 18px;"></main>
   </div>
 
+  <!-- Dark Navy Media Player Modal -->
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal glass" id="modalBox"></div>
+    <div class="modal" id="modalBox"></div>
   </div>
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_tracker_v2";
+      const STORAGE_KEY = "elzero_python_navy_v3";
       const TOTAL_LESSONS = 152;
-      const DEFAULT_PLAYLIST_ID = "PLDoPjvoNmBAyE_x9F6vong0eCDLeTPkO9";
+      const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
       const TOPICS = [
-        "المقدمة وتجهيز البيئة", "المتغيرات وأنواع البيانات", "النصوص (Strings) ودوالها",
-        "الأرقام (Numbers) والعمليات", "القوائم (Lists)", "الصفوف (Tuples)",
-        "المجموعات (Sets)", "القواميس (Dictionaries)", "العمليات المنطقية والمقارنة",
-        "إدخال المستخدم والشروط (If / Elif / Else)", "حلقات التكرار (While & For)",
-        "الدوال (Functions) و Recursion و Lambda", "التعامل مع الملفات (Files)",
-        "الدوال الجاهزة (Built-in Functions)", "الوحدات والحزم (Modules & Packages)",
-        "التاريخ والوقت ومعالجة الأخطاء", "التعابير النمطية (RegEx) و OOP",
+        "المقدمة وتجهيز البيئة",
+        "المتغيرات وأنواع البيانات",
+        "النصوص (Strings) ودوالها",
+        "الأرقام (Numbers) والعمليات الحسابية",
+        "القوائم (Lists) ودوالها",
+        "الصفوف (Tuples) والمجموعات (Sets)",
+        "القواميس (Dictionaries)",
+        "العمليات المنطقية والمقارنة",
+        "إدخال المستخدم والشروط (If / Elif / Else)",
+        "حلقات التكرار (While & For Loop)",
+        "الدوال (Functions) و Recursion و Lambda",
+        "التعامل مع الملفات (File Handling)",
+        "الدوال الجاهزة (Built-in Functions)",
+        "الوحدات والحزم (Modules & Packages)",
+        "التاريخ والوقت ومعالجة الأخطاء",
+        "التعابير النمطية (Regular Expressions)",
+        "البرمجة كائنية التوجه (OOP)",
         "قواعد البيانات (SQLite) والمواضيع المتقدمة"
       ];
+
+      const LESSON_TITLES_FIRST = {
+        1: "مقدمة وماذا ستتعلم في الدورة",
+        2: "ما هي لغة Python ولماذا تتعلمها",
+        3: "تثبيت بايثون وتجهيز محرر الأكواد",
+        4: "كتابة أول كود والتعامل مع التعليقات",
+        5: "التعامل مع البيانات وأنواعها (Data Types)",
+        6: "المتغيرات (Variables) — الجزء الأول",
+        7: "المتغيرات (Variables) — الجزء الثاني",
+        8: "التسلسل والـ Escape Sequences",
+        9: "دمج النصوص (Concatenation) والتدريب",
+        10: "النصوص (Strings) — الجزء الأول"
+      };
 
       const ASSIGNMENTS = Array.from({ length: 26 }, (_, idx) => {
         const num = idx + 1;
@@ -176,7 +577,7 @@
             code: `#${num} • تمرين ${eIdx + 1}`,
             lessonId: targetLesson,
             title: `تطبيق عملي على الدرس #${String(targetLesson).padStart(3, "0")} (تكليف #${num})`,
-            desc: `نفّذ المطلوب برمجياً على مفاهيم الدرس #${targetLesson} وتأكد من صحة المخرجات.`
+            desc: `اكتب كود بايثون لتنفيذ المطلوب على مفاهيم الدرس #${targetLesson} وتأكد من النتيجة.`
           };
         });
         return {
@@ -192,24 +593,24 @@
       const LESSONS = Array.from({ length: TOTAL_LESSONS }, (_, i) => {
         const id = i + 1;
         const topic = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
+        const customTitle = LESSON_TITLES_FIRST[id] || `${topic} — الدرس ${id}`;
         return {
           id,
           code: `#${String(id).padStart(3, "0")}`,
-          title: `الدرس ${id}: ${topic}`,
+          title: customTitle,
           topic,
-          duration: `${6 + (id % 9)}:${String((id * 7) % 60).padStart(2, "0")}`
+          duration: `${7 + (id % 8)}:${String((id * 11) % 60).padStart(2, "0")}`,
+          playlistIndex: i // 0-based index in playlist
         };
       });
 
       const DEFAULT_STATE = {
-        planDays: 30,
-        startDate: new Date().toISOString().slice(0, 10),
-        activeTab: "schedule",
-        selectedDay: 1,
+        activeTab: "lessons",
+        filterMode: "all", // all | pending | completed
         searchQuery: "",
         completedLessons: [],
         completedExercises: [],
-        lessonVideos: {}
+        lastWatchedLesson: 1
       };
 
       function loadState() {
@@ -221,11 +622,9 @@
             ...DEFAULT_STATE,
             ...parsed,
             completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
-            completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : [],
-            lessonVideos: parsed.lessonVideos && typeof parsed.lessonVideos === "object" ? parsed.lessonVideos : {}
+            completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : []
           };
-        } catch (err) {
-          console.warn("Storage fallback:", err);
+        } catch {
           return { ...DEFAULT_STATE };
         }
       }
@@ -235,30 +634,8 @@
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         } catch (err) {
-          console.warn("Save failed:", err);
+          console.warn("Save error:", err);
         }
-      }
-
-      function getDayChunks() {
-        const days = Number(state.planDays) || 30;
-        const chunks = [];
-        for (let d = 1; d <= days; d++) {
-          const from = Math.floor(((d - 1) * TOTAL_LESSONS) / days) + 1;
-          const to = Math.floor((d * TOTAL_LESSONS) / days);
-          const ids = [];
-          for (let x = from; x <= to; x++) ids.push(x);
-          chunks.push({ day: d, lessonIds: ids });
-        }
-        return chunks;
-      }
-
-      function getCurrentDayNumber() {
-        const days = Number(state.planDays) || 30;
-        const start = new Date(state.startDate + "T00:00:00");
-        const now = new Date();
-        if (Number.isNaN(start.getTime())) return 1;
-        const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
-        return Math.min(days, Math.max(1, diff));
       }
 
       function getExercisesForLesson(lessonId) {
@@ -266,7 +643,7 @@
         for (const a of ASSIGNMENTS) {
           for (const ex of a.exercises) {
             if (ex.lessonId === lessonId) {
-              list.push({ ...ex, assignmentNum: a.num, assignmentUrl: a.url, assignmentTitle: a.title });
+              list.push({ ...ex, assignmentNum: a.num, assignmentUrl: a.url });
             }
           }
         }
@@ -289,94 +666,92 @@
         renderAll();
       }
 
-      function extractYouTubeId(url) {
-        if (!url) return "";
-        const m = url.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
-        return m ? m[1] : "";
-      }
-
-      function getLessonPlayerSrc(lessonId) {
-        const customUrl = (state.lessonVideos[lessonId] || "").trim();
-        const ytId = extractYouTubeId(customUrl);
-        if (ytId) {
-          return {
-            type: "iframe",
-            src: `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`,
-            watchUrl: customUrl
-          };
-        }
-        return {
-          type: "iframe",
-          src: `https://www.youtube.com/embed/videoseries?list=${DEFAULT_PLAYLIST_ID}&index=${Math.max(0, lessonId - 1)}&autoplay=1&rel=0`,
-          watchUrl: `https://www.youtube.com/playlist?list=${DEFAULT_PLAYLIST_ID}`
-        };
-      }
+      // YouTube IFrame API helper for speed control & playlist indexing
+      let ytPlayer = null;
+      let ytApiReady = false;
+      window.onYouTubeIframeAPIReady = function () {
+        ytApiReady = true;
+      };
+      (function injectYTScript() {
+        if (document.getElementById("yt-iframe-api")) return;
+        const tag = document.createElement("script");
+        tag.id = "yt-iframe-api";
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+      })();
 
       function openMediaModal(lessonId) {
         const lesson = LESSONS.find(l => l.id === lessonId);
         if (!lesson) return;
-        const savedUrl = state.lessonVideos[lessonId] || "";
-        const playerInfo = getLessonPlayerSrc(lessonId);
+        state.lastWatchedLesson = lesson.id;
+        saveState();
+
+        const embedSrc = `https://www.youtube.com/embed/videoseries?list=${PLAYLIST_ID}&index=${lesson.playlistIndex}&autoplay=1&rel=0&enablejsapi=1`;
+        const ytDirectUrl = `https://www.youtube.com/playlist?list=${PLAYLIST_ID}`;
+        const isDone = state.completedLessons.includes(lesson.id);
 
         const backdrop = document.getElementById("modalBackdrop");
         const box = document.getElementById("modalBox");
+
         box.innerHTML = `
-          <div class="modal-head">
-            <div>
-              <strong>${lesson.code} — ${lesson.title}</strong>
-              <div class="muted">المدة التقديرية: ${lesson.duration} • تشغيل مباشر داخل الموقع</div>
+          <div class="modal-header-bar">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge-num">${lesson.code}</span>
+              <span class="muted">${lesson.duration}</span>
+              <span style="background:rgba(16,185,129,0.18);color:#6ee7b7;padding:3px 9px;border-radius:8px;font-size:0.78rem;font-weight:700;">مشغل الكورس المباشر</span>
             </div>
-            <button id="closeModalBtn">إغلاق ✕</button>
-          </div>
-
-          <div class="media-box">
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-              <button class="primary" id="modeVideoBtn">مشاهدة داخل الموقع</button>
-              <button id="modeAudioBtn">وضع الصوت (Audio)</button>
-              <a href="${playerInfo.watchUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
-                <button class="warn" type="button">فتح في يوتيوب ↗</button>
-              </a>
-            </div>
-
-            <div id="playerStage">
-              <iframe src="${playerInfo.src}" title="${lesson.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-
-            <div class="wave" id="waveBars">
-              ${Array.from({ length: 18 }, (_, k) => `<span style="height:${25 + ((k * 17) % 70)}%"></span>`).join("")}
-            </div>
-
-            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;">
-              <label class="muted">السرعة:</label>
-              <select id="speedSelect">
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-              </select>
-              <label style="cursor:pointer;" class="muted">
-                <span style="text-decoration:underline;">أو تشغيل ملف MP4 / MP3 من جهازك</span>
+            <div class="modal-icon-btns">
+              <button class="icon-pill" id="audioTogglePill" title="وضع الصوت">🎵</button>
+              <label class="icon-pill" title="تشغيل ملف من جهازك" style="cursor:pointer;">
+                📁
                 <input type="file" id="localFileInput" accept="video/*,audio/*" hidden />
               </label>
+              <button class="icon-pill" id="fullscreenPill" title="ملء الشاشة">⛶</button>
+              <button class="icon-pill close-pill" id="closeModalBtn" title="إغلاق">✕</button>
             </div>
           </div>
 
-          <div class="glass" style="padding:12px;margin-bottom:12px;">
-            <label class="muted" style="display:block;margin-bottom:6px;">تخصيص رابط فيديو مباشر لهذا الدرس (اختياري):</label>
-            <div style="display:flex;gap:8px;">
-              <input type="text" id="customVideoUrlInput" value="${savedUrl.replace(/"/g, "&quot;")}" placeholder="https://www.youtube.com/watch?v=..." style="flex:1;" />
-              <button class="primary" id="saveVideoUrlBtn">حفظ</button>
+          <h3 style="margin-bottom:12px;font-size:1.08rem;">${lesson.title}</h3>
+
+          <div class="player-viewport" id="playerViewport">
+            <iframe
+              id="ytEmbedFrame"
+              src="${embedSrc}"
+              title="${lesson.title}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+            <div class="audio-overlay" id="audioOverlay">
+              <div class="wave" id="waveBars">
+                ${Array.from({ length: 16 }, (_, k) => `<span style="height:${25 + ((k * 19) % 70)}%"></span>`).join("")}
+              </div>
+              <div style="font-weight:700;">وضع الاستماع الصوتي نشط</div>
+              <div class="muted">الفيديو يعمل في الخلفية — اضغط 🎵 للعودة لشاشة الفيديو</div>
             </div>
           </div>
 
-          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-            <button class="success" id="modalToggleDoneBtn">
-              ${state.completedLessons.includes(lesson.id) ? "✓ مكتمل (إلغاء التحديد)" : "تحديد الدرس كمكتمل"}
-            </button>
-            <div style="display:flex;gap:8px;">
-              <button id="prevLessonBtn" ${lesson.id <= 1 ? "disabled" : ""}>السابق</button>
-              <button id="nextLessonBtn" ${lesson.id >= TOTAL_LESSONS ? "disabled" : ""}>التالي</button>
+          <div class="player-controls-panel">
+            <div class="speed-group">
+              <span class="muted">السرعة:</span>
+              <div class="speed-pills" id="speedPills">
+                ${[0.75, 1, 1.25, 1.5, 2].map(sp => `
+                  <button type="button" class="speed-pill ${sp === 1 ? "active" : ""}" data-speed="${sp}">${sp}x</button>
+                `).join("")}
+              </div>
+            </div>
+
+            <div class="modal-footer-actions">
+              <button class="${isDone ? "success-solid" : "success"}" id="modalToggleDoneBtn">
+                ${isDone ? "✓ تم إكمال الدرس" : "✓ تحديد الدرس كمكتمل"}
+              </button>
+
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <button id="prevLessonBtn" ${lesson.id <= 1 ? "disabled" : ""}>→ السابق</button>
+                <button id="nextLessonBtn" ${lesson.id >= TOTAL_LESSONS ? "disabled" : ""}>التالي ←</button>
+                <a href="${ytDirectUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
+                  <button type="button" class="youtube-btn">يوتيوب ↗</button>
+                </a>
+              </div>
             </div>
           </div>
         `;
@@ -384,16 +759,23 @@
         backdrop.classList.add("open");
         backdrop.setAttribute("aria-hidden", "false");
 
+        ytPlayer = null;
+        if (ytApiReady && window.YT && window.YT.Player) {
+          try {
+            ytPlayer = new window.YT.Player("ytEmbedFrame", {
+              events: {
+                onReady: (ev) => {
+                  try {
+                    ev.target.playVideoAt(lesson.playlistIndex);
+                  } catch {}
+                }
+              }
+            });
+          } catch {}
+        }
+
         document.getElementById("closeModalBtn").onclick = closeModal;
         backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
-
-        document.getElementById("saveVideoUrlBtn").onclick = () => {
-          const val = document.getElementById("customVideoUrlInput").value.trim();
-          if (val) state.lessonVideos[lesson.id] = val;
-          else delete state.lessonVideos[lesson.id];
-          saveState();
-          openMediaModal(lesson.id);
-        };
 
         document.getElementById("modalToggleDoneBtn").onclick = () => {
           toggleLessonComplete(lesson.id);
@@ -403,35 +785,60 @@
         document.getElementById("prevLessonBtn").onclick = () => openMediaModal(lesson.id - 1);
         document.getElementById("nextLessonBtn").onclick = () => openMediaModal(lesson.id + 1);
 
-        const speedSel = document.getElementById("speedSelect");
-        speedSel.onchange = () => {
-          const mediaEl = document.querySelector("#playerStage video, #playerStage audio");
-          if (mediaEl) mediaEl.playbackRate = parseFloat(speedSel.value) || 1;
+        // Speed pills
+        box.querySelectorAll("[data-speed]").forEach(btn => {
+          btn.onclick = () => {
+            const rate = parseFloat(btn.getAttribute("data-speed")) || 1;
+            box.querySelectorAll("[data-speed]").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            if (ytPlayer && typeof ytPlayer.setPlaybackRate === "function") {
+              try { ytPlayer.setPlaybackRate(rate); } catch {}
+            }
+            const localMedia = document.querySelector("#playerViewport video, #playerViewport audio");
+            if (localMedia) localMedia.playbackRate = rate;
+          };
+        });
+
+        // Audio mode toggle
+        let audioMode = false;
+        let waveTimer = null;
+        document.getElementById("audioTogglePill").onclick = () => {
+          audioMode = !audioMode;
+          const overlay = document.getElementById("audioOverlay");
+          const frame = document.getElementById("ytEmbedFrame");
+          if (audioMode) {
+            overlay.classList.add("active");
+            if (frame) frame.style.opacity = "0.02";
+            waveTimer = setInterval(() => {
+              document.querySelectorAll("#waveBars span").forEach((bar, idx) => {
+                bar.style.height = `${18 + ((idx * 29 + Math.floor(Math.random() * 60)) % 78)}%`;
+              });
+            }, 350);
+          } else {
+            overlay.classList.remove("active");
+            if (frame) frame.style.opacity = "1";
+            if (waveTimer) clearInterval(waveTimer);
+          }
         };
 
+        // Fullscreen toggle
+        document.getElementById("fullscreenPill").onclick = () => {
+          const vp = document.getElementById("playerViewport");
+          if (!document.fullscreenElement && vp.requestFullscreen) {
+            vp.requestFullscreen().catch(() => {});
+          } else if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          }
+        };
+
+        // Local file playback
         document.getElementById("localFileInput").onchange = (ev) => {
           const file = ev.target.files && ev.target.files[0];
           if (!file) return;
           const blobUrl = URL.createObjectURL(file);
-          const isAudio = file.type.startsWith("audio/");
-          document.getElementById("playerStage").innerHTML = isAudio
-            ? `<audio id="localAudioEl" src="${blobUrl}" controls autoplay></audio>`
-            : `<video id="localVideoEl" src="${blobUrl}" controls autoplay></video>`;
-          const el = document.querySelector("#playerStage video, #playerStage audio");
-          if (el) el.playbackRate = parseFloat(speedSel.value) || 1;
+          const vp = document.getElementById("playerViewport");
+          vp.innerHTML = `<video src="${blobUrl}" controls autoplay style="width:100%;height:100%;"></video>`;
         };
-
-        document.getElementById("modeAudioBtn").onclick = () => {
-          document.querySelectorAll("#waveBars span").forEach((bar, i) => {
-            bar.style.height = `${20 + ((i * 23 + Date.now()) % 75)}%`;
-          });
-          const stage = document.getElementById("playerStage");
-          if (!stage.querySelector("audio")) {
-            stage.innerHTML = `<div class="muted" style="padding:20px;text-align:center;">وضع الصوت نشط — يمكنك رفع ملف MP3/MP4 من جهازك أو العودة لوضع المشاهدة.</div>`;
-          }
-        };
-
-        document.getElementById("modeVideoBtn").onclick = () => openMediaModal(lesson.id);
       }
 
       function closeModal() {
@@ -439,6 +846,7 @@
         backdrop.classList.remove("open");
         backdrop.setAttribute("aria-hidden", "true");
         document.getElementById("modalBox").innerHTML = "";
+        ytPlayer = null;
       }
 
       function openAssignmentPreview(assignNum) {
@@ -447,12 +855,12 @@
         const backdrop = document.getElementById("modalBackdrop");
         const box = document.getElementById("modalBox");
         box.innerHTML = `
-          <div class="modal-head">
+          <div class="modal-header-bar">
             <div>
               <strong>${a.title}</strong>
               <div class="muted">نطاق الدروس: #${String(a.start).padStart(3, "0")} إلى #${String(a.end).padStart(3, "0")}</div>
             </div>
-            <button id="closeModalBtn">إغلاق ✕</button>
+            <button class="icon-pill close-pill" id="closeModalBtn">✕</button>
           </div>
           <div class="grid" style="margin-bottom:14px;">
             ${a.exercises.map(ex => {
@@ -462,18 +870,20 @@
                   <div>
                     <span class="sub-tag">${ex.code}</span>
                     <strong>${ex.title}</strong>
-                    <div class="muted">${ex.desc}</div>
+                    <div class="muted" style="margin-top:4px;">${ex.desc}</div>
                   </div>
-                  <button class="${done ? "success" : ""}" data-ex-toggle="${ex.id}">${done ? "✓ محلول" : "تحديد كمحلول"}</button>
+                  <button class="${done ? "success-solid" : "success"}" data-ex-toggle="${ex.id}">
+                    ${done ? "✓ محلول" : "تحديد كمحلول"}
+                  </button>
                 </div>
               `;
             }).join("")}
           </div>
           <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;">
-              <button class="primary" type="button">فتح صفحة التكليفات ↗</button>
+              <button class="primary" type="button">فتح صفحة التكليفات على الزيرو ↗</button>
             </a>
-            <button id="closeModalBtn2">تم</button>
+            <button id="closeModalBtn2">إغلاق</button>
           </div>
         `;
         backdrop.classList.add("open");
@@ -495,16 +905,18 @@
           <div class="lesson-card">
             <div class="lesson-main">
               <div class="lesson-left">
-                <input type="checkbox" ${isDone ? "checked" : ""} data-lesson-check="${lesson.id}" aria-label="إتمام ${lesson.title}" />
+                <input type="checkbox" ${isDone ? "checked" : ""} data-lesson-check="${lesson.id}" aria-label="إتمام ${lesson.title}" style="width:18px;height:18px;accent-color:#2563eb;cursor:pointer;" />
                 <span class="badge-num">${lesson.code}</span>
                 <div>
-                  <div style="${isDone ? "text-decoration:line-through;opacity:0.7;" : "font-weight:600;"}">${lesson.title}</div>
+                  <div style="${isDone ? "text-decoration:line-through;opacity:0.65;" : "font-weight:700;"}">${lesson.title}</div>
                   <div class="muted">${lesson.topic} • ${lesson.duration}</div>
                 </div>
               </div>
               <div class="lesson-actions">
-                <button class="primary" data-play-lesson="${lesson.id}">مشاهدة</button>
-                <button class="${isDone ? "success" : ""}" data-lesson-check="${lesson.id}">${isDone ? "مكتمل" : "إتمام"}</button>
+                <button class="primary" data-play-lesson="${lesson.id}">▶ مشاهدة</button>
+                <button class="${isDone ? "success-solid" : "success"}" data-lesson-check="${lesson.id}">
+                  ${isDone ? "✓ مكتمل" : "إتمام"}
+                </button>
               </div>
             </div>
 
@@ -514,15 +926,15 @@
                   const exDone = state.completedExercises.includes(ex.id);
                   return `
                     <div class="sub-ex-item">
-                      <div>
-                        <input type="checkbox" ${exDone ? "checked" : ""} data-ex-check="${ex.id}" />
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                        <input type="checkbox" ${exDone ? "checked" : ""} data-ex-check="${ex.id}" style="width:16px;height:16px;accent-color:#facc15;cursor:pointer;" />
                         <span class="sub-tag">${ex.code}</span>
-                        <span style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${ex.title}</span>
+                        <span style="${exDone ? "text-decoration:line-through;opacity:0.7;" : ""}">${ex.title}</span>
                       </div>
                       <div style="display:flex;gap:6px;">
                         <button data-preview-assign="${ex.assignmentNum}">معاينة</button>
                         <a href="${ex.assignmentUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
-                          <button type="button">الرابط ↗</button>
+                          <button type="button">التكليف ↗</button>
                         </a>
                       </div>
                     </div>
@@ -534,75 +946,75 @@
         `;
       }
 
-      function renderTodayCard() {
-        const chunks = getDayChunks();
-        const todayNum = getCurrentDayNumber();
-        const todayChunk = chunks.find(c => c.day === todayNum) || chunks[0];
+      function renderHeroCard() {
         const doneCount = state.completedLessons.length;
         const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
+        const nextLesson = LESSONS.find(l => !state.completedLessons.includes(l.id)) || LESSONS[0];
+        const totalEx = ASSIGNMENTS.reduce((sum, a) => sum + a.exercises.length, 0);
 
-        document.getElementById("todayCard").innerHTML = `
-          <div class="today-head">
+        document.getElementById("heroCard").innerHTML = `
+          <div class="hero-top">
             <div>
-              <h2>مهام اليوم — اليوم ${todayNum} من ${state.planDays}</h2>
-              <div class="muted">دروس اليوم: ${todayChunk.lessonIds.map(id => "#" + String(id).padStart(3, "0")).join(" ، ")}</div>
+              <div class="muted" style="margin-bottom:4px;">الدرس التالي في قائمتك</div>
+              <h2 style="font-size:1.12rem;">${nextLesson.code} — ${nextLesson.title}</h2>
             </div>
-            <button class="success" id="completeTodayBtn">إتمام مهام اليوم ✓</button>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <button class="primary" id="continueWatchBtn">▶ متابعة المشاهدة الآن</button>
+              <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank" rel="noopener" style="text-decoration:none;">
+                <button type="button" class="youtube-btn">قائمة التشغيل ↗</button>
+              </a>
+            </div>
           </div>
           <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
-          <div class="muted">الإنجاز الكلي: ${doneCount} من ${TOTAL_LESSONS} درس (${pct}%) • التمارين المحلولة: ${state.completedExercises.length}</div>
+          <div class="muted">
+            التقدم الكلي: <strong style="color:#f1f5f9;">${doneCount}</strong> من ${TOTAL_LESSONS} درس (${pct}%) •
+            التمارين المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${totalEx}
+          </div>
         `;
 
-        document.getElementById("completeTodayBtn").onclick = () => {
-          todayChunk.lessonIds.forEach(id => {
-            if (!state.completedLessons.includes(id)) state.completedLessons.push(id);
-          });
-          saveState();
-          renderAll();
-        };
+        document.getElementById("continueWatchBtn").onclick = () => openMediaModal(nextLesson.id);
       }
 
       function renderTabContent() {
         const container = document.getElementById("tabContent");
-        if (state.activeTab === "schedule") {
-          const chunks = getDayChunks();
-          const activeChunk = chunks.find(c => c.day === state.selectedDay) || chunks[0];
-          container.innerHTML = `
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
-              ${chunks.map(c => `
-                <button class="${c.day === activeChunk.day ? "primary" : ""}" data-select-day="${c.day}" style="padding:6px 10px;">
-                  يوم ${c.day}
-                </button>
-              `).join("")}
-            </div>
-            <h3 style="margin-bottom:10px;">دروس اليوم ${activeChunk.day}</h3>
-            <div class="grid">
-              ${activeChunk.lessonIds.map(id => renderLessonItem(LESSONS[id - 1])).join("")}
-            </div>
-          `;
-          container.querySelectorAll("[data-select-day]").forEach(btn => {
-            btn.onclick = () => {
-              state.selectedDay = Number(btn.getAttribute("data-select-day"));
-              saveState();
-              renderTabContent();
-            };
-          });
-        } else if (state.activeTab === "lessons") {
+        if (state.activeTab === "lessons") {
           const q = (state.searchQuery || "").trim().toLowerCase();
-          const filtered = LESSONS.filter(l => !q || l.title.toLowerCase().includes(q) || l.code.includes(q) || l.topic.toLowerCase().includes(q));
+          const filtered = LESSONS.filter(l => {
+            const matchesQuery = !q || l.title.toLowerCase().includes(q) || l.code.includes(q) || l.topic.toLowerCase().includes(q);
+            const isDone = state.completedLessons.includes(l.id);
+            if (state.filterMode === "completed" && !isDone) return false;
+            if (state.filterMode === "pending" && isDone) return false;
+            return matchesQuery;
+          });
+
           container.innerHTML = `
-            <div style="margin-bottom:14px;">
-              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث برقم الدرس أو العنوان أو الموضوع..." style="width:100%;max-width:420px;" />
+            <div class="filter-bar">
+              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث برقم الدرس (#001) أو العنوان أو الموضوع..." style="flex:1;min-width:240px;" />
+              <button class="${state.filterMode === "all" ? "primary" : ""}" data-filter="all">الكل (${TOTAL_LESSONS})</button>
+              <button class="${state.filterMode === "pending" ? "primary" : ""}" data-filter="pending">المتبقي (${TOTAL_LESSONS - state.completedLessons.length})</button>
+              <button class="${state.filterMode === "completed" ? "primary" : ""}" data-filter="completed">المكتمل (${state.completedLessons.length})</button>
             </div>
             <div class="grid">
-              ${filtered.map(renderLessonItem).join("") || `<div class="muted">لا توجد نتائج مطابقة.</div>`}
+              ${filtered.map(renderLessonItem).join("") || `<div class="muted" style="padding:14px;">لا توجد دروس مطابقة لبحثك.</div>`}
             </div>
           `;
-          document.getElementById("lessonSearchInput").oninput = (e) => {
+
+          const searchEl = document.getElementById("lessonSearchInput");
+          searchEl.oninput = (e) => {
             state.searchQuery = e.target.value;
             saveState();
             renderTabContent();
           };
+          searchEl.focus();
+          searchEl.setSelectionRange(searchEl.value.length, searchEl.value.length);
+
+          container.querySelectorAll("[data-filter]").forEach(btn => {
+            btn.onclick = () => {
+              state.filterMode = btn.getAttribute("data-filter");
+              saveState();
+              renderTabContent();
+            };
+          });
         } else if (state.activeTab === "assignments") {
           container.innerHTML = `
             <div class="grid">
@@ -613,7 +1025,7 @@
                     <div class="lesson-main">
                       <div>
                         <strong>${a.title}</strong>
-                        <div class="muted">التمارين الموزعة: ${doneEx} / ${a.exercises.length}</div>
+                        <div class="muted" style="margin-top:3px;">التمارين المنجزة: ${doneEx} / ${a.exercises.length}</div>
                       </div>
                       <div style="display:flex;gap:8px;">
                         <button data-preview-assign="${a.num}">معاينة التمارين</button>
@@ -629,12 +1041,13 @@
           `;
         } else {
           const totalEx = ASSIGNMENTS.reduce((acc, a) => acc + a.exercises.length, 0);
+          const pct = Math.round((state.completedLessons.length / TOTAL_LESSONS) * 100);
           container.innerHTML = `
             <div class="stats-grid">
               <div class="glass stat-box"><div class="muted">الدروس المكتملة</div><div class="stat-val">${state.completedLessons.length} / ${TOTAL_LESSONS}</div></div>
-              <div class="glass stat-box"><div class="muted">التمارين المحلولة</div><div class="stat-val">${state.completedExercises.length} / ${totalEx}</div></div>
-              <div class="glass stat-box"><div class="muted">روابط الفيديو المخصصة</div><div class="stat-val">${Object.keys(state.lessonVideos).length}</div></div>
-              <div class="glass stat-box"><div class="muted">مدة الخطة الحالية</div><div class="stat-val">${state.planDays} يوم</div></div>
+              <div class="glass stat-box"><div class="muted">نسبة الإنجاز</div><div class="stat-val" style="color:#facc15;">${pct}%</div></div>
+              <div class="glass stat-box"><div class="muted">التمارين المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${totalEx}</div></div>
+              <div class="glass stat-box"><div class="muted">الدروس المتبقية</div><div class="stat-val">${TOTAL_LESSONS - state.completedLessons.length}</div></div>
             </div>
           `;
         }
@@ -657,9 +1070,7 @@
         document.querySelectorAll(".tab-btn").forEach(btn => {
           btn.classList.toggle("active", btn.getAttribute("data-tab") === state.activeTab);
         });
-        document.getElementById("planDaysSelect").value = String(state.planDays);
-        document.getElementById("startDateInput").value = state.startDate;
-        renderTodayCard();
+        renderHeroCard();
         renderTabContent();
       }
 
@@ -673,26 +1084,11 @@
             };
           });
 
-          document.getElementById("planDaysSelect").onchange = (e) => {
-            state.planDays = Number(e.target.value) || 30;
-            state.selectedDay = 1;
-            saveState();
-            renderAll();
-          };
-
-          document.getElementById("startDateInput").onchange = (e) => {
-            if (e.target.value) {
-              state.startDate = e.target.value;
-              saveState();
-              renderAll();
-            }
-          };
-
           document.getElementById("exportJsonBtn").onclick = () => {
             const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "python-tracker-backup.json";
+            a.download = "mastering-python-progress.json";
             a.click();
           };
 
