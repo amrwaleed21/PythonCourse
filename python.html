@@ -139,6 +139,17 @@
       }
     }
 
+    @keyframes targetCardPulse {
+      0% {
+        border-color: #facc15;
+        box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7), 0 0 28px rgba(56, 189, 248, 0.5);
+      }
+      100% {
+        border-color: rgba(148, 163, 184, 0.14);
+        box-shadow: none;
+      }
+    }
+
     button, select, input[type="date"], input[type="text"], label.icon-pill {
       background: rgba(30, 41, 59, 0.82);
       color: var(--text-main);
@@ -188,6 +199,17 @@
 
     button.primary:active, button.primary.press-glow {
       box-shadow: 0 0 22px rgba(56, 189, 248, 0.85), 0 0 34px rgba(37, 99, 235, 0.6);
+    }
+
+    button.jump-btn {
+      background: rgba(250, 204, 21, 0.14);
+      border-color: rgba(250, 204, 21, 0.45);
+      color: #fde047;
+    }
+
+    button.jump-btn:hover {
+      background: rgba(250, 204, 21, 0.24);
+      border-color: #facc15;
     }
 
     button.success {
@@ -272,6 +294,12 @@
       margin-bottom: 10px;
     }
 
+    .today-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
     .today-target-pill {
       display: inline-flex;
       align-items: center;
@@ -354,6 +382,10 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    .lesson-card.highlighted {
+      animation: targetCardPulse 1.8s ease-out;
     }
 
     .lesson-main {
@@ -726,6 +758,7 @@
         </div>
       </div>
       <div class="controls-row">
+        <button type="button" class="jump-btn" id="jumpLastLessonBtn">↩ آخر درس</button>
         <select id="planDaysSelect" title="مدة الخطة">
           <option value="30" selected>خطة 30 يوماً</option>
           <option value="45">خطة 45 يوماً</option>
@@ -1469,6 +1502,34 @@
         }
       });
 
+      function getTargetLessonIdForJump() {
+        if (state.completedLessons.length > 0) {
+          return state.completedLessons[state.completedLessons.length - 1];
+        }
+        const firstPending = LESSONS.find(l => !state.completedLessons.includes(l.id));
+        return firstPending ? firstPending.id : 1;
+      }
+
+      function jumpToLastProgressLesson() {
+        const targetId = getTargetLessonIdForJump();
+        state.activeTab = "lessons";
+        state.filterMode = "all";
+        state.searchQuery = "";
+        saveState();
+        renderAll();
+
+        requestAnimationFrame(() => {
+          const card = document.querySelector(`[data-lesson-card-id="${targetId}"]`);
+          if (card) {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+            card.classList.remove("highlighted");
+            void card.offsetWidth;
+            card.classList.add("highlighted");
+            setTimeout(() => card.classList.remove("highlighted"), 1800);
+          }
+        });
+      }
+
       function getDayChunks() {
         const days = Number(state.planDays) || 30;
         const chunks = [];
@@ -1493,8 +1554,12 @@
 
       function toggleLessonComplete(id) {
         const idx = state.completedLessons.indexOf(id);
-        if (idx >= 0) state.completedLessons.splice(idx, 1);
-        else state.completedLessons.push(id);
+        if (idx >= 0) {
+          state.completedLessons.splice(idx, 1);
+        } else {
+          state.completedLessons = state.completedLessons.filter(x => x !== id);
+          state.completedLessons.push(id);
+        }
         saveState();
         renderAll();
       }
@@ -1757,7 +1822,7 @@
       function renderLessonItem(lesson, showTaskBox = true) {
         const isDone = state.completedLessons.includes(lesson.id);
         return `
-          <div class="lesson-card">
+          <div class="lesson-card" data-lesson-card-id="${lesson.id}">
             <div class="lesson-main">
               <div class="lesson-left">
                 <button
@@ -1797,6 +1862,7 @@
         const doneCount = state.completedLessons.length;
         const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
         const codesList = todayIds.map(id => "#" + String(id).padStart(3, "0")).join(" ، ");
+        const lastLessonCode = "#" + String(getTargetLessonIdForJump()).padStart(3, "0");
 
         document.getElementById("todayCard").innerHTML = `
           <div class="today-head">
@@ -1806,7 +1872,10 @@
                 المفروض تشوفه اليوم: ${todayIds.length} دروس (${codesList}) — متبقي لليوم: ${todayRemaining}
               </div>
             </div>
-            <button class="success-solid" id="completeTodayBtn">✓ إتمام مهام اليوم</button>
+            <div class="today-actions">
+              <button type="button" class="jump-btn" id="todayJumpLastBtn">↩ الذهاب لآخر درس (${lastLessonCode})</button>
+              <button class="success-solid" id="completeTodayBtn">✓ إتمام مهام اليوم</button>
+            </div>
           </div>
           <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
           <div class="progress-meta">
@@ -1814,6 +1883,8 @@
             <span>التكليفات المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${TASKS_LESSONS.length}</span>
           </div>
         `;
+
+        document.getElementById("todayJumpLastBtn").onclick = jumpToLastProgressLesson;
 
         document.getElementById("completeTodayBtn").onclick = () => {
           todayIds.forEach(id => {
@@ -1854,11 +1925,15 @@
               <button class="${state.filterMode === "all" ? "primary" : ""}" data-filter="all">الكل (${TOTAL_LESSONS})</button>
               <button class="${state.filterMode === "pending" ? "primary" : ""}" data-filter="pending">المتبقي (${TOTAL_LESSONS - state.completedLessons.length})</button>
               <button class="${state.filterMode === "completed" ? "primary" : ""}" data-filter="completed">المكتمل (${state.completedLessons.length})</button>
+              <button type="button" class="jump-btn" id="listJumpLastBtn">↩ آخر درس</button>
             </div>
             <div class="grid">
               ${filtered.map(l => renderLessonItem(l, true)).join("") || `<div class="muted" style="padding:14px;">لا توجد دروس مطابقة لبحثك.</div>`}
             </div>
           `;
+
+          const listJumpBtn = document.getElementById("listJumpLastBtn");
+          if (listJumpBtn) listJumpBtn.onclick = jumpToLastProgressLesson;
 
           const searchEl = document.getElementById("lessonSearchInput");
           searchEl.oninput = (e) => {
@@ -1920,6 +1995,8 @@
         }, 3000);
 
         try {
+          document.getElementById("jumpLastLessonBtn").onclick = jumpToLastProgressLesson;
+
           document.querySelectorAll(".tab-btn").forEach(btn => {
             btn.onclick = () => {
               state.activeTab = btn.getAttribute("data-tab");
