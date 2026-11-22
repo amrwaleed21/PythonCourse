@@ -1,2204 +1,726 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خطة إتقان بايثون في 30 يوم | أكاديمية الزيرو</title>
-    <!-- خط كايرو لدعم اللغة العربية بوضوح وأناقة -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Cairo', 'sans-serif']
-                    },
-                    colors: {
-                        pythonBlue: '#3776AB',
-                        pythonDarkBlue: '#25537A',
-                        pythonYellow: '#FFD43B'
-                    }
-                }
-            }
-        };
-    </script>
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            scroll-behavior: smooth;
-        }
-        /* بطاقات زجاجية شفافة بتأثير ضبابي وحدود ناعمة */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.76);
-            backdrop-filter: blur(18px) saturate(145%);
-            -webkit-backdrop-filter: blur(18px) saturate(145%);
-            border: 1px solid rgba(148, 163, 184, 0.28);
-            box-shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-        }
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.66);
-            border: 1px solid rgba(148, 163, 184, 0.16);
-            box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-        }
-        .glass-subtle {
-            background: rgba(248, 250, 252, 0.74);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(148, 163, 184, 0.24);
-        }
-        .dark .glass-subtle {
-            background: rgba(2, 6, 23, 0.58);
-            border: 1px solid rgba(148, 163, 184, 0.14);
-        }
-        .lesson-glass-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-        }
-        .lesson-glass-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 24px -10px rgba(55, 118, 171, 0.28);
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.08);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3776AB;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #25537A;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        @keyframes eqPulse {
-            0%, 100% { transform: scaleY(0.28); }
-            50% { transform: scaleY(1); }
-        }
-        .eq-bar {
-            animation: eqPulse 1.05s ease-in-out infinite;
-            transform-origin: bottom;
-        }
-        @keyframes floatSlow {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(16px, -12px) scale(1.05); }
-        }
-        .ambient-blob {
-            animation: floatSlow 12s ease-in-out infinite;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mastering Python — متابعة الكورس (30 يوماً)</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%233776ab' d='M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z'/%3E%3Cpath fill='%23ffd43b' d='M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg1: #090e1c;
+      --bg2: #121b34;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-strong: rgba(255, 255, 255, 0.14);
+      --border: rgba(255, 255, 255, 0.16);
+      --text: #f4f7ff;
+      --muted: #a6b4d4;
+      --accent: #38bdf8;
+      --accent2: #facc15;
+      --success: #22c55e;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.22), transparent 40%),
+                  radial-gradient(circle at 86% 18%, rgba(250, 204, 21, 0.14), transparent 38%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      padding: 20px 14px 60px;
+    }
+    .app { max-width: 1120px; margin: 0 auto; }
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+    }
+    header.top {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 18px 22px; margin-bottom: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(255, 255, 255, 0.09); border: 1px solid var(--border);
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .brand h1 { font-size: 1.25rem; font-weight: 700; }
+    .brand p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+    .controls-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    select, input[type="date"], input[type="text"], button {
+      background: var(--glass-strong); color: var(--text);
+      border: 1px solid var(--border); border-radius: 11px;
+      padding: 8px 12px; font-size: 0.88rem; cursor: pointer; transition: 0.2s ease;
+    }
+    input[type="text"], input[type="date"] { cursor: text; }
+    button:hover, select:hover { background: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
+    button.primary { background: linear-gradient(135deg, #0284c7, #2563eb); border-color: transparent; font-weight: 600; }
+    button.success { background: rgba(34, 197, 94, 0.22); border-color: rgba(34, 197, 94, 0.45); color: #bbf7d0; }
+    button.warn { background: rgba(250, 204, 21, 0.18); border-color: rgba(250, 204, 21, 0.4); color: #fef08a; }
+
+    .today-card { padding: 20px; margin-bottom: 18px; }
+    .today-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .progress-wrap { height: 10px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 10px 0 14px; }
+    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.35s ease; }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .tab-btn { padding: 10px 16px; border-radius: 12px; font-weight: 600; }
+    .tab-btn.active { background: var(--accent); color: #061324; border-color: transparent; }
+
+    .grid { display: grid; gap: 12px; }
+    .lesson-card { padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+    .lesson-main { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+    .lesson-left { display: flex; align-items: center; gap: 10px; }
+    .badge-num { background: rgba(56,189,248,0.18); color: #7dd3fc; padding: 4px 9px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; }
+    .lesson-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .sub-ex-list { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.14); display: grid; gap: 8px; }
+    .sub-ex-item {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 9px 12px; border-radius: 11px; background: rgba(250, 204, 21, 0.08); border: 1px solid rgba(250, 204, 21, 0.22);
+      font-size: 0.86rem;
+    }
+    .sub-tag { background: rgba(250, 204, 21, 0.22); color: #fde047; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(8px);
+      display: none; place-items: center; padding: 16px; z-index: 999;
+    }
+    .modal-backdrop.open { display: grid; }
+    .modal { width: 100%; max-width: 780px; max-height: 92vh; overflow-y: auto; padding: 20px; }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .media-box { background: #050811; border-radius: 14px; padding: 14px; border: 1px solid var(--border); margin-bottom: 12px; }
+    video, audio, iframe { width: 100%; border-radius: 10px; background: #000; min-height: 320px; border: 0; }
+    .wave { display: flex; align-items: flex-end; gap: 4px; height: 42px; margin: 10px 0; }
+    .wave span { flex: 1; background: linear-gradient(to top, var(--accent), var(--accent2)); border-radius: 4px; height: 35%; transition: height 0.2s; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+    .stat-box { padding: 16px; text-align: center; }
+    .stat-val { font-size: 1.6rem; font-weight: 800; color: var(--accent2); margin-top: 6px; }
+    .muted { color: var(--muted); font-size: 0.85rem; }
+  </style>
 </head>
-<body class="relative bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 overflow-x-hidden">
-
-    <!-- خلفية تدرجات ضوئية ناعمة لتعزيز تأثير الزجاج -->
-    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div class="ambient-blob absolute -top-24 -right-24 w-96 h-96 rounded-full bg-pythonBlue/20 dark:bg-pythonBlue/15 blur-3xl"></div>
-        <div class="ambient-blob absolute top-1/3 -left-24 w-80 h-80 rounded-full bg-amber-400/20 dark:bg-pythonYellow/10 blur-3xl" style="animation-delay: -4s;"></div>
-        <div class="ambient-blob absolute -bottom-24 right-1/3 w-96 h-96 rounded-full bg-emerald-400/15 dark:bg-emerald-500/10 blur-3xl" style="animation-delay: -8s;"></div>
-    </div>
-
-    <!-- حاوية التنبيهات المنبثقة (Toast) -->
-    <div id="toastContainer" class="fixed bottom-4 left-4 z-[70] flex flex-col gap-2 pointer-events-none max-w-sm"></div>
-
-    <!-- نافذة التأكيد المخصصة -->
-    <div id="confirmModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
-        <div class="glass-panel rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4">
-            <h3 id="confirmTitle" class="text-base font-black text-slate-900 dark:text-white">تأكيد الإجراء</h3>
-            <p id="confirmMessage" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
-            <div class="flex items-center justify-end gap-2.5 pt-2">
-                <button id="confirmCancelBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-700 dark:text-slate-200 hover:bg-slate-200/80 dark:hover:bg-slate-800 transition">إلغاء</button>
-                <button id="confirmOkBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white transition shadow-md shadow-rose-600/25">تأكيد</button>
-            </div>
+<body>
+  <div class="app" id="app">
+    <header class="top glass">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <path fill="#3776ab" d="M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z"/>
+            <path fill="#ffd43b" d="M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z"/>
+          </svg>
         </div>
-    </div>
-
-    <!-- نافذة ملاحظات الدرس -->
-    <div id="noteModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
-        <div class="glass-panel rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
-            <div class="px-5 py-4 bg-white/60 dark:bg-slate-950/70 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3">
-                <div class="min-w-0">
-                    <span class="text-[11px] font-extrabold text-pythonBlue dark:text-sky-400">ملاحظات الدرس</span>
-                    <h3 id="noteLessonTitle" class="text-sm font-black text-slate-900 dark:text-white truncate">عنوان الدرس</h3>
-                </div>
-                <button id="closeNoteModalBtn" type="button" class="p-2 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition text-xs font-bold">✕</button>
-            </div>
-            <div class="p-5 space-y-4">
-                <textarea id="noteTextarea" rows="5" placeholder="اكتب ملخص الدرس أو أكواد بايثون المهمة هنا..." class="w-full rounded-2xl p-3.5 text-xs sm:text-sm font-mono glass-subtle focus:outline-none focus:ring-2 focus:ring-pythonBlue"></textarea>
-                <div class="flex items-center justify-between gap-2">
-                    <button id="deleteNoteBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-rose-500/15 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition">حذف الملاحظة</button>
-                    <div class="flex items-center gap-2">
-                        <button id="cancelNoteBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-700 dark:text-slate-200 transition">إلغاء</button>
-                        <button id="saveNoteBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-pythonBlue hover:bg-pythonDarkBlue text-white transition shadow-md shadow-pythonBlue/25">حفظ الملاحظة</button>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <h1>Mastering Python — خطة 30 يوماً</h1>
+          <p>متابعة 152 درساً وتوزيع تمارين التكليفات (#1–#26) حسب الدرس</p>
         </div>
-    </div>
-
-    <!-- نافذة عارض التكليفات (#1 إلى #26) -->
-    <div id="assignmentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-5">
-        <div class="glass-panel rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="px-5 py-4 bg-white/60 dark:bg-slate-950/70 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-2.5 min-w-0">
-                    <span id="assignModalNumBadge" class="px-3 py-1 rounded-xl text-xs font-mono font-black bg-pythonBlue text-white shrink-0 shadow-sm">#1</span>
-                    <div class="min-w-0">
-                        <h3 id="assignModalTitle" class="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate">عنوان التكليف</h3>
-                        <p id="assignModalRange" class="text-[11px] font-bold text-slate-500 dark:text-slate-400">الدروس من 1 إلى 10</p>
-                    </div>
-                </div>
-                <button id="closeAssignmentModalBtn" type="button" class="p-2 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition shrink-0 text-xs font-bold">✕</button>
-            </div>
-
-            <!-- شريط تنقل سريع بين التكليفات #1 إلى #26 -->
-            <div id="assignQuickJumpBar" class="px-4 py-2.5 glass-subtle border-b border-slate-200/70 dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto no-scrollbar"></div>
-
-            <div class="p-5 overflow-y-auto space-y-4 flex-1">
-                <div class="flex flex-wrap items-center justify-between gap-2 bg-pythonBlue/10 dark:bg-pythonBlue/20 border border-pythonBlue/25 rounded-2xl p-3.5">
-                    <div class="space-y-1 flex-1 min-w-[200px]">
-                        <div class="text-xs font-bold text-slate-700 dark:text-slate-200">
-                            <span id="assignModalExerciseCount">5 تكليفات</span> • <span id="assignModalStatusText" class="text-pythonBlue dark:text-sky-300">قيد التنفيذ</span>
-                        </div>
-                        <div class="w-full h-2 bg-white/80 dark:bg-slate-950/80 rounded-full overflow-hidden">
-                            <div id="assignModalProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <button id="assignModalToggleDoneBtn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
-                            ✓ تحديد التكليف كمكتمل
-                        </button>
-                        <a id="assignModalExternalLink" href="https://elzero.org/category/assignments/python-assignments/" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-pythonBlue hover:bg-pythonDarkBlue text-white transition shadow-sm">
-                            صفحة الزيرو ↗
-                        </a>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between gap-2">
-                        <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400">تمارين هذه المجموعة (اضغط لتحديد الحل):</h4>
-                        <button id="assignModalSolveAllBtn" type="button" class="text-[11px] font-extrabold text-pythonBlue dark:text-sky-400 hover:underline">تحديد كل التمارين كمحلولة</button>
-                    </div>
-                    <div id="assignModalExercisesList" class="space-y-2"></div>
-                </div>
-
-                <div class="space-y-2 pt-2 border-t border-slate-200/70 dark:border-slate-800">
-                    <label for="assignScratchpadTextarea" class="block text-xs font-extrabold text-slate-600 dark:text-slate-300">
-                        📓 مسودة الحل / ملاحظات التكليف (تُحفظ تلقائياً):
-                    </label>
-                    <textarea id="assignScratchpadTextarea" rows="4" placeholder="اكتب أفكار الحل أو الكود أو الملاحظات الخاصة بهذا التكليف هنا..." class="w-full rounded-2xl p-3 text-xs sm:text-sm font-mono glass-subtle focus:outline-none focus:ring-2 focus:ring-pythonBlue"></textarea>
-                </div>
-            </div>
-
-            <div class="px-5 py-3 bg-white/60 dark:bg-slate-950/70 border-t border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
-                <button id="prevAssignmentBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-slate-200 hover:border-pythonBlue transition">→ التكليف السابق</button>
-                <button id="nextAssignmentBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-slate-200 hover:border-pythonBlue transition">التكليف التالي ←</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة المشغل المدمجة داخل الموقع -->
-    <div id="playerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-5">
-        <div id="playerDialog" class="glass-panel rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[95vh] transition-all duration-300">
-            <div class="px-4 sm:px-6 py-3.5 bg-white/65 dark:bg-slate-950/75 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3">
-                <div class="min-w-0 flex-1">
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span id="playerLessonBadge" class="px-2.5 py-0.5 rounded-lg text-xs font-mono font-black bg-pythonBlue text-white">#001</span>
-                        <span id="playerDurationTag" class="text-xs font-mono text-slate-500 dark:text-slate-400">07:52</span>
-                        <span id="playerModeTag" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">مشغل فيديو</span>
-                    </div>
-                    <h3 id="playerLessonTitle" class="text-sm sm:text-base font-black text-slate-900 dark:text-white truncate mt-1">عنوان الدرس</h3>
-                </div>
-
-                <div class="flex items-center gap-1.5 shrink-0">
-                    <button id="toggleAudioModeBtn" type="button" title="تبديل بين وضع الفيديو ووضع الاستماع الصوتي (MP3)" class="px-3 py-2 rounded-xl text-xs font-extrabold bg-amber-500/15 text-amber-700 dark:text-pythonYellow hover:bg-amber-500 hover:text-slate-950 border border-amber-500/30 transition flex items-center gap-1.5">
-                        <span>🎵</span>
-                        <span id="audioModeLabel" class="hidden sm:inline">وضع MP3</span>
-                    </button>
-
-                    <label for="localMediaInput" title="تشغيل ملف فيديو أو صوت (MP4 / MP3) من جهازك" class="cursor-pointer px-3 py-2 rounded-xl text-xs font-extrabold bg-sky-500/15 text-sky-700 dark:text-sky-300 hover:bg-pythonBlue hover:text-white border border-sky-500/30 transition flex items-center gap-1.5">
-                        <span>📁</span>
-                        <span class="hidden sm:inline">ملف محلي</span>
-                        <input type="file" id="localMediaInput" accept="audio/*,video/*" class="hidden">
-                    </label>
-
-                    <button id="toggleFullscreenBtn" type="button" title="تكبير الشاشة / ملء الشاشة" class="p-2 rounded-xl glass-subtle text-slate-700 dark:text-slate-200 hover:bg-pythonBlue hover:text-white transition text-xs font-bold">
-                        ⛶
-                    </button>
-
-                    <button id="closePlayerBtn" type="button" title="إغلاق المشغل" class="p-2 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition text-xs font-bold">
-                        ✕
-                    </button>
-                </div>
-            </div>
-
-            <div class="relative bg-black flex-1 min-h-[260px] sm:min-h-[390px] flex flex-col justify-center items-center overflow-hidden">
-                <!-- تضمين يوتيوب القياسي أو بطاقة البديل المباشر -->
-                <div id="ytPlayerContainer" class="w-full h-full min-h-[260px] sm:min-h-[390px] flex flex-col items-center justify-center"></div>
-
-                <!-- مشغلات الوسائط المحلية -->
-                <audio id="localAudioPlayer" class="hidden"></audio>
-                <video id="localVideoPlayer" controls class="hidden w-full h-full max-h-[430px] bg-black"></video>
-
-                <!-- واجهة المشغل الصوتي (MP3 Mode) -->
-                <div id="mp3AudioOverlay" class="hidden absolute inset-0 z-10 bg-gradient-to-br from-slate-900/95 via-pythonDarkBlue/95 to-slate-950/95 backdrop-blur-md text-white p-5 sm:p-8 flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-xs text-slate-300">
-                        <span class="px-2.5 py-1 rounded-full bg-white/10 font-bold">وضع الاستماع الصوتي (MP3)</span>
-                        <span id="mp3StatusText" class="text-pythonYellow font-bold">جاهز للتشغيل</span>
-                    </div>
-
-                    <div class="my-auto text-center space-y-5">
-                        <div class="flex items-end justify-center gap-1.5 h-14" id="audioWaveform">
-                            <span class="eq-bar w-1.5 h-8 rounded-full bg-pythonYellow" style="animation-delay:0s"></span>
-                            <span class="eq-bar w-1.5 h-12 rounded-full bg-sky-400" style="animation-delay:0.15s"></span>
-                            <span class="eq-bar w-1.5 h-6 rounded-full bg-pythonYellow" style="animation-delay:0.3s"></span>
-                            <span class="eq-bar w-1.5 h-14 rounded-full bg-emerald-400" style="animation-delay:0.45s"></span>
-                            <span class="eq-bar w-1.5 h-9 rounded-full bg-pythonYellow" style="animation-delay:0.6s"></span>
-                            <span class="eq-bar w-1.5 h-11 rounded-full bg-sky-400" style="animation-delay:0.25s"></span>
-                            <span class="eq-bar w-1.5 h-7 rounded-full bg-pythonYellow" style="animation-delay:0.5s"></span>
-                        </div>
-                        <div>
-                            <p id="mp3LessonTitle" class="text-sm sm:text-lg font-black text-white">عنوان الدرس الصوتي</p>
-                            <p class="text-xs text-slate-300 mt-1">استماع مريح مع تحكم كامل بالسرعة والتقديم والتأخير</p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3 text-xs font-mono text-slate-300">
-                            <span id="audioCurrentTime">00:00</span>
-                            <input id="audioSeekSlider" type="range" min="0" max="100" value="0" class="flex-1 accent-pythonYellow cursor-pointer">
-                            <span id="audioTotalTime">00:00</span>
-                        </div>
-
-                        <div class="flex items-center justify-center gap-3">
-                            <button id="audioRewindBtn" type="button" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-extrabold transition">-10 ث</button>
-                            <button id="audioPlayPauseBtn" type="button" class="px-6 py-2.5 rounded-2xl bg-pythonYellow hover:bg-amber-300 text-slate-950 text-xs sm:text-sm font-black shadow-lg transition">▶ تشغيل</button>
-                            <button id="audioForwardBtn" type="button" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-extrabold transition">+10 ث</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- شريط التحكم السفلي للمشغل -->
-            <div class="px-4 sm:px-6 py-3 bg-white/65 dark:bg-slate-950/75 border-t border-slate-200/70 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs font-bold text-slate-500 dark:text-slate-400">السرعة:</span>
-                    <div class="inline-flex items-center gap-1 glass-subtle p-1 rounded-xl">
-                        <button type="button" data-speed="0.75" class="speed-btn px-2 py-1 rounded-lg text-xs font-mono font-bold text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800 transition">0.75x</button>
-                        <button type="button" data-speed="1" class="speed-btn px-2 py-1 rounded-lg text-xs font-mono font-extrabold bg-pythonBlue text-white transition">1x</button>
-                        <button type="button" data-speed="1.25" class="speed-btn px-2 py-1 rounded-lg text-xs font-mono font-bold text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800 transition">1.25x</button>
-                        <button type="button" data-speed="1.5" class="speed-btn px-2 py-1 rounded-lg text-xs font-mono font-bold text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800 transition">1.5x</button>
-                        <button type="button" data-speed="2" class="speed-btn px-2 py-1 rounded-lg text-xs font-mono font-bold text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800 transition">2x</button>
-                    </div>
-
-                    <div class="flex items-center gap-1.5 mr-1">
-                        <label for="qualitySelect" class="text-xs font-bold text-slate-500 dark:text-slate-400">الجودة:</label>
-                        <select id="qualitySelect" class="px-2.5 py-1.5 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-slate-100 focus:outline-none">
-                            <option value="auto">تلقائي (Auto)</option>
-                            <option value="hd1080">1080p HD</option>
-                            <option value="hd720">720p HD</option>
-                            <option value="large">480p</option>
-                            <option value="medium">360p</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-2">
-                    <button id="prevLessonBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-slate-200 hover:border-pythonBlue transition">→ السابق</button>
-                    <button id="nextLessonBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-slate-200 hover:border-pythonBlue transition">التالي ←</button>
-                    <button id="playerMarkCompleteBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white transition">✓ تحديد الدرس كمكتمل</button>
-                    <a id="playerExternalLink" href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white transition">يوتيوب ↗</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- المحتوى الرئيسي للصفحة -->
-    <div class="max-w-6xl mx-auto px-3 sm:px-6 py-5 sm:py-8 space-y-6">
-
-        <!-- الهيدر العلوي الزجاجي -->
-        <header class="glass-panel rounded-3xl p-4 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="flex items-center gap-3.5">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pythonBlue to-pythonDarkBlue flex items-center justify-center text-pythonYellow font-black text-xl shadow-lg shadow-pythonBlue/25 shrink-0 ring-1 ring-white/30">
-                    Py
-                </div>
-                <div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <h1 class="text-lg sm:text-2xl font-black text-slate-900 dark:text-white">خطة بايثون في 30 يوم</h1>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-pythonYellow/25 text-amber-900 dark:text-pythonYellow border border-amber-400/30">أسامة الزيرو</span>
-                    </div>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-0.5">152 درساً + 26 مجموعة تكليفات عملية • حفظ تلقائي للتقدم</p>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2">
-                <a href="https://www.youtube.com/playlist?list=PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20 transition">
-                    قائمة الكورس ↗
-                </a>
-                <a href="https://elzero.org/category/assignments/python-assignments/" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-pythonBlue hover:bg-pythonDarkBlue text-white shadow-md shadow-pythonBlue/20 transition">
-                    تكليفات الزيرو ↗
-                </a>
-                <button id="exportBtn" type="button" title="تصدير نسخة احتياطية JSON" class="px-3 py-2 rounded-xl text-xs font-bold glass-subtle hover:border-pythonBlue text-slate-700 dark:text-slate-200 transition">
-                    تصدير
-                </button>
-                <label for="importInput" title="استيراد نسخة احتياطية JSON" class="cursor-pointer px-3 py-2 rounded-xl text-xs font-bold glass-subtle hover:border-pythonBlue text-slate-700 dark:text-slate-200 transition">
-                    استيراد
-                    <input type="file" id="importInput" accept="application/json" class="hidden">
-                </label>
-                <button id="resetProgressBtn" type="button" title="تصفير التقدم" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-500/15 hover:bg-rose-600 text-rose-600 dark:text-rose-400 hover:text-white transition">
-                    تصفير
-                </button>
-                <button id="themeToggleBtn" type="button" title="تبديل المظهر ليلي/نهاري" class="p-2 rounded-xl glass-subtle hover:border-pythonBlue text-slate-700 dark:text-pythonYellow transition">
-                    🌓
-                </button>
-            </div>
-        </header>
-
-        <!-- البطاقة الزجاجية الذكية لمهام اليوم + إعدادات الخطة + التقدم العام -->
-        <section class="glass-panel rounded-3xl p-4 sm:p-6 space-y-5">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-gradient-to-l from-pythonBlue/15 via-sky-400/10 to-amber-400/15 dark:from-pythonBlue/25 dark:via-sky-500/10 dark:to-amber-500/15 backdrop-blur-md border border-white/50 dark:border-white/10 rounded-2xl p-4 sm:p-5 shadow-inner">
-                <div class="space-y-1.5">
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span id="todayDayBadge" class="px-3 py-1 rounded-xl text-xs font-black bg-pythonBlue text-white shadow-sm">اليوم 1 من 30</span>
-                        <span id="todayDateLabel" class="text-xs font-extrabold text-slate-700 dark:text-slate-200"></span>
-                    </div>
-                    <h2 id="todayHeadline" class="text-base sm:text-xl font-black text-slate-900 dark:text-white">جاري تجهيز مهام اليوم...</h2>
-                    <p id="todaySubtext" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300"></p>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-                    <span id="todayAssignmentChipContainer"></span>
-                    <button id="jumpToTodayBtn" type="button" class="px-4 py-2.5 rounded-xl text-xs font-extrabold glass-subtle text-slate-800 dark:text-white hover:border-pythonBlue transition">
-                        الانتقال لجدول اليوم
-                    </button>
-                    <button id="completeTodayBtn" type="button" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/25 transition flex items-center gap-2">
-                        ✓ إتمام مهام اليوم
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-4 pt-1 border-t border-slate-200/70 dark:border-slate-800/80">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="flex items-center gap-2">
-                        <label for="startDateInput" class="text-xs font-extrabold text-slate-600 dark:text-slate-300">تاريخ البداية:</label>
-                        <input id="startDateInput" type="date" class="px-3 py-1.5 rounded-xl text-xs font-bold glass-subtle text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pythonBlue">
-                    </div>
-                    <div class="text-xs font-bold text-slate-500 dark:text-slate-400">
-                        الختام المتوقع: <strong id="expectedEndDateDisplay" class="text-slate-800 dark:text-slate-200"></strong>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-extrabold text-slate-600 dark:text-slate-300">مدة الخطة:</span>
-                    <div class="inline-flex items-center gap-1 glass-subtle p-1 rounded-xl">
-                        <button type="button" data-days="30" class="plan-btn px-2.5 py-1 rounded-lg text-xs font-extrabold bg-pythonBlue text-white transition">30 يوم</button>
-                        <button type="button" data-days="45" class="plan-btn px-2.5 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800 transition">45 يوم</button>
-                        <button type="button" data-days="60" class="plan-btn px-2.5 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800 transition">60 يوم</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <div class="flex items-center justify-between text-xs font-extrabold">
-                    <span class="text-slate-600 dark:text-slate-300">نسبة إنجاز الكورس الكلية</span>
-                    <span id="overallPercentBadge" class="text-pythonBlue dark:text-pythonYellow font-black">0%</span>
-                </div>
-                <div class="w-full h-3 glass-subtle rounded-full overflow-hidden">
-                    <div id="overallProgressBar" class="h-full bg-gradient-to-l from-pythonBlue to-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div class="glass-subtle rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">الدروس المنجزة</div>
-                    <div class="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5"><span id="completedLessonsCount">0</span> / 152</div>
-                </div>
-                <div class="glass-subtle rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">التكليفات المحلولة</div>
-                    <div class="text-lg sm:text-xl font-black text-pythonBlue dark:text-sky-400 mt-0.5"><span id="completedAssignmentsCount">0</span> / 26</div>
-                </div>
-                <div class="glass-subtle rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">مطلوب اليوم</div>
-                    <div id="dueTodayCount" class="text-lg sm:text-xl font-black text-amber-600 dark:text-pythonYellow mt-0.5">0</div>
-                </div>
-                <div class="glass-subtle rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">دروس متأخرة</div>
-                    <div id="overdueCount" class="text-lg sm:text-xl font-black text-rose-600 dark:text-rose-400 mt-0.5">0</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- التبويبات الرئيسية الزجاجية -->
-        <nav class="glass-panel rounded-2xl p-1.5 flex flex-wrap gap-1.5">
-            <button type="button" data-tab="days" class="main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-pythonBlue text-white shadow-md shadow-pythonBlue/25 transition flex items-center justify-center gap-2">
-                <span>📅</span><span>الجدول اليومي</span>
-            </button>
-            <button type="button" data-tab="lessons" class="main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/70 transition flex items-center justify-center gap-2">
-                <span>📚</span><span>كل الدروس (152)</span>
-            </button>
-            <button type="button" data-tab="assignments" class="main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/70 transition flex items-center justify-center gap-2">
-                <span>💻</span><span>التكليفات (#1-#26)</span>
-            </button>
-            <button type="button" data-tab="stats" class="main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/70 transition flex items-center justify-center gap-2">
-                <span>📊</span><span>الإحصائيات</span>
-            </button>
-        </nav>
-
-        <!-- شريط البحث والفلترة الزجاجي -->
-        <section id="filterToolbar" class="glass-panel rounded-2xl p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-                <button type="button" data-filter="all" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950 transition whitespace-nowrap shadow-sm">الكل</button>
-                <button type="button" data-filter="today" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap">مهام اليوم</button>
-                <button type="button" data-filter="overdue" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap">المتأخرة</button>
-                <button type="button" data-filter="remaining" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap">المتبقية</button>
-                <button type="button" data-filter="completed" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap">المكتملة</button>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <input id="searchInput" type="search" placeholder="ابحث برقم أو عنوان الدرس..." class="flex-1 md:w-64 px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle focus:outline-none focus:ring-2 focus:ring-pythonBlue">
-                <button id="expandAllDaysBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-200 hover:border-pythonBlue transition whitespace-nowrap">فتح الكل</button>
-                <button id="collapseAllDaysBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-200 hover:border-pythonBlue transition whitespace-nowrap">طي الكل</button>
-            </div>
-        </section>
-
-        <!-- حاوية عرض محتوى التبويب النشط -->
-        <main id="tabContentContainer" class="space-y-4"></main>
-    </div>
-
-    <script>
-        // مجموعات التكليفات الرسمية الـ 26 في كورس بايثون لأكاديمية الزيرو
-        var ASSIGNMENTS_DATA = [
-            { id: 1, fromLesson: 1, toLesson: 10, title: "تكليفات المقدمة والمتغيرات (Variables)", count: 5, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 2, fromLesson: 11, toLesson: 18, title: "تكليفات النصوص ودوالها (Strings & Methods)", count: 13, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 3, fromLesson: 19, toLesson: 20, title: "تكليفات الأرقام والعمليات الحسابية (Numbers)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 4, fromLesson: 21, toLesson: 23, title: "تكليفات القوائم ودوالها (Lists & Methods)", count: 10, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 5, fromLesson: 24, toLesson: 25, title: "تكليفات التيوبل (Tuples & Methods)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 6, fromLesson: 26, toLesson: 32, title: "تكليفات المجموعات والقواميس (Set & Dictionary)", count: 5, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 7, fromLesson: 33, toLesson: 37, title: "تكليفات المعاملات وتحويل الأنواع (Operators & Type Conversion)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 8, fromLesson: 38, toLesson: 40, title: "تكليفات استقبال المدخلات (User Input)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 9, fromLesson: 41, toLesson: 46, title: "تكليفات الشروط والتحكم في المسار (Control Flow If, Elif, Else)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 10, fromLesson: 47, toLesson: 50, title: "تكليفات الحلقة التكرارية While", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 11, fromLesson: 51, toLesson: 55, title: "تكليفات الحلقة التكرارية For", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 12, fromLesson: 56, toLesson: 59, title: "تكليفات الدوال (Functions)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 13, fromLesson: 60, toLesson: 64, title: "تكليفات تجميع الوسائط و Lambda", count: 3, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 14, fromLesson: 65, toLesson: 68, title: "تكليفات التعامل مع الملفات (Files Handling)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 15, fromLesson: 69, toLesson: 71, title: "تكليفات الدوال الجاهزة (Built-in Functions)", count: 3, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 16, fromLesson: 72, toLesson: 75, title: "تكليفات Map, Filter, Reduce", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 17, fromLesson: 76, toLesson: 78, title: "تكليفات الوحدات والحزم (Modules & Packages)", count: 4, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 18, fromLesson: 79, toLesson: 80, title: "تكليفات التاريخ والوقت (Date & Time)", count: 2, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 19, fromLesson: 81, toLesson: 85, title: "تكليفات المولدات والمزخرفات (Generators & Decorators)", count: 2, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 20, fromLesson: 86, toLesson: 89, title: "تكليفات Collection of Modules & Pillow", count: 5, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 21, fromLesson: 90, toLesson: 94, title: "تكليفات معالجة الأخطاء والتنقيح (Error Handling & Debugging)", count: 3, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 22, fromLesson: 95, toLesson: 102, title: "تكليفات التعابير النمطية (Regular Expressions)", count: 5, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 23, fromLesson: 103, toLesson: 116, title: "تكليفات البرمجة الكائنية (OOP)", count: 6, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 24, fromLesson: 117, toLesson: 127, title: "تكليفات قواعد البيانات (SQLite Database)", count: 5, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 25, fromLesson: 128, toLesson: 132, title: "تكليفات المواضيع المتقدمة (Advanced Lessons)", count: 2, url: "https://elzero.org/category/assignments/python-assignments/" },
-            { id: 26, fromLesson: 133, toLesson: 152, title: "تطبيقات Flask ومكتبة NumPy ومشروع الختام", count: 3, url: "https://elzero.org/category/assignments/python-assignments/" }
-        ];
-
-        // توزيع التمارين الفرعية لكل تكليف على الدروس المناسبة ضمن نطاق التكليف
-        function buildDistributedExercises() {
-            var exercises = [];
-            ASSIGNMENTS_DATA.forEach(function(assign) {
-                var span = Math.max(1, assign.toLesson - assign.fromLesson + 1);
-                for (var exNum = 1; exNum <= assign.count; exNum++) {
-                    var offset = Math.min(span - 1, Math.floor(((exNum - 1) * span) / assign.count));
-                    var lessonId = assign.fromLesson + offset;
-                    exercises.push({
-                        key: assign.id + '-' + exNum,
-                        assignmentId: assign.id,
-                        assignmentTitle: assign.title,
-                        exerciseNumber: exNum,
-                        lessonId: lessonId,
-                        url: assign.url,
-                        label: 'تمرين ' + exNum + ' من ' + assign.count + ' — ' + assign.title
-                    });
-                }
-            });
-            return exercises;
-        }
-
-        var DISTRIBUTED_EXERCISES = buildDistributedExercises();
-
-        // بيانات الدروس الـ 152 الكاملة لكورس Mastering Python
-        var RAW_LESSONS = [
-            { id: 1, title: "مقدمة وماذا ستتعلم في الكورس - Introduction & What's Python", durationSec: 472, section: "الأساسيات والبيانات" },
-            { id: 2, title: "ما الذي تحتاجه لتعلم بايثون - What Do You Need", durationSec: 395, section: "الأساسيات والبيانات" },
-            { id: 3, title: "الصيغة البرمجية وأول كود بايثون - Syntax And Your First App", durationSec: 530, section: "الأساسيات والبيانات" },
-            { id: 4, title: "التعليقات وكيفية استخدامها - Comments And How To Use It", durationSec: 345, section: "الأساسيات والبيانات" },
-            { id: 5, title: "التعامل مع البيانات وأنواعها - Dealing With Data In Python", durationSec: 420, section: "الأساسيات والبيانات" },
-            { id: 6, title: "نظرة عامة على أنواع البيانات - Some Data Types Overviews", durationSec: 540, section: "الأساسيات والبيانات" },
-            { id: 7, title: "المتغيرات الجزء الأول - Variables Part One", durationSec: 515, section: "الأساسيات والبيانات" },
-            { id: 8, title: "المتغيرات الجزء الثاني - Variables Part Two", durationSec: 485, section: "الأساسيات والبيانات" },
-            { id: 9, title: "الرموز الخاصة بالهروب في النصوص - Escape Sequences Characters", durationSec: 640, section: "الأساسيات والبيانات" },
-            { id: 10, title: "دمج النصوص والتدريب عليها - Concatenation And Trainings", durationSec: 390, section: "الأساسيات والبيانات" },
-            { id: 11, title: "النصوص - Strings", durationSec: 445, section: "النصوص والأرقام" },
-            { id: 12, title: "الفهرسة وتقطيع النصوص - Strings Indexing And Slicing", durationSec: 590, section: "النصوص والأرقام" },
-            { id: 13, title: "دوال النصوص الجزء الأول - Strings Methods Part 1", durationSec: 535, section: "النصوص والأرقام" },
-            { id: 14, title: "دوال النصوص الجزء الثاني - Strings Methods Part 2", durationSec: 580, section: "النصوص والأرقام" },
-            { id: 15, title: "دوال النصوص الجزء الثالث - Strings Methods Part 3", durationSec: 560, section: "النصوص والأرقام" },
-            { id: 16, title: "دوال النصوص الجزء الرابع - Strings Methods Part 4", durationSec: 470, section: "النصوص والأرقام" },
-            { id: 17, title: "تنسيق النصوص بالطريقة القديمة - Strings Formatting Old Way", durationSec: 630, section: "النصوص والأرقام" },
-            { id: 18, title: "تنسيق النصوص بالطريقة الحديثة - Strings Formatting New Ways", durationSec: 685, section: "النصوص والأرقام" },
-            { id: 19, title: "الأرقام في بايثون - Numbers", durationSec: 495, section: "النصوص والأرقام" },
-            { id: 20, title: "العمليات الحسابية - Arithmetic Operators", durationSec: 455, section: "النصوص والأرقام" },
-            { id: 21, title: "القوائم - Lists", durationSec: 540, section: "القوائم والقواميس" },
-            { id: 22, title: "دوال القوائم الجزء الأول - Lists Methods Part 1", durationSec: 575, section: "القوائم والقواميس" },
-            { id: 23, title: "دوال القوائم الجزء الثاني - Lists Methods Part 2", durationSec: 550, section: "القوائم والقواميس" },
-            { id: 24, title: "التيوبل ودواله الجزء الأول - Tuple And Methods Part 1", durationSec: 460, section: "القوائم والقواميس" },
-            { id: 25, title: "التيوبل ودواله الجزء الثاني - Tuple And Methods Part 2", durationSec: 430, section: "القوائم والقواميس" },
-            { id: 26, title: "المجموعات - Set", durationSec: 490, section: "القوائم والقواميس" },
-            { id: 27, title: "دوال المجموعات الجزء الأول - Set Methods Part 1", durationSec: 565, section: "القوائم والقواميس" },
-            { id: 28, title: "دوال المجموعات الجزء الثاني - Set Methods Part 2", durationSec: 520, section: "القوائم والقواميس" },
-            { id: 29, title: "دوال المجموعات الجزء الثالث - Set Methods Part 3", durationSec: 440, section: "القوائم والقواميس" },
-            { id: 30, title: "القواميس - Dictionary", durationSec: 615, section: "القوائم والقواميس" },
-            { id: 31, title: "دوال القواميس الجزء الأول - Dictionary Methods Part 1", durationSec: 500, section: "القوائم والقواميس" },
-            { id: 32, title: "دوال القواميس الجزء الثاني - Dictionary Methods Part 2", durationSec: 485, section: "القوائم والقواميس" },
-            { id: 33, title: "القيم المنطقية - Boolean", durationSec: 465, section: "المعاملات والمدخلات" },
-            { id: 34, title: "المعاملات المنطقية - Boolean Operators", durationSec: 410, section: "المعاملات والمدخلات" },
-            { id: 35, title: "معاملات التخصيص - Assignment Operators", durationSec: 360, section: "المعاملات والمدخلات" },
-            { id: 36, title: "معاملات المقارنة - Comparison Operators", durationSec: 380, section: "المعاملات والمدخلات" },
-            { id: 37, title: "تحويل أنواع البيانات - Type Conversion", durationSec: 625, section: "المعاملات والمدخلات" },
-            { id: 38, title: "استقبال المدخلات من المستخدم - User Input", durationSec: 510, section: "المعاملات والمدخلات" },
-            { id: 39, title: "تطبيق عملي تقطيع البريد الإلكتروني - Practical Email Slice", durationSec: 495, section: "المعاملات والمدخلات" },
-            { id: 40, title: "تطبيق عملي حساب العمر - Practical Your Age Full Details", durationSec: 475, section: "المعاملات والمدخلات" },
-            { id: 41, title: "التحكم في المسار الشرطي - Control Flow If, Elif, Else", durationSec: 595, section: "الشروط والحلقات" },
-            { id: 42, title: "الشروط المتداخلة والمختصرة - Control Flow Nested If And Training", durationSec: 530, section: "الشروط والحلقات" },
-            { id: 43, title: "الشرط الثلاثي المختصر - Control Flow Ternary Conditional Operator", durationSec: 370, section: "الشروط والحلقات" },
-            { id: 44, title: "تطبيق عملي حساب العمر المتقدم - Calculate Age Advanced Version", durationSec: 545, section: "الشروط والحلقات" },
-            { id: 45, title: "معاملات العضوية - Membership Operators", durationSec: 420, section: "الشروط والحلقات" },
-            { id: 46, title: "تطبيق عملي التحكم في العضوية - Practical Membership Control", durationSec: 660, section: "الشروط والحلقات" },
-            { id: 47, title: "الحلقات التكرارية While وتدريباتها - Loop While And Training", durationSec: 580, section: "الشروط والحلقات" },
-            { id: 48, title: "تدريب عملي مدير المواقع المفضلة - Loop While Training's Bookmark Manager", durationSec: 525, section: "الشروط والحلقات" },
-            { id: 49, title: "تدريب عملي تخمين كلمة المرور - Loop While Training's Password Guess", durationSec: 570, section: "الشروط والحلقات" },
-            { id: 50, title: "الحلقات التكرارية For وتدريباتها - Loop For And Training", durationSec: 555, section: "الشروط والحلقات" },
-            { id: 51, title: "تدريبات متقدمة على حلقة For - Loop For Training's", durationSec: 590, section: "الشروط والحلقات" },
-            { id: 52, title: "الحلقات التكرارية المتداخلة - Loop For Nested Loop", durationSec: 640, section: "الشروط والحلقات" },
-            { id: 53, title: "التحكم في الحلقات Break, Continue, Pass - Loop Break Continue Pass", durationSec: 445, section: "الشروط والحلقات" },
-            { id: 54, title: "التكرار المتقدم على القواميس - Loop Advanced Dictionary", durationSec: 460, section: "الشروط والحلقات" },
-            { id: 55, title: "تحدي التكرار والمراجعة - Loop Advanced Dictionary Training", durationSec: 510, section: "الشروط والحلقات" },
-            { id: 56, title: "الدوال وإرجاع القيم - Function And Return", durationSec: 520, section: "الدوال والملفات" },
-            { id: 57, title: "المعاملات والوسائط في الدوال - Function Parameters And Arguments", durationSec: 545, section: "الدوال والملفات" },
-            { id: 58, title: "تجميع الوسائط *args - Function Packing, Unpacking Arguments", durationSec: 515, section: "الدوال والملفات" },
-            { id: 59, title: "القيم الافتراضية للمعاملات - Function Default Parameters", durationSec: 390, section: "الدوال والملفات" },
-            { id: 60, title: "تجميع الوسائط المفتاحية **kwargs - Function Packing Unpacking Keyword Arguments", durationSec: 495, section: "الدوال والملفات" },
-            { id: 61, title: "تدريبات على تجميع الوسائط - Function Packing Unpacking Arguments Training's", durationSec: 480, section: "الدوال والملفات" },
-            { id: 62, title: "نطاق المتغيرات - Function Scope", durationSec: 470, section: "الدوال والملفات" },
-            { id: 63, title: "الدوال التكرارية الذاتية - Function Recursion", durationSec: 635, section: "الدوال والملفات" },
-            { id: 64, title: "دوال لامدا المجهولة - Function Lambda", durationSec: 430, section: "الدوال والملفات" },
-            { id: 65, title: "التعامل مع الملفات الجزء الأول مقدمة - Files Handling Part 1 Intro", durationSec: 585, section: "الدوال والملفات" },
-            { id: 66, title: "التعامل مع الملفات الجزء الثاني قراءة الملفات - Files Handling Part 2 Read Files", durationSec: 510, section: "الدوال والملفات" },
-            { id: 67, title: "التعامل مع الملفات الجزء الثالث الكتابة والإضافة - Files Handling Part 3 Write And Append", durationSec: 490, section: "الدوال والملفات" },
-            { id: 68, title: "التعامل مع الملفات الجزء الرابع معلومات مهمة - Files Handling Part 4 Important Info", durationSec: 455, section: "الدوال والملفات" },
-            { id: 69, title: "الدوال الجاهزة الجزء الأول - Built In Functions Part 1", durationSec: 525, section: "الدوال الجاهزة والوحدات" },
-            { id: 70, title: "الدوال الجاهزة الجزء الثاني - Built In Functions Part 2", durationSec: 540, section: "الدوال الجاهزة والوحدات" },
-            { id: 71, title: "الدوال الجاهزة الجزء الثالث - Built In Functions Part 3", durationSec: 505, section: "الدوال الجاهزة والوحدات" },
-            { id: 72, title: "الدوال الجاهزة الجزء الرابع دالة Map - Built In Functions Part 4 Map", durationSec: 515, section: "الدوال الجاهزة والوحدات" },
-            { id: 73, title: "الدوال الجاهزة الجزء الخامس دالة Filter - Built In Functions Part 5 Filter", durationSec: 485, section: "الدوال الجاهزة والوحدات" },
-            { id: 74, title: "الدوال الجاهزة الجزء السادس دالة Reduce - Built In Functions Part 6 Reduce", durationSec: 460, section: "الدوال الجاهزة والوحدات" },
-            { id: 75, title: "الدوال الجاهزة الجزء السابع - Built In Functions Part 7", durationSec: 530, section: "الدوال الجاهزة والوحدات" },
-            { id: 76, title: "الوحدات الجزء الأول الوحدات الجاهزة - Modules Part 1 Intro And Built In Modules", durationSec: 550, section: "الدوال الجاهزة والوحدات" },
-            { id: 77, title: "الوحدات الجزء الثاني إنشاء وحدة خاصة بك - Modules Part 2 Create Your Module", durationSec: 525, section: "الدوال الجاهزة والوحدات" },
-            { id: 78, title: "الوحدات الجزء الثالث تثبيت الحزم الخارجية - Modules Part 3 Install External Packages", durationSec: 560, section: "الدوال الجاهزة والوحدات" },
-            { id: 79, title: "التاريخ والوقت مقدمة - Date And Time Introduction", durationSec: 540, section: "الدوال الجاهزة والوحدات" },
-            { id: 80, title: "تنسيق التاريخ والوقت - Date And Time Format Date", durationSec: 495, section: "الدوال الجاهزة والوحدات" },
-            { id: 81, title: "المكررات Iterator مقابل Iterable - Iterable Vs Iterator", durationSec: 535, section: "مفاهيم متقدمة و Regex" },
-            { id: 82, title: "المولدات - Generators", durationSec: 510, section: "مفاهيم متقدمة و Regex" },
-            { id: 83, title: "المزخرفات مقدمة - Decorators Intro", durationSec: 575, section: "مفاهيم متقدمة و Regex" },
-            { id: 84, title: "المزخرفات مع الدوال ذات المعاملات - Decorators Function With Parameters", durationSec: 465, section: "مفاهيم متقدمة و Regex" },
-            { id: 85, title: "تطبيق عملي قياس سرعة تنفيذ الدوال - Decorators Practical Speed Test", durationSec: 520, section: "مفاهيم متقدمة و Regex" },
-            { id: 86, title: "التكرار المتوازي باستخدام Zip - Practical Loop On Many Iterators With Zip", durationSec: 450, section: "مفاهيم متقدمة و Regex" },
-            { id: 87, title: "التعامل مع الصور باستخدام مكتبة Pillow - Practical Image Manipulation With Pillow", durationSec: 545, section: "مفاهيم متقدمة و Regex" },
-            { id: 88, title: "توثيق الكود والتعليقات التوضيحية - Doc String & Commenting vs Documenting", durationSec: 470, section: "مفاهيم متقدمة و Regex" },
-            { id: 89, title: "تثبيت واستخدام أداة فحص جودة الكود Pylint - Installing And Use Pylint For Better Code", durationSec: 555, section: "مفاهيم متقدمة و Regex" },
-            { id: 90, title: "الأخطاء ورفع الاستثناءات - Errors And Exceptions Raising", durationSec: 510, section: "مفاهيم متقدمة و Regex" },
-            { id: 91, title: "معالجة الاستثناءات Try, Except, Else, Finally - Exceptions Handling Try Except Else Finally", durationSec: 565, section: "مفاهيم متقدمة و Regex" },
-            { id: 92, title: "أمثلة متقدمة على معالجة الاستثناءات - Exceptions Handling Advanced Example", durationSec: 530, section: "مفاهيم متقدمة و Regex" },
-            { id: 93, title: "تنقيح الأخطاء تتبع الكود - Debugging Code", durationSec: 485, section: "مفاهيم متقدمة و Regex" },
-            { id: 94, title: "تلميحات الأنواع في بايثون - Type Hinting", durationSec: 395, section: "مفاهيم متقدمة و Regex" },
-            { id: 95, title: "التعابير النمطية الجزء الأول مقدمة - Regular Expressions Part 1 Intro", durationSec: 520, section: "مفاهيم متقدمة و Regex" },
-            { id: 96, title: "التعابير النمطية الجزء الثاني محددات الكمية - Regular Expressions Part 2 Quantifiers", durationSec: 540, section: "مفاهيم متقدمة و Regex" },
-            { id: 97, title: "التعابير النمطية الجزء الثالث مجموعات الأحرف - Regular Expressions Part 3 Characters Classes Training's", durationSec: 515, section: "مفاهيم متقدمة و Regex" },
-            { id: 98, title: "التعابير النمطية الجزء الرابع التأكيدات - Regular Expressions Part 4 Assertions & Email Pattern", durationSec: 535, section: "مفاهيم متقدمة و Regex" },
-            { id: 99, title: "التعابير النمطية الجزء الخامس وحدة Re في بايثون - Regular Expressions Part 5 Re Module Search And FindAll", durationSec: 560, section: "مفاهيم متقدمة و Regex" },
-            { id: 100, title: "التعابير النمطية الجزء السادس Split و Sub - Regular Expressions Part 6 Re Module Split And Sub", durationSec: 490, section: "مفاهيم متقدمة و Regex" },
-            { id: 101, title: "التعابير النمطية الجزء السابع المجموعات والأعلام - Regular Expressions Part 7 Group Trainings And Flags", durationSec: 550, section: "مفاهيم متقدمة و Regex" },
-            { id: 102, title: "التعابير النمطية الجزء الثامن مراجعة وتطبيقات - Regular Expressions Part 8 Summary", durationSec: 460, section: "مفاهيم متقدمة و Regex" },
-            { id: 103, title: "البرمجة الكائنية الجزء الأول مقدمة - OOP Part 1 Intro", durationSec: 545, section: "البرمجة الكائنية OOP" },
-            { id: 104, title: "البرمجة الكائنية الجزء الثاني صياغة الكلاس والمشيد - OOP Part 2 Class Syntax And Info", durationSec: 590, section: "البرمجة الكائنية OOP" },
-            { id: 105, title: "البرمجة الكائنية الجزء الثالث خصائص ودوال الكائن - OOP Part 3 Instance Attributes And Methods Part 1", durationSec: 560, section: "البرمجة الكائنية OOP" },
-            { id: 106, title: "البرمجة الكائنية الجزء الرابع دوال الكائن 2 - OOP Part 4 Instance Attributes And Methods Part 2", durationSec: 525, section: "البرمجة الكائنية OOP" },
-            { id: 107, title: "البرمجة الكائنية الجزء الخامس خصائص الكلاس - OOP Part 5 Class Attributes", durationSec: 540, section: "البرمجة الكائنية OOP" },
-            { id: 108, title: "البرمجة الكائنية الجزء السادس دوال الكلاس والدوال الثابتة - OOP Part 6 Class Methods And Static Methods", durationSec: 575, section: "البرمجة الكائنية OOP" },
-            { id: 109, title: "البرمجة الكائنية الجزء السابع الدوال السحرية - OOP Part 7 Magic Methods", durationSec: 580, section: "البرمجة الكائنية OOP" },
-            { id: 110, title: "البرمجة الكائنية الجزء الثامن الوراثة - OOP Part 8 Inheritance", durationSec: 555, section: "البرمجة الكائنية OOP" },
-            { id: 111, title: "البرمجة الكائنية الجزء التاسع الوراثة المتعددة وتجاوز الدوال - OOP Part 9 Multiple Inheritance And Method Overriding", durationSec: 565, section: "البرمجة الكائنية OOP" },
-            { id: 112, title: "البرمجة الكائنية الجزء العاشر تعدد الأشكال - OOP Part 10 Polymorphism", durationSec: 495, section: "البرمجة الكائنية OOP" },
-            { id: 113, title: "البرمجة الكائنية الجزء الحادي عشر التغليف - OOP Part 11 Encapsulation", durationSec: 530, section: "البرمجة الكائنية OOP" },
-            { id: 114, title: "البرمجة الكائنية الجزء الثاني عشر دوال الجلب والتعيين - OOP Part 12 Getters And Setters", durationSec: 475, section: "البرمجة الكائنية OOP" },
-            { id: 115, title: "البرمجة الكائنية الجزء الثالث عشر مزخرف Property - OOP Part 13 @Property Decorator", durationSec: 440, section: "البرمجة الكائنية OOP" },
-            { id: 116, title: "البرمجة الكائنية الجزء الرابع عشر التجريد - OOP Part 14 ABCs Abstract Base Class", durationSec: 520, section: "البرمجة الكائنية OOP" },
-            { id: 117, title: "قواعد البيانات مقدمة - Databases Intro", durationSec: 495, section: "قواعد البيانات SQLite" },
-            { id: 118, title: "قواعد البيانات SQLite إنشاء قاعدة بيانات والاتصال بها - Databases SQLite Create Database And Connect", durationSec: 535, section: "قواعد البيانات SQLite" },
-            { id: 119, title: "قواعد البيانات SQLite إدخال البيانات - Databases SQLite Insert Data Into Database", durationSec: 510, section: "قواعد البيانات SQLite" },
-            { id: 120, title: "قواعد البيانات SQLite جلب البيانات - Databases SQLite Retrieve Data From Database", durationSec: 545, section: "قواعد البيانات SQLite" },
-            { id: 121, title: "قواعد البيانات SQLite تدريبات على كل ما سبق - Databases SQLite Training On Everything", durationSec: 580, section: "قواعد البيانات SQLite" },
-            { id: 122, title: "قواعد البيانات SQLite تحديث وحذف البيانات - Databases SQLite Update And Delete From Database", durationSec: 490, section: "قواعد البيانات SQLite" },
-            { id: 123, title: "قواعد البيانات SQLite إنشاء تطبيق المهارات الجزء الأول - Databases SQLite Create Skills App Part 1", durationSec: 565, section: "قواعد البيانات SQLite" },
-            { id: 124, title: "قواعد البيانات SQLite إنشاء تطبيق المهارات الجزء الثاني - Databases SQLite Create Skills App Part 2", durationSec: 595, section: "قواعد البيانات SQLite" },
-            { id: 125, title: "قواعد البيانات SQLite إنشاء تطبيق المهارات الجزء الثالث - Databases SQLite Create Skills App Part 3", durationSec: 610, section: "قواعد البيانات SQLite" },
-            { id: 126, title: "قواعد البيانات SQLite إنشاء تطبيق المهارات الجزء الرابع - Databases SQLite Create Skills App Part 4", durationSec: 575, section: "قواعد البيانات SQLite" },
-            { id: 127, title: "قواعد البيانات SQLite معلومات هامة جداً - Databases SQLite Very Important Information", durationSec: 530, section: "قواعد البيانات SQLite" },
-            { id: 128, title: "مواضيع متقدمة __name__ و __main__ - Advanced Lessons __name__ And __main__", durationSec: 540, section: "Flask و NumPy والختام" },
-            { id: 129, title: "مواضيع متقدمة قياس وقت التنفيذ باستخدام Timeit - Advanced Lessons Timing Your Code With Timeit", durationSec: 515, section: "Flask و NumPy والختام" },
-            { id: 130, title: "مواضيع متقدمة تسجيل الأحداث والملفات - Advanced Lessons Add Logging To Your Code", durationSec: 560, section: "Flask و NumPy والختام" },
-            { id: 131, title: "مواضيع متقدمة اختبارات الوحدات - Advanced Lessons Unit Testing With Unittest", durationSec: 585, section: "Flask و NumPy والختام" },
-            { id: 132, title: "مواضيع متقدمة توليد الأرقام العشوائية التسلسلية - Advanced Lessons Generate Random Serial Numbers", durationSec: 470, section: "Flask و NumPy والختام" },
-            { id: 133, title: "إطار العمل Flask مقدمة وإنشاء أول مسار - Flask Intro And Your First Page", durationSec: 535, section: "Flask و NumPy والختام" },
-            { id: 134, title: "إطار العمل Flask إنشاء ملفات HTML - Flask Create Html Files", durationSec: 495, section: "Flask و NumPy والختام" },
-            { id: 135, title: "إطار العمل Flask القوالب المتقدمة والوراثة - Flask Advanced Html Template Using Jinja", durationSec: 550, section: "Flask و NumPy والختام" },
-            { id: 136, title: "إطار العمل Flask الملفات الثابتة CSS - Flask Customizing App With Css", durationSec: 520, section: "Flask و NumPy والختام" },
-            { id: 137, title: "إطار العمل Flask إضافة ملفات جافاسكربت - Flask Adding Js Files", durationSec: 465, section: "Flask و NumPy والختام" },
-            { id: 138, title: "إطار العمل Flask إنشاء صفحة المهارات - Flask Skills Page Using List Data", durationSec: 540, section: "Flask و NumPy والختام" },
-            { id: 139, title: "إطار العمل Flask تحسين تصميم صفحة المهارات - Flask Customizing Skills Page", durationSec: 510, section: "Flask و NumPy والختام" },
-            { id: 140, title: "التعامل مع البيانات اقتناص البيانات من المواقع - Web Scraping Control Browser With Selenium", durationSec: 645, section: "Flask و NumPy والختام" },
-            { id: 141, title: "مكتبة NumPy مقدمة وتثبيت المكتبة - NumPy Intro And Install", durationSec: 485, section: "Flask و NumPy والختام" },
-            { id: 142, title: "مكتبة NumPy إنشاء المصفوفات - NumPy Create Arrays", durationSec: 530, section: "Flask و NumPy والختام" },
-            { id: 143, title: "مكتبة NumPy مقارنة الأداء واستهلاك الذاكرة - NumPy Compare Data Location And Type", durationSec: 515, section: "Flask و NumPy والختام" },
-            { id: 144, title: "مكتبة NumPy الأداء واستخدام الذاكرة عملياً - NumPy Compare Performance And Memory Use", durationSec: 545, section: "Flask و NumPy والختام" },
-            { id: 145, title: "مكتبة NumPy تقطيع المصفوفات - NumPy Array Slicing", durationSec: 525, section: "Flask و NumPy والختام" },
-            { id: 146, title: "مكتبة NumPy أنواع البيانات والتحكم بها - NumPy Data Types And Control Array", durationSec: 550, section: "Flask و NumPy والختام" },
-            { id: 147, title: "مكتبة NumPy العمليات الحسابية والمفيدة - NumPy Arithmetic And Useful Operations", durationSec: 535, section: "Flask و NumPy والختام" },
-            { id: 148, title: "مكتبة NumPy شكل المصفوفة وإعادة التشكيل - NumPy Array Shape And ReShape", durationSec: 510, section: "Flask و NumPy والختام" },
-            { id: 149, title: "البيئة الافتراضية الجزء الأول - Virtual Environment Part 1", durationSec: 495, section: "Flask و NumPy والختام" },
-            { id: 150, title: "البيئة الافتراضية الجزء الثاني - Virtual Environment Part 2", durationSec: 480, section: "Flask و NumPy والختام" },
-            { id: 151, title: "تجميع وتحديث الحزم الخارجية - Packaging And Updating Packages", durationSec: 440, section: "Flask و NumPy والختام" },
-            { id: 152, title: "نهاية الكورس ومصادر للتعلم والتطوير - The End And Resources", durationSec: 520, section: "Flask و NumPy والختام" }
-        ];
-
-        // مفاتيح التخزين المحلي الآمن
-        var STORAGE_KEYS = {
-            COMPLETED_LESSONS: 'elzero_py30_lessons_v7',
-            COMPLETED_ASSIGNMENTS: 'elzero_py30_assignments_v7',
-            COMPLETED_EXERCISES: 'elzero_py30_exercises_v7',
-            ASSIGNMENT_NOTES: 'elzero_py30_assign_notes_v7',
-            START_DATE: 'elzero_py30_start_v7',
-            PLAN_DAYS: 'elzero_py30_plandays_v7',
-            NOTES: 'elzero_py30_notes_v7',
-            THEME: 'elzero_py30_theme_v7'
-        };
-
-        function getTodayISO() {
-            var now = new Date();
-            var offset = now.getTimezoneOffset();
-            var localDate = new Date(now.getTime() - offset * 60 * 1000);
-            return localDate.toISOString().split('T')[0];
-        }
-
-        function addDaysToISO(isoDateStr, daysToAdd) {
-            var parts = String(isoDateStr).split('-').map(Number);
-            var date = new Date(parts[0], (parts[1] || 1) - 1, parts[2] || 1);
-            date.setDate(date.getDate() + daysToAdd);
-            var y = date.getFullYear();
-            var m = String(date.getMonth() + 1).padStart(2, '0');
-            var d = String(date.getDate()).padStart(2, '0');
-            return y + '-' + m + '-' + d;
-        }
-
-        function formatArabicDate(isoDateStr, includeYear) {
-            try {
-                var parts = String(isoDateStr).split('-').map(Number);
-                var date = new Date(parts[0], (parts[1] || 1) - 1, parts[2] || 1);
-                var opts = { weekday: 'short', day: 'numeric', month: 'short' };
-                if (includeYear) opts.year = 'numeric';
-                return date.toLocaleDateString('ar-EG', opts);
-            } catch (_) {
-                return isoDateStr;
-            }
-        }
-
-        function formatDuration(seconds) {
-            var s = Math.max(0, Math.floor(Number(seconds) || 0));
-            var mins = Math.floor(s / 60);
-            var secs = s % 60;
-            return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-        }
-
-        function escapeAttr(str) {
-            return String(str || '')
-                .replace(/&/g, '&amp;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-        }
-
-        var state = {
-            completedLessons: new Set(),
-            completedAssignments: new Set(),
-            completedExercises: new Set(),
-            assignmentNotes: {},
-            startDate: getTodayISO(),
-            planDays: 30,
-            notes: {},
-            collapsedDays: new Set(),
-            activeTab: 'days',
-            currentFilter: 'all',
-            assignmentFilter: 'all',
-            assignmentSearch: '',
-            searchQuery: '',
-            activeNoteLessonId: null,
-            activeAssignmentId: 1
-        };
-
-        var ytApiReady = false;
-        var ytPlayerInstance = null;
-        var activePlayerLessonId = null;
-        var isAudioOnlyMode = false;
-        var isLocalMediaActive = false;
-        var playbackRate = 1;
-        var audioProgressTimer = null;
-
-        function getScheduledLessons() {
-            var total = RAW_LESSONS.length;
-            var days = state.planDays;
-            var exercisesByLesson = new Map();
-            DISTRIBUTED_EXERCISES.forEach(function(ex) {
-                if (!exercisesByLesson.has(ex.lessonId)) exercisesByLesson.set(ex.lessonId, []);
-                exercisesByLesson.get(ex.lessonId).push(ex);
-            });
-
-            return RAW_LESSONS.map(function(lesson, idx) {
-                var dayIndex = Math.min(days - 1, Math.floor((idx * days) / total));
-                var targetDate = addDaysToISO(state.startDate, dayIndex);
-                var lessonExercises = exercisesByLesson.get(lesson.id) || [];
-                var primaryAssignment = ASSIGNMENTS_DATA.find(function(a) {
-                    return lesson.id >= a.fromLesson && lesson.id <= a.toLesson;
-                }) || null;
-
-                return {
-                    id: lesson.id,
-                    title: lesson.title,
-                    durationSec: lesson.durationSec,
-                    section: lesson.section,
-                    dayIndex: dayIndex,
-                    dayNumber: dayIndex + 1,
-                    targetDate: targetDate,
-                    exercises: lessonExercises,
-                    assignment: primaryAssignment
-                };
-            });
-        }
-
-        function loadState() {
-            try {
-                var rawLessons = JSON.parse(localStorage.getItem(STORAGE_KEYS.COMPLETED_LESSONS) || '[]');
-                if (Array.isArray(rawLessons)) state.completedLessons = new Set(rawLessons.map(Number));
-
-                var rawAssigns = JSON.parse(localStorage.getItem(STORAGE_KEYS.COMPLETED_ASSIGNMENTS) || '[]');
-                if (Array.isArray(rawAssigns)) state.completedAssignments = new Set(rawAssigns.map(Number));
-
-                var rawEx = JSON.parse(localStorage.getItem(STORAGE_KEYS.COMPLETED_EXERCISES) || '[]');
-                if (Array.isArray(rawEx)) state.completedExercises = new Set(rawEx.map(String));
-
-                var savedAssignNotes = JSON.parse(localStorage.getItem(STORAGE_KEYS.ASSIGNMENT_NOTES) || '{}');
-                if (savedAssignNotes && typeof savedAssignNotes === 'object') state.assignmentNotes = savedAssignNotes;
-
-                var savedStart = localStorage.getItem(STORAGE_KEYS.START_DATE);
-                if (savedStart && /^\d{4}-\d{2}-\d{2}$/.test(savedStart)) state.startDate = savedStart;
-
-                var savedDays = Number(localStorage.getItem(STORAGE_KEYS.PLAN_DAYS));
-                if ([30, 45, 60].indexOf(savedDays) !== -1) state.planDays = savedDays;
-
-                var savedNotes = JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTES) || '{}');
-                if (savedNotes && typeof savedNotes === 'object') state.notes = savedNotes;
-
-                var savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
-                if (savedTheme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                } else {
-                    document.documentElement.classList.add('dark');
-                }
-            } catch (err) {
-                console.warn('Error loading state:', err);
-            }
-        }
-
-        function saveState() {
-            try {
-                localStorage.setItem(STORAGE_KEYS.COMPLETED_LESSONS, JSON.stringify(Array.from(state.completedLessons)));
-                localStorage.setItem(STORAGE_KEYS.COMPLETED_ASSIGNMENTS, JSON.stringify(Array.from(state.completedAssignments)));
-                localStorage.setItem(STORAGE_KEYS.COMPLETED_EXERCISES, JSON.stringify(Array.from(state.completedExercises)));
-                localStorage.setItem(STORAGE_KEYS.ASSIGNMENT_NOTES, JSON.stringify(state.assignmentNotes));
-                localStorage.setItem(STORAGE_KEYS.START_DATE, state.startDate);
-                localStorage.setItem(STORAGE_KEYS.PLAN_DAYS, String(state.planDays));
-                localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(state.notes));
-            } catch (err) {
-                console.warn('Error saving state:', err);
-            }
-        }
-
-        function showToast(message, type) {
-            var container = document.getElementById('toastContainer');
-            if (!container) return;
-            var toast = document.createElement('div');
-            var cls = 'bg-emerald-600/95 text-white';
-            if (type === 'info') cls = 'bg-pythonBlue/95 text-white';
-            if (type === 'warning') cls = 'bg-amber-500/95 text-slate-950';
-            toast.className = cls + ' backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl text-xs font-extrabold flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto border border-white/20';
-            toast.textContent = message;
-            container.appendChild(toast);
-
-            requestAnimationFrame(function() {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            });
-            setTimeout(function() {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(function() {
-                    if (toast.parentNode) toast.parentNode.removeChild(toast);
-                }, 300);
-            }, 2600);
-        }
-
-        function showConfirm(title, message) {
-            return new Promise(function(resolve) {
-                var modal = document.getElementById('confirmModal');
-                document.getElementById('confirmTitle').textContent = title;
-                document.getElementById('confirmMessage').textContent = message;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-
-                function finish(answer) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                    document.getElementById('confirmOkBtn').onclick = null;
-                    document.getElementById('confirmCancelBtn').onclick = null;
-                    resolve(answer);
-                }
-
-                document.getElementById('confirmOkBtn').onclick = function() { finish(true); };
-                document.getElementById('confirmCancelBtn').onclick = function() { finish(false); };
-            });
-        }
-
-        function updateDashboard() {
-            var todayISO = getTodayISO();
-            var scheduled = getScheduledLessons();
-            var completedCount = state.completedLessons.size;
-            var totalCount = scheduled.length;
-            var percent = Math.round((completedCount / totalCount) * 100);
-
-            var todayLessons = scheduled.filter(function(l) { return l.targetDate === todayISO; });
-            var todayRemaining = todayLessons.filter(function(l) { return !state.completedLessons.has(l.id); });
-            var overdueLessons = scheduled.filter(function(l) { return !state.completedLessons.has(l.id) && l.targetDate < todayISO; });
-
-            var todayDayBadge = document.getElementById('todayDayBadge');
-            var todayDateLabel = document.getElementById('todayDateLabel');
-            var todayHeadline = document.getElementById('todayHeadline');
-            var todaySubtext = document.getElementById('todaySubtext');
-            var completeTodayBtn = document.getElementById('completeTodayBtn');
-            var todayChipBox = document.getElementById('todayAssignmentChipContainer');
-
-            todayDateLabel.textContent = formatArabicDate(todayISO, true);
-
-            if (todayLessons.length > 0) {
-                var dayNum = todayLessons[0].dayNumber;
-                var minsToday = Math.round(todayLessons.reduce(function(acc, l) { return acc + l.durationSec; }, 0) / 60);
-                var firstId = String(todayLessons[0].id).padStart(3, '0');
-                var lastId = String(todayLessons[todayLessons.length - 1].id).padStart(3, '0');
-                var primaryAssignObj = todayLessons.find(function(l) { return Boolean(l.assignment); });
-                var primaryAssign = primaryAssignObj ? primaryAssignObj.assignment : null;
-
-                todayDayBadge.textContent = 'اليوم ' + dayNum + ' من ' + state.planDays;
-
-                if (primaryAssign) {
-                    var isAssignDone = state.completedAssignments.has(primaryAssign.id);
-                    var chipCls = isAssignDone
-                        ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-700 dark:text-emerald-400'
-                        : 'bg-amber-500/20 border-amber-400/50 text-amber-900 dark:text-pythonYellow hover:bg-amber-500 hover:text-slate-950';
-                    todayChipBox.innerHTML =
-                        '<button type="button" onclick="openAssignmentViewer(' + primaryAssign.id + ')" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold border backdrop-blur-sm transition flex items-center gap-1.5 ' + chipCls + '">' +
-                        '<span>📝</span>' +
-                        '<span>تكليف اليوم #' + primaryAssign.id + (isAssignDone ? ' ✓' : '') + '</span>' +
-                        '</button>';
-                } else {
-                    todayChipBox.innerHTML = '';
-                }
-
-                if (todayRemaining.length === 0) {
-                    todayHeadline.textContent = 'عاش! أنجزت جميع مهام اليوم (' + todayLessons.length + ' دروس) 🎉';
-                    todaySubtext.textContent = 'أتممت دروس اليوم (#' + firstId + ' إلى #' + lastId + ') بنجاح.';
-                    completeTodayBtn.textContent = '✓ مهام اليوم مكتملة';
-                } else {
-                    todayHeadline.textContent = 'عليك اليوم ' + todayRemaining.length + ' دروس متبقية (من أصل ' + todayLessons.length + ')';
-                    todaySubtext.textContent = 'الدروس المقررة اليوم: من #' + firstId + ' إلى #' + lastId + ' (~' + minsToday + ' دقيقة).';
-                    completeTodayBtn.textContent = '✓ إتمام مهام اليوم (' + todayRemaining.length + ')';
-                }
-            } else {
-                todayChipBox.innerHTML = '';
-                var endISO = addDaysToISO(state.startDate, state.planDays - 1);
-                if (todayISO < state.startDate) {
-                    todayDayBadge.textContent = 'تبدأ الخطة قريباً';
-                    todayHeadline.textContent = 'خطة الـ ' + state.planDays + ' يوم تبدأ في ' + formatArabicDate(state.startDate);
-                    todaySubtext.textContent = 'يمكنك تعديل تاريخ البداية ليبدأ من اليوم من الحقل بالأسفل.';
-                } else {
-                    todayDayBadge.textContent = 'انتهت مدة الخطة';
-                    todayHeadline.textContent = completedCount === totalCount ? 'مبروك! أتممت الكورس بالكامل 🏆' : 'تجاوزت تاريخ الختام (' + formatArabicDate(endISO) + ')';
-                    todaySubtext.textContent = 'متبقي ' + (totalCount - completedCount) + ' درساً لإكمال الكورس.';
-                }
-                completeTodayBtn.textContent = 'عرض الدروس المتبقية';
-            }
-
-            document.getElementById('overallPercentBadge').textContent = percent + '%';
-            document.getElementById('overallProgressBar').style.width = percent + '%';
-            document.getElementById('completedLessonsCount').textContent = completedCount;
-            document.getElementById('completedAssignmentsCount').textContent = state.completedAssignments.size;
-            document.getElementById('dueTodayCount').textContent = todayRemaining.length;
-            document.getElementById('overdueCount').textContent = overdueLessons.length;
-
-            document.getElementById('startDateInput').value = state.startDate;
-            document.getElementById('expectedEndDateDisplay').textContent = formatArabicDate(addDaysToISO(state.startDate, state.planDays - 1), true);
-
-            document.querySelectorAll('.plan-btn').forEach(function(btn) {
-                var isSelected = Number(btn.dataset.days) === state.planDays;
-                btn.className = isSelected
-                    ? 'plan-btn px-2.5 py-1 rounded-lg text-xs font-extrabold bg-pythonBlue text-white transition shadow-sm'
-                    : 'plan-btn px-2.5 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800 transition';
-            });
-        }
-
-        function filterLessonsList(lessons, todayISO) {
-            var q = state.searchQuery.trim().toLowerCase();
-            return lessons.filter(function(l) {
-                var isDone = state.completedLessons.has(l.id);
-                var isToday = l.targetDate === todayISO;
-                var isOverdue = !isDone && l.targetDate < todayISO;
-
-                if (state.currentFilter === 'today' && !isToday) return false;
-                if (state.currentFilter === 'overdue' && !isOverdue) return false;
-                if (state.currentFilter === 'remaining' && isDone) return false;
-                if (state.currentFilter === 'completed' && !isDone) return false;
-
-                if (q) {
-                    var pad = String(l.id).padStart(3, '0');
-                    var dayMatch = ('اليوم ' + l.dayNumber).indexOf(q) !== -1;
-                    var titleMatch = l.title.toLowerCase().indexOf(q) !== -1;
-                    var numMatch = pad.indexOf(q) !== -1 || String(l.id) === q;
-                    var exMatch = l.exercises.some(function(ex) {
-                        return (('#' + ex.assignmentId + '-' + ex.exerciseNumber).indexOf(q) !== -1) ||
-                               (('تكليف #' + ex.assignmentId).indexOf(q) !== -1) ||
-                               ex.label.toLowerCase().indexOf(q) !== -1;
-                    });
-                    if (!titleMatch && !numMatch && !dayMatch && !exMatch) return false;
-                }
-                return true;
-            });
-        }
-
-        function renderEmptySearchState() {
-            return (
-                '<div class="text-center py-14 glass-panel rounded-2xl">' +
-                '<h3 class="text-base font-extrabold text-slate-800 dark:text-white mb-1">لا توجد نتائج مطابقة للفلتر الحالي</h3>' +
-                '<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">اضغط على الزر بالأسفل لإعادة عرض جميع الدروس.</p>' +
-                '<button type="button" onclick="resetFilters()" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-pythonBlue text-white hover:bg-pythonDarkBlue transition shadow-md">عرض الكل</button>' +
-                '</div>'
-            );
-        }
-
-        // رسم بطاقة درس زجاجية مع عرض التمارين الموزعة على هذا الدرس فقط
-        function renderLessonItemHTML(lesson, todayISO, showDayPill) {
-            var isDone = state.completedLessons.has(lesson.id);
-            var isToday = lesson.targetDate === todayISO;
-            var isOverdue = !isDone && lesson.targetDate < todayISO;
-            var hasNote = Boolean(state.notes[lesson.id] && state.notes[lesson.id].trim());
-            var padId = String(lesson.id).padStart(3, '0');
-
-            var noteBtnCls = hasNote
-                ? 'bg-pythonYellow/25 border-pythonYellow/60 text-amber-800 dark:text-pythonYellow font-extrabold'
-                : 'glass-subtle text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-pythonBlue';
-
-            var exercisesHtml = '';
-            if (lesson.exercises && lesson.exercises.length > 0) {
-                var itemsHtml = lesson.exercises.map(function(ex) {
-                    var isAssignDone = state.completedAssignments.has(ex.assignmentId);
-                    var isExDone = isAssignDone || state.completedExercises.has(ex.key);
-                    return (
-                        '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl px-3 py-2 border transition ' + (isExDone ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-pythonBlue/5 dark:bg-pythonBlue/10 border-pythonBlue/20') + '">' +
-                        '<div class="flex items-center gap-2.5 min-w-0">' +
-                        '<input type="checkbox" onchange="toggleExerciseItem(\'' + ex.key + '\', ' + ex.assignmentId + ')" ' + (isExDone ? 'checked' : '') + ' class="w-4 h-4 rounded accent-emerald-600 cursor-pointer shrink-0">' +
-                        '<span class="px-2 py-0.5 rounded-lg text-[11px] font-mono font-black ' + (isExDone ? 'bg-emerald-600 text-white' : 'bg-pythonBlue text-white') + ' shrink-0">#' + ex.assignmentId + ' • تمرين ' + ex.exerciseNumber + '</span>' +
-                        '<span class="text-xs font-bold truncate ' + (isExDone ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-200') + '">' + escapeAttr(ex.label) + '</span>' +
-                        '</div>' +
-                        '<div class="flex items-center gap-2 shrink-0 mr-6 sm:mr-0">' +
-                        '<button type="button" onclick="openAssignmentViewer(' + ex.assignmentId + ')" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white/80 dark:bg-slate-900/90 text-pythonBlue dark:text-sky-300 border border-pythonBlue/30 hover:bg-pythonBlue hover:text-white transition">معاينة</button>' +
-                        '<a href="' + ex.url + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-pythonBlue hover:bg-pythonDarkBlue text-white transition shadow-sm">رابط التكليف ↗</a>' +
-                        '</div>' +
-                        '</div>'
-                    );
-                }).join('');
-
-                exercisesHtml =
-                    '<div class="mt-3 pt-2.5 border-t border-slate-200/70 dark:border-slate-800/80 space-y-2">' +
-                    itemsHtml +
-                    '</div>';
-            }
-
-            return (
-                '<div class="lesson-glass-card p-4 sm:px-5 rounded-2xl glass-subtle ' + (isDone ? 'ring-1 ring-emerald-500/35 bg-emerald-500/5' : '') + '">' +
-                '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">' +
-                '<div class="flex items-start sm:items-center gap-3 flex-1 min-w-0">' +
-                '<label class="relative flex items-center cursor-pointer mt-0.5 sm:mt-0 shrink-0">' +
-                '<input type="checkbox" onchange="toggleLesson(' + lesson.id + ')" ' + (isDone ? 'checked' : '') + ' class="peer sr-only">' +
-                '<div class="w-6 h-6 rounded-lg border-2 ' + (isDone ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 dark:border-slate-600 bg-white/80 dark:bg-slate-950/80') + ' flex items-center justify-center transition-all">' +
-                '<svg class="w-4 h-4 text-white ' + (isDone ? 'scale-100' : 'scale-0') + ' transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' +
-                '</div>' +
-                '</label>' +
-                '<span class="px-2 py-1 rounded-lg text-xs font-mono font-extrabold ' + (isDone ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : 'bg-pythonBlue/15 text-pythonBlue dark:text-sky-300') + ' shrink-0">#' + padId + '</span>' +
-                '<div class="min-w-0 flex-1">' +
-                '<div onclick="toggleLesson(' + lesson.id + ')" class="cursor-pointer text-sm font-bold leading-snug ' + (isDone ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100') + '">' + escapeAttr(lesson.title) + '</div>' +
-                '<div class="flex flex-wrap items-center gap-2 mt-1">' +
-                '<span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">⏱ ' + formatDuration(lesson.durationSec) + '</span>' +
-                (showDayPill ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-pythonBlue/15 text-pythonBlue dark:text-sky-300">اليوم ' + lesson.dayNumber + ' (' + formatArabicDate(lesson.targetDate) + ')</span>' : '') +
-                (isToday && !isDone ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-500/25 text-amber-800 dark:text-pythonYellow">مطلوب اليوم</span>' : '') +
-                (isOverdue ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-rose-500/20 text-rose-600 dark:text-rose-400">متأخر</span>' : '') +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="flex items-center justify-end gap-2 shrink-0 mr-9 sm:mr-0">' +
-                '<button type="button" onclick="openNoteModal(' + lesson.id + ')" title="' + (hasNote ? 'عرض/تعديل الملاحظة' : 'إضافة ملاحظة') + '" class="p-2 rounded-xl border text-xs transition ' + noteBtnCls + '">✎</button>' +
-                '<button type="button" onclick="openLessonPlayer(' + lesson.id + ')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-pythonBlue hover:bg-pythonDarkBlue text-white shadow-sm transition">▶ تشغيل</button>' +
-                '</div>' +
-                '</div>' +
-                exercisesHtml +
-                '</div>'
-            );
-        }
-
-        function renderDaysView(container) {
-            var todayISO = getTodayISO();
-            var scheduled = getScheduledLessons();
-            var filtered = filterLessonsList(scheduled, todayISO);
-
-            if (filtered.length === 0) {
-                container.innerHTML = renderEmptySearchState();
-                return;
-            }
-
-            var daysMap = new Map();
-            filtered.forEach(function(lesson) {
-                if (!daysMap.has(lesson.dayNumber)) daysMap.set(lesson.dayNumber, []);
-                daysMap.get(lesson.dayNumber).push(lesson);
-            });
-
-            var html = '';
-            daysMap.forEach(function(dayLessons, dayNum) {
-                var allDayLessons = scheduled.filter(function(l) { return l.dayNumber === dayNum; });
-                var doneCount = allDayLessons.filter(function(l) { return state.completedLessons.has(l.id); }).length;
-                var allDone = doneCount === allDayLessons.length;
-                var dayDateISO = allDayLessons[0].targetDate;
-                var isToday = dayDateISO === todayISO;
-                var isOverdue = !allDone && dayDateISO < todayISO;
-                var totalMins = Math.round(allDayLessons.reduce(function(acc, l) { return acc + l.durationSec; }, 0) / 60);
-                var isCollapsed = state.collapsedDays.has(dayNum);
-
-                var borderClass = '';
-                var dayBadge = '<span class="px-3 py-1 rounded-xl text-xs font-black bg-pythonBlue text-white shadow-sm">اليوم ' + dayNum + '</span>';
-
-                if (isToday) {
-                    borderClass = 'ring-2 ring-amber-400 dark:ring-pythonYellow shadow-lg shadow-amber-500/15';
-                    dayBadge = '<span class="px-3 py-1 rounded-xl text-xs font-black bg-amber-500 text-slate-950 shadow-sm">اليوم ' + dayNum + ' (اليوم الحالي)</span>';
-                } else if (allDone) {
-                    borderClass = 'ring-1 ring-emerald-500/50';
-                    dayBadge = '<span class="px-3 py-1 rounded-xl text-xs font-black bg-emerald-600 text-white shadow-sm">اليوم ' + dayNum + ' ✓</span>';
-                } else if (isOverdue) {
-                    borderClass = 'ring-1 ring-rose-500/50';
-                    dayBadge = '<span class="px-3 py-1 rounded-xl text-xs font-black bg-rose-600 text-white shadow-sm">اليوم ' + dayNum + ' (متأخر)</span>';
-                }
-
-                var lessonsCards = dayLessons.map(function(lesson) {
-                    return renderLessonItemHTML(lesson, todayISO, false);
-                }).join('');
-
-                html +=
-                    '<div id="day-card-' + dayNum + '" class="glass-panel rounded-3xl ' + borderClass + ' overflow-hidden transition-all">' +
-                    '<div class="p-4 sm:px-5 bg-white/50 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">' +
-                    '<div class="flex items-center gap-3 cursor-pointer select-none" onclick="toggleDayCollapse(' + dayNum + ')">' +
-                    '<span class="px-2 py-1 rounded-lg glass-subtle text-xs font-bold text-slate-600 dark:text-slate-300">' + (isCollapsed ? '◀' : '▼') + '</span>' +
-                    '<div class="flex flex-wrap items-center gap-2">' +
-                    dayBadge +
-                    '<span class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100">' + formatArabicDate(dayDateISO) + '</span>' +
-                    '<span class="px-2 py-0.5 rounded-lg text-[11px] font-bold glass-subtle text-slate-600 dark:text-slate-300">' + allDayLessons.length + ' دروس • ~' + totalMins + ' دقيقة</span>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="flex items-center justify-between sm:justify-end gap-3">' +
-                    '<span class="text-xs font-extrabold ' + (allDone ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400') + '">أنجزت ' + doneCount + ' من ' + allDayLessons.length + '</span>' +
-                    '<button type="button" onclick="toggleDayCompletion(' + dayNum + ')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition ' + (allDone ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/35' : 'bg-pythonBlue text-white hover:bg-pythonDarkBlue shadow-md shadow-pythonBlue/20') + '">' + (allDone ? '✓ مكتمل' : 'تحديد اليوم كمكتمل') + '</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="' + (isCollapsed ? 'hidden' : '') + ' p-3.5 sm:p-5 space-y-3">' +
-                    lessonsCards +
-                    '</div>' +
-                    '</div>';
-            });
-
-            container.innerHTML = html;
-        }
-
-        function renderAllLessonsView(container) {
-            var todayISO = getTodayISO();
-            var scheduled = getScheduledLessons();
-            var filtered = filterLessonsList(scheduled, todayISO);
-
-            if (filtered.length === 0) {
-                container.innerHTML = renderEmptySearchState();
-                return;
-            }
-
-            var cardsHtml = filtered.map(function(lesson) {
-                return renderLessonItemHTML(lesson, todayISO, true);
-            }).join('');
-
-            container.innerHTML =
-                '<div class="glass-panel rounded-3xl overflow-hidden">' +
-                '<div class="p-4 sm:px-5 bg-white/50 dark:bg-slate-900/60 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">' +
-                '<h3 class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white">قائمة دروس الكورس (' + filtered.length + ' درس)</h3>' +
-                '<span class="text-xs text-slate-500 dark:text-slate-400">كل درس مرتبط بتكليفه ورابطه المباشر</span>' +
-                '</div>' +
-                '<div class="p-3.5 sm:p-5 space-y-3">' + cardsHtml + '</div>' +
-                '</div>';
-        }
-
-        function renderAssignmentsView(container) {
-            var scheduled = getScheduledLessons();
-            var q = state.assignmentSearch.trim().toLowerCase();
-
-            var filteredAssignments = ASSIGNMENTS_DATA.filter(function(assign) {
-                var isDone = state.completedAssignments.has(assign.id);
-                if (state.assignmentFilter === 'solved' && !isDone) return false;
-                if (state.assignmentFilter === 'unsolved' && isDone) return false;
-                if (q) {
-                    var matchNum = ('#' + assign.id).indexOf(q) !== -1 || String(assign.id) === q;
-                    var matchTitle = assign.title.toLowerCase().indexOf(q) !== -1;
-                    if (!matchNum && !matchTitle) return false;
-                }
-                return true;
-            });
-
-            var cardsHtml = filteredAssignments.length > 0 ? filteredAssignments.map(function(assign) {
-                var isAssignDone = state.completedAssignments.has(assign.id);
-                var relatedLessons = scheduled.filter(function(l) {
-                    return l.id >= assign.fromLesson && l.id <= assign.toLesson;
-                });
-                var relatedDoneCount = relatedLessons.filter(function(l) {
-                    return state.completedLessons.has(l.id);
-                }).length;
-                var readyToSolve = relatedDoneCount === relatedLessons.length;
-                var lastRel = relatedLessons[relatedLessons.length - 1];
-                var targetDayEnd = lastRel ? lastRel.dayNumber : 1;
-                var fromPad = String(assign.fromLesson).padStart(3, '0');
-                var toPad = String(assign.toLesson).padStart(3, '0');
-
-                var exDoneCount = 0;
-                for (var i = 1; i <= assign.count; i++) {
-                    if (state.completedExercises.has(assign.id + '-' + i)) exDoneCount++;
-                }
-                var exPct = isAssignDone ? 100 : Math.round((exDoneCount / Math.max(1, assign.count)) * 100);
-                var hasScratchpad = Boolean(state.assignmentNotes[assign.id] && state.assignmentNotes[assign.id].trim());
-
-                var cardBorder = isAssignDone
-                    ? 'ring-1 ring-emerald-500/45'
-                    : (readyToSolve ? 'ring-1 ring-amber-400/60' : '');
-
-                return (
-                    '<div class="lesson-glass-card glass-panel rounded-2xl p-5 ' + cardBorder + ' flex flex-col justify-between gap-4">' +
-                    '<div class="space-y-2.5">' +
-                    '<div class="flex items-center justify-between gap-2">' +
-                    '<div class="flex items-center gap-1.5 flex-wrap">' +
-                    '<span class="px-2.5 py-1 rounded-lg text-xs font-mono font-black bg-pythonBlue text-white shadow-sm">#' + assign.id + '</span>' +
-                    '<span class="px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold bg-pythonBlue/15 text-pythonBlue dark:text-sky-300">دروس ' + fromPad + '–' + toPad + '</span>' +
-                    (hasScratchpad ? '<span class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-pythonYellow/25 text-amber-800 dark:text-pythonYellow">📓 مسودة</span>' : '') +
-                    '</div>' +
-                    '<span class="text-xs font-bold text-slate-500 dark:text-slate-400">اليوم ' + targetDayEnd + '</span>' +
-                    '</div>' +
-                    '<h3 class="text-base font-extrabold text-slate-900 dark:text-white">' + escapeAttr(assign.title) + '</h3>' +
-                    '<p class="text-xs text-slate-500 dark:text-slate-400">التمارين: <strong class="text-slate-700 dark:text-slate-200">' + (isAssignDone ? assign.count : exDoneCount) + '/' + assign.count + '</strong> • الدروس المنجزة: <strong class="text-slate-700 dark:text-slate-200">' + relatedDoneCount + '/' + relatedLessons.length + '</strong></p>' +
-                    '<div class="w-full h-2 glass-subtle rounded-full overflow-hidden">' +
-                    '<div class="h-full rounded-full ' + (isAssignDone ? 'bg-emerald-500' : 'bg-pythonBlue') + ' transition-all duration-300" style="width: ' + exPct + '%"></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="pt-3 border-t border-slate-200/70 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">' +
-                    '<button type="button" onclick="openAssignmentViewer(' + assign.id + ')" class="px-3 py-2 rounded-xl text-xs font-extrabold bg-pythonBlue/15 text-pythonBlue dark:text-sky-300 hover:bg-pythonBlue hover:text-white transition">فتح التكليف #' + assign.id + '</button>' +
-                    '<button type="button" onclick="toggleAssignment(' + assign.id + ')" class="px-3 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-1.5 ' + (isAssignDone ? 'bg-emerald-600 text-white shadow-sm' : 'glass-subtle text-slate-700 dark:text-slate-200 hover:bg-emerald-600 hover:text-white') + '"><span>' + (isAssignDone ? '✓ محلول بالكامل' : 'تحديد كمحلول') + '</span></button>' +
-                    '<a href="' + assign.url + '" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl text-xs font-extrabold glass-subtle text-slate-700 dark:text-slate-200 hover:bg-pythonBlue hover:text-white transition">الزيرو ↗</a>' +
-                    '</div>' +
-                    '</div>'
-                );
-            }).join('') :
-                '<div class="col-span-full text-center py-12 glass-panel rounded-2xl"><p class="text-sm font-extrabold text-slate-700 dark:text-slate-200">لا توجد تكليفات مطابقة للبحث أو الفلتر الحالي</p></div>';
-
-            var fAllCls = state.assignmentFilter === 'all' ? 'bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950' : 'glass-subtle text-slate-600 dark:text-slate-300';
-            var fUnsolvedCls = state.assignmentFilter === 'unsolved' ? 'bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950' : 'glass-subtle text-slate-600 dark:text-slate-300';
-            var fSolvedCls = state.assignmentFilter === 'solved' ? 'bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950' : 'glass-subtle text-slate-600 dark:text-slate-300';
-
-            container.innerHTML =
-                '<div class="glass-panel rounded-2xl p-4 sm:p-5 space-y-4">' +
-                '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">' +
-                '<div>' +
-                '<h2 class="text-base font-extrabold text-slate-900 dark:text-white">مركز التكليفات العملية (#1 إلى #26)</h2>' +
-                '<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">تابع حل التمارين الفرعية، اكتب مسودة كودك، أو انتقل مباشرة لصفحة التكليف على موقع الزيرو.</p>' +
-                '</div>' +
-                '<a href="https://elzero.org/category/assignments/python-assignments/" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-pythonBlue text-white hover:bg-pythonDarkBlue transition shrink-0 text-center shadow-md shadow-pythonBlue/20">كل تكليفات بايثون على الموقع ↗</a>' +
-                '</div>' +
-                '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-200/70 dark:border-slate-800">' +
-                '<div class="flex items-center gap-1.5">' +
-                '<button type="button" onclick="setAssignmentFilter(\'all\')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition ' + fAllCls + '">الكل (26)</button>' +
-                '<button type="button" onclick="setAssignmentFilter(\'unsolved\')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition ' + fUnsolvedCls + '">غير محلول</button>' +
-                '<button type="button" onclick="setAssignmentFilter(\'solved\')" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition ' + fSolvedCls + '">محلول ✓</button>' +
-                '</div>' +
-                '<input type="search" value="' + escapeAttr(state.assignmentSearch) + '" oninput="setAssignmentSearch(this.value)" placeholder="ابحث برقم التكليف (#1-#26) أو الموضوع..." class="w-full sm:w-72 px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle focus:outline-none focus:ring-2 focus:ring-pythonBlue">' +
-                '</div>' +
-                '</div>' +
-                '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">' + cardsHtml + '</div>';
-        }
-
-        function renderStatsView(container) {
-            var scheduled = getScheduledLessons();
-            var sectionsMap = new Map();
-
-            scheduled.forEach(function(l) {
-                if (!sectionsMap.has(l.section)) {
-                    sectionsMap.set(l.section, { total: 0, done: 0, totalSec: 0, doneSec: 0 });
-                }
-                var entry = sectionsMap.get(l.section);
-                entry.total++;
-                entry.totalSec += l.durationSec;
-                if (state.completedLessons.has(l.id)) {
-                    entry.done++;
-                    entry.doneSec += l.durationSec;
-                }
-            });
-
-            var sectionsHtml = '';
-            sectionsMap.forEach(function(data, secName) {
-                var pct = Math.round((data.done / data.total) * 100);
-                var minsTotal = Math.round(data.totalSec / 60);
-                sectionsHtml +=
-                    '<div class="glass-panel rounded-2xl p-5">' +
-                    '<div class="flex items-center justify-between mb-2">' +
-                    '<h4 class="text-sm font-extrabold text-slate-900 dark:text-white">' + escapeAttr(secName) + '</h4>' +
-                    '<span class="text-xs font-black text-pythonBlue dark:text-pythonYellow">' + pct + '%</span>' +
-                    '</div>' +
-                    '<div class="w-full h-2.5 glass-subtle rounded-full overflow-hidden mb-3">' +
-                    '<div class="h-full rounded-full ' + (pct === 100 ? 'bg-emerald-500' : 'bg-pythonBlue') + ' transition-all duration-500" style="width: ' + pct + '%"></div>' +
-                    '</div>' +
-                    '<div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">' +
-                    '<span>الدروس: <strong>' + data.done + ' / ' + data.total + '</strong></span>' +
-                    '<span>المدة: <strong>~' + Math.floor(minsTotal / 60) + 'س ' + (minsTotal % 60) + 'د</strong></span>' +
-                    '</div>' +
-                    '</div>';
-            });
-
-            var totalSec = scheduled.reduce(function(a, b) { return a + b.durationSec; }, 0);
-            var doneSec = scheduled.filter(function(l) { return state.completedLessons.has(l.id); }).reduce(function(a, b) { return a + b.durationSec; }, 0);
-            var remainingHours = ((totalSec - doneSec) / 3600).toFixed(1);
-
-            container.innerHTML =
-                '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">' +
-                '<div class="glass-panel rounded-2xl p-5 text-center">' +
-                '<div class="text-xs font-bold text-slate-500 dark:text-slate-400">المعدل اليومي في خطة ' + state.planDays + ' يوم</div>' +
-                '<div class="text-2xl font-black text-pythonBlue dark:text-pythonYellow mt-1">~' + (152 / state.planDays).toFixed(1) + ' دروس / يوم</div>' +
-                '</div>' +
-                '<div class="glass-panel rounded-2xl p-5 text-center">' +
-                '<div class="text-xs font-bold text-slate-500 dark:text-slate-400">ساعات المشاهدة المتبقية</div>' +
-                '<div class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">' + remainingHours + ' ساعة</div>' +
-                '</div>' +
-                '<div class="glass-panel rounded-2xl p-5 text-center">' +
-                '<div class="text-xs font-bold text-slate-500 dark:text-slate-400">الملاحظات المدونة</div>' +
-                '<div class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">' + Object.keys(state.notes).length + ' ملاحظة</div>' +
-                '</div>' +
-                '</div>' +
-                '<h3 class="text-base font-extrabold text-slate-800 dark:text-white pt-2">التقدم حسب أقسام الكورس:</h3>' +
-                '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">' + sectionsHtml + '</div>';
-        }
-
-        function renderActiveTab() {
-            var container = document.getElementById('tabContentContainer');
-            var filterToolbar = document.getElementById('filterToolbar');
-            var expandCollapseBtns = [document.getElementById('expandAllDaysBtn'), document.getElementById('collapseAllDaysBtn')];
-
-            if (state.activeTab === 'days' || state.activeTab === 'lessons') {
-                filterToolbar.classList.remove('hidden');
-                expandCollapseBtns.forEach(function(b) {
-                    if (b) b.style.display = state.activeTab === 'days' ? 'inline-flex' : 'none';
-                });
-            } else {
-                filterToolbar.classList.add('hidden');
-            }
-
-            if (state.activeTab === 'days') {
-                renderDaysView(container);
-            } else if (state.activeTab === 'lessons') {
-                renderAllLessonsView(container);
-            } else if (state.activeTab === 'assignments') {
-                renderAssignmentsView(container);
-            } else if (state.activeTab === 'stats') {
-                renderStatsView(container);
-            }
-        }
-
-        function setAudioMode(enabled) {
-            isAudioOnlyMode = Boolean(enabled);
-            var overlay = document.getElementById('mp3AudioOverlay');
-            var modeTag = document.getElementById('playerModeTag');
-            var modeLabel = document.getElementById('audioModeLabel');
-
-            if (isAudioOnlyMode) {
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex');
-                modeTag.textContent = 'وضع MP3 الصوتي';
-                modeTag.className = 'px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-700 dark:text-pythonYellow';
-                modeLabel.textContent = 'وضع الفيديو';
-            } else {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-                modeTag.textContent = isLocalMediaActive ? 'ملف محلي' : 'مشغل فيديو';
-                modeTag.className = 'px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400';
-                modeLabel.textContent = 'وضع MP3';
-            }
-        }
-
-        function syncAudioPlayPauseUI(isPlaying) {
-            var btn = document.getElementById('audioPlayPauseBtn');
-            var statusText = document.getElementById('mp3StatusText');
-            var bars = document.querySelectorAll('#audioWaveform .eq-bar');
-            if (isPlaying) {
-                btn.textContent = '⏸ إيقاف مؤقت';
-                statusText.textContent = 'جاري التشغيل...';
-                bars.forEach(function(b) { b.style.animationPlayState = 'running'; });
-            } else {
-                btn.textContent = '▶ تشغيل';
-                statusText.textContent = 'متوقف مؤقتاً';
-                bars.forEach(function(b) { b.style.animationPlayState = 'paused'; });
-            }
-        }
-
-        function startAudioSyncLoop(fallbackDurationSec) {
-            if (audioProgressTimer) clearInterval(audioProgressTimer);
-            audioProgressTimer = setInterval(function() {
-                try {
-                    var slider = document.getElementById('audioSeekSlider');
-                    var curEl = document.getElementById('audioCurrentTime');
-                    var totEl = document.getElementById('audioTotalTime');
-
-                    if (isLocalMediaActive) {
-                        var mediaEl = !document.getElementById('localVideoPlayer').classList.contains('hidden')
-                            ? document.getElementById('localVideoPlayer')
-                            : document.getElementById('localAudioPlayer');
-                        var cur = mediaEl.currentTime || 0;
-                        var dur = mediaEl.duration || fallbackDurationSec || 1;
-                        curEl.textContent = formatDuration(cur);
-                        totEl.textContent = formatDuration(dur);
-                        slider.value = Math.min(100, Math.round((cur / dur) * 100));
-                        syncAudioPlayPauseUI(!mediaEl.paused);
-                        return;
-                    }
-
-                    if (ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
-                        var ytCur = ytPlayerInstance.getCurrentTime() || 0;
-                        var ytDur = (typeof ytPlayerInstance.getDuration === 'function' && ytPlayerInstance.getDuration()) || fallbackDurationSec || 1;
-                        curEl.textContent = formatDuration(ytCur);
-                        totEl.textContent = formatDuration(ytDur);
-                        slider.value = Math.min(100, Math.round((ytCur / ytDur) * 100));
-                        if (typeof ytPlayerInstance.getPlayerState === 'function') {
-                            syncAudioPlayPauseUI(ytPlayerInstance.getPlayerState() === 1);
-                        }
-                    }
-                } catch (_) {}
-            }, 500);
-        }
-
-        function renderEmbedFallbackBanner(directUrl, reasonText) {
-            return (
-                '<div class="w-full h-full min-h-[260px] sm:min-h-[390px] flex flex-col items-center justify-center p-6 text-center text-white bg-gradient-to-br from-slate-900 via-slate-900 to-pythonDarkBlue/70 space-y-4">' +
-                '<div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-pythonYellow flex items-center justify-center text-xl font-black">▶</div>' +
-                '<div class="max-w-md space-y-1">' +
-                '<h4 class="text-sm sm:text-base font-black text-white">المشاهدة المباشرة على يوتيوب أو عبر المشغل الصوتي</h4>' +
-                '<p class="text-xs text-slate-300 leading-relaxed">' + escapeAttr(reasonText) + '</p>' +
-                '</div>' +
-                '<div class="flex flex-wrap items-center justify-center gap-2.5">' +
-                '<a href="' + directUrl + '" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white shadow-lg transition">فتح الدرس في يوتيوب ↗</a>' +
-                '<button type="button" onclick="setAudioMode(true)" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-pythonYellow hover:bg-amber-300 text-slate-950 transition">وضع MP3 الصوتي</button>' +
-                '<label for="localMediaInput" class="cursor-pointer px-4 py-2.5 rounded-xl text-xs font-extrabold bg-white/15 hover:bg-white/25 text-white transition">تشغيل ملف من جهازك</label>' +
-                '</div>' +
-                '</div>'
-            );
-        }
-
-        function mountLessonInPlayer(lessonId) {
-            var lesson = RAW_LESSONS.find(function(l) { return l.id === lessonId; });
-            if (!lesson) return;
-
-            isLocalMediaActive = false;
-            document.getElementById('localVideoPlayer').classList.add('hidden');
-            document.getElementById('localAudioPlayer').pause();
-            setAudioMode(isAudioOnlyMode);
-
-            var padId = String(lesson.id).padStart(3, '0');
-            var query = 'Elzero Mastering Python #' + padId + ' ' + lesson.title;
-            var directSearchUrl = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query);
-
-            document.getElementById('playerLessonBadge').textContent = '#' + padId;
-            document.getElementById('playerDurationTag').textContent = formatDuration(lesson.durationSec);
-            document.getElementById('playerLessonTitle').textContent = lesson.title;
-            document.getElementById('mp3LessonTitle').textContent = '#' + padId + ' — ' + lesson.title;
-            document.getElementById('playerExternalLink').href = directSearchUrl;
-            document.getElementById('audioTotalTime').textContent = formatDuration(lesson.durationSec);
-            document.getElementById('audioCurrentTime').textContent = '00:00';
-            document.getElementById('audioSeekSlider').value = 0;
-
-            var isDone = state.completedLessons.has(lesson.id);
-            var markBtn = document.getElementById('playerMarkCompleteBtn');
-            markBtn.textContent = isDone ? '✓ مكتمل (إلغاء التحديد)' : '✓ تحديد الدرس كمكتمل';
-            markBtn.className = isDone
-                ? 'px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 transition'
-                : 'px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 transition';
-
-            var container = document.getElementById('ytPlayerContainer');
-            container.classList.remove('hidden');
-
-            if (!ytApiReady || !window.YT || !window.YT.Player) {
-                container.innerHTML = renderEmbedFallbackBanner(
-                    directSearchUrl,
-                    'يمكنك فتح الدرس مباشرة على يوتيوب، أو التبديل لوضع MP3 الصوتي، أو تشغيل ملف صوت/فيديو من جهازك.'
-                );
-                startAudioSyncLoop(lesson.durationSec);
-                return;
-            }
-
-            container.innerHTML = '<div id="ytPlayerTarget" class="w-full h-full min-h-[260px] sm:min-h-[390px]"></div>';
-            if (ytPlayerInstance && typeof ytPlayerInstance.destroy === 'function') {
-                ytPlayerInstance.destroy();
-                ytPlayerInstance = null;
-            }
-
-            var selectedQuality = document.getElementById('qualitySelect').value;
-
-            try {
-                ytPlayerInstance = new window.YT.Player('ytPlayerTarget', {
-                    width: '100%',
-                    height: '100%',
-                    host: 'https://www.youtube.com',
-                    playerVars: {
-                        listType: 'search',
-                        list: query,
-                        autoplay: 0,
-                        rel: 0,
-                        playsinline: 1,
-                        modestbranding: 1,
-                        hl: 'ar'
-                    },
-                    events: {
-                        onReady: function(event) {
-                            try {
-                                event.target.setPlaybackRate(playbackRate);
-                                if (selectedQuality !== 'auto' && typeof event.target.setPlaybackQuality === 'function') {
-                                    event.target.setPlaybackQuality(selectedQuality);
-                                }
-                            } catch (_) {}
-                            startAudioSyncLoop(lesson.durationSec);
-                        },
-                        onError: function() {
-                            container.innerHTML = renderEmbedFallbackBanner(
-                                directSearchUrl,
-                                'تعذر تشغيل هذا الفيديو داخل الإطار المدمج. اضغط على "فتح الدرس في يوتيوب" لمشاهدته فوراً.'
-                            );
-                        },
-                        onStateChange: function(event) {
-                            syncAudioPlayPauseUI(event.data === 1);
-                        }
-                    }
-                });
-            } catch (_) {
-                container.innerHTML = renderEmbedFallbackBanner(
-                    directSearchUrl,
-                    'تعذر تهيئة المشغل المدمج. يمكنك فتح الدرس مباشرة في يوتيوب.'
-                );
-            }
-        }
-
-        function closeLessonPlayer() {
-            var modal = document.getElementById('playerModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            if (audioProgressTimer) {
-                clearInterval(audioProgressTimer);
-                audioProgressTimer = null;
-            }
-            if (ytPlayerInstance && typeof ytPlayerInstance.destroy === 'function') {
-                ytPlayerInstance.destroy();
-                ytPlayerInstance = null;
-            }
-            document.getElementById('localAudioPlayer').pause();
-            document.getElementById('localVideoPlayer').pause();
-            activePlayerLessonId = null;
-        }
-
-        window.toggleLesson = function(lessonId) {
-            if (state.completedLessons.has(lessonId)) {
-                state.completedLessons.delete(lessonId);
-            } else {
-                state.completedLessons.add(lessonId);
-                showToast('تم تحديد الدرس #' + String(lessonId).padStart(3, '0') + ' كمكتمل ✓', 'success');
-            }
-            saveState();
-            updateDashboard();
-            renderActiveTab();
-        };
-
-        window.openLessonPlayer = function(lessonId) {
-            activePlayerLessonId = lessonId;
-            var modal = document.getElementById('playerModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            mountLessonInPlayer(lessonId);
-        };
-
-        window.openAssignmentViewer = function(assignId) {
-            var assign = ASSIGNMENTS_DATA.find(function(a) { return a.id === assignId; }) || ASSIGNMENTS_DATA[0];
-            state.activeAssignmentId = assign.id;
-
-            var fromPad = String(assign.fromLesson).padStart(3, '0');
-            var toPad = String(assign.toLesson).padStart(3, '0');
-
-            document.getElementById('assignModalNumBadge').textContent = '#' + assign.id;
-            document.getElementById('assignModalTitle').textContent = assign.title;
-            document.getElementById('assignModalRange').textContent = 'يغطي الدروس ' + fromPad + '–' + toPad;
-            document.getElementById('assignModalExerciseCount').textContent = assign.count + ' تكليفات';
-            document.getElementById('assignModalExternalLink').href = assign.url;
-
-            var isAssignDone = state.completedAssignments.has(assign.id);
-            var statusEl = document.getElementById('assignModalStatusText');
-            var toggleBtn = document.getElementById('assignModalToggleDoneBtn');
-            var progressBar = document.getElementById('assignModalProgressBar');
-
-            var exDoneCount = 0;
-            for (var i = 1; i <= assign.count; i++) {
-                if (state.completedExercises.has(assign.id + '-' + i)) exDoneCount++;
-            }
-            var pct = isAssignDone ? 100 : Math.round((exDoneCount / Math.max(1, assign.count)) * 100);
-            progressBar.style.width = pct + '%';
-
-            if (isAssignDone) {
-                statusEl.textContent = 'مكتمل ✓ (' + pct + '%)';
-                statusEl.className = 'text-emerald-600 dark:text-emerald-400 font-extrabold';
-                toggleBtn.textContent = '✓ مكتمل (إلغاء التحديد)';
-            } else {
-                statusEl.textContent = 'قيد التنفيذ (' + pct + '%)';
-                statusEl.className = 'text-pythonBlue dark:text-sky-300 font-extrabold';
-                toggleBtn.textContent = '✓ تحديد التكليف كمكتمل';
-            }
-
-            document.getElementById('assignQuickJumpBar').innerHTML = ASSIGNMENTS_DATA.map(function(a) {
-                var active = a.id === assign.id;
-                var done = state.completedAssignments.has(a.id);
-                var bCls = active
-                    ? 'bg-pythonBlue text-white'
-                    : (done ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue');
-                return '<button type="button" onclick="openAssignmentViewer(' + a.id + ')" class="px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold shrink-0 transition ' + bCls + '">#' + a.id + '</button>';
-            }).join('');
-
-            var exHtml = '';
-            for (var j = 1; j <= assign.count; j++) {
-                var exKey = assign.id + '-' + j;
-                var exDone = isAssignDone || state.completedExercises.has(exKey);
-                exHtml +=
-                    '<div onclick="toggleExerciseItem(\'' + exKey + '\', ' + assign.id + ')" class="cursor-pointer p-3 rounded-xl border ' + (exDone ? 'bg-emerald-500/10 border-emerald-500/30' : 'glass-subtle hover:border-pythonBlue/50') + ' flex items-center justify-between gap-3 transition">' +
-                    '<div class="flex items-center gap-2.5">' +
-                    '<span class="w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold ' + (exDone ? 'bg-emerald-500 text-white' : 'border border-slate-300 dark:border-slate-600') + '">' + (exDone ? '✓' : '') + '</span>' +
-                    '<span class="text-xs sm:text-sm font-bold ' + (exDone ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-100') + '">التكليف رقم ' + String(j).padStart(2, '0') + ' — ' + escapeAttr(assign.title) + '</span>' +
-                    '</div>' +
-                    '<span class="text-[11px] font-mono text-slate-400">#' + assign.id + '-' + j + '</span>' +
-                    '</div>';
-            }
-            document.getElementById('assignModalExercisesList').innerHTML = exHtml;
-            document.getElementById('assignScratchpadTextarea').value = state.assignmentNotes[assign.id] || '';
-
-            var modal = document.getElementById('assignmentModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        };
-
-        function closeAssignmentViewer() {
-            var modal = document.getElementById('assignmentModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        window.toggleExerciseItem = function(exKey, assignId) {
-            if (state.completedExercises.has(exKey)) {
-                state.completedExercises.delete(exKey);
-                state.completedAssignments.delete(assignId);
-            } else {
-                state.completedExercises.add(exKey);
-                var assign = ASSIGNMENTS_DATA.find(function(a) { return a.id === assignId; });
-                if (assign) {
-                    var allSolved = true;
-                    for (var i = 1; i <= assign.count; i++) {
-                        if (!state.completedExercises.has(assignId + '-' + i)) {
-                            allSolved = false;
-                            break;
-                        }
-                    }
-                    if (allSolved) {
-                        state.completedAssignments.add(assignId);
-                        showToast('ممتاز! أنهيت كل تمارين التكليف #' + assignId + ' 🎉', 'success');
-                    }
-                }
-            }
-            saveState();
-            updateDashboard();
-            renderActiveTab();
-            var assignModal = document.getElementById('assignmentModal');
-            if (assignModal && !assignModal.classList.contains('hidden')) {
-                openAssignmentViewer(assignId);
-            }
-        };
-
-        window.setAssignmentFilter = function(filterVal) {
-            state.assignmentFilter = filterVal;
-            renderActiveTab();
-        };
-
-        window.setAssignmentSearch = function(queryVal) {
-            state.assignmentSearch = queryVal;
-            renderActiveTab();
-        };
-
-        window.toggleDayCompletion = function(dayNum) {
-            var scheduled = getScheduledLessons();
-            var dayLessons = scheduled.filter(function(l) { return l.dayNumber === dayNum; });
-            var allDone = dayLessons.every(function(l) { return state.completedLessons.has(l.id); });
-
-            if (allDone) {
-                dayLessons.forEach(function(l) { state.completedLessons.delete(l.id); });
-                showToast('تم إلغاء تحديد مهام اليوم ' + dayNum, 'info');
-            } else {
-                dayLessons.forEach(function(l) { state.completedLessons.add(l.id); });
-                showToast('ممتاز! أنجزت جميع دروس اليوم ' + dayNum + ' 🎉', 'success');
-            }
-            saveState();
-            updateDashboard();
-            renderActiveTab();
-        };
-
-        window.toggleDayCollapse = function(dayNum) {
-            if (state.collapsedDays.has(dayNum)) {
-                state.collapsedDays.delete(dayNum);
-            } else {
-                state.collapsedDays.add(dayNum);
-            }
-            renderActiveTab();
-        };
-
-        window.toggleAssignment = function(assignId) {
-            if (state.completedAssignments.has(assignId)) {
-                state.completedAssignments.delete(assignId);
-            } else {
-                state.completedAssignments.add(assignId);
-                showToast('أحسنت! تم تسجيل إنجاز التكليف العملي #' + assignId + ' 💻', 'success');
-            }
-            saveState();
-            updateDashboard();
-            renderActiveTab();
-        };
-
-        window.openNoteModal = function(lessonId) {
-            var lesson = RAW_LESSONS.find(function(l) { return l.id === lessonId; });
-            if (!lesson) return;
-            state.activeNoteLessonId = lessonId;
-            document.getElementById('noteLessonTitle').textContent = '#' + String(lesson.id).padStart(3, '0') + ' — ' + lesson.title;
-            document.getElementById('noteTextarea').value = state.notes[lessonId] || '';
-            var modal = document.getElementById('noteModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.getElementById('noteTextarea').focus();
-        };
-
-        function closeNoteModal() {
-            var modal = document.getElementById('noteModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            state.activeNoteLessonId = null;
-        }
-
-        window.resetFilters = function() {
-            state.currentFilter = 'all';
-            state.searchQuery = '';
-            document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.filter-btn').forEach(function(b) {
-                var active = b.dataset.filter === 'all';
-                b.className = active
-                    ? 'filter-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950 transition whitespace-nowrap shadow-sm'
-                    : 'filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap';
-            });
-            renderActiveTab();
-        };
-
-        function loadYouTubeIframeAPI() {
-            try {
-                if (window.YT && window.YT.Player) {
-                    ytApiReady = true;
-                    return;
-                }
-                var tag = document.createElement('script');
-                tag.src = 'https://www.youtube.com/iframe_api';
-                document.head.appendChild(tag);
-                window.onYouTubeIframeAPIReady = function() {
-                    ytApiReady = true;
-                    if (activePlayerLessonId !== null && !isLocalMediaActive) {
-                        mountLessonInPlayer(activePlayerLessonId);
-                    }
-                };
-            } catch (_) {}
-        }
-
-        function bindAllEvents() {
-            document.getElementById('completeTodayBtn').addEventListener('click', function() {
-                var todayISO = getTodayISO();
-                var scheduled = getScheduledLessons();
-                var todayRemaining = scheduled.filter(function(l) {
-                    return l.targetDate === todayISO && !state.completedLessons.has(l.id);
-                });
-
-                if (todayRemaining.length > 0) {
-                    todayRemaining.forEach(function(l) { state.completedLessons.add(l.id); });
-                    saveState();
-                    updateDashboard();
-                    renderActiveTab();
-                    showToast('تم إتمام ' + todayRemaining.length + ' دروس من مهام اليوم 🎉', 'success');
-                } else {
-                    document.querySelector('.filter-btn[data-filter="remaining"]').click();
-                    showToast('تم عرض الدروس المتبقية في الكورس', 'info');
-                }
-            });
-
-            document.getElementById('closePlayerBtn').addEventListener('click', closeLessonPlayer);
-            document.getElementById('playerModal').addEventListener('click', function(e) {
-                if (e.target.id === 'playerModal') closeLessonPlayer();
-            });
-
-            document.getElementById('toggleAudioModeBtn').addEventListener('click', function() {
-                setAudioMode(!isAudioOnlyMode);
-                showToast(isAudioOnlyMode ? 'تم التفعيل إلى وضع الاستماع الصوتي (MP3)' : 'تم التبديل إلى وضع الفيديو', 'info');
-            });
-
-            document.getElementById('toggleFullscreenBtn').addEventListener('click', function() {
-                var dialog = document.getElementById('playerDialog');
-                try {
-                    if (!document.fullscreenElement) {
-                        if (dialog.requestFullscreen) dialog.requestFullscreen().catch(function() {});
-                    } else {
-                        if (document.exitFullscreen) document.exitFullscreen().catch(function() {});
-                    }
-                } catch (_) {
-                    dialog.classList.toggle('max-w-4xl');
-                    dialog.classList.toggle('max-w-full');
-                    dialog.classList.toggle('h-screen');
-                }
-            });
-
-            document.querySelectorAll('.speed-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    playbackRate = Number(btn.dataset.speed);
-                    document.querySelectorAll('.speed-btn').forEach(function(b) {
-                        var active = Number(b.dataset.speed) === playbackRate;
-                        b.className = active
-                            ? 'speed-btn px-2 py-1 rounded-lg text-xs font-mono font-extrabold bg-pythonBlue text-white transition'
-                            : 'speed-btn px-2 py-1 rounded-lg text-xs font-mono font-bold text-slate-600 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800 transition';
-                    });
-                    if (ytPlayerInstance && typeof ytPlayerInstance.setPlaybackRate === 'function') {
-                        try { ytPlayerInstance.setPlaybackRate(playbackRate); } catch (_) {}
-                    }
-                    document.getElementById('localAudioPlayer').playbackRate = playbackRate;
-                    document.getElementById('localVideoPlayer').playbackRate = playbackRate;
-                    showToast('سرعة التشغيل: ' + playbackRate + 'x', 'info');
-                });
-            });
-
-            document.getElementById('qualitySelect').addEventListener('change', function(e) {
-                var q = e.target.value;
-                if (ytPlayerInstance && typeof ytPlayerInstance.setPlaybackQuality === 'function' && q !== 'auto') {
-                    try { ytPlayerInstance.setPlaybackQuality(q); } catch (_) {}
-                }
-                showToast('تم ضبط الجودة على: ' + e.target.options[e.target.selectedIndex].text, 'info');
-            });
-
-            document.getElementById('audioPlayPauseBtn').addEventListener('click', function() {
-                if (isLocalMediaActive) {
-                    var mediaEl = !document.getElementById('localVideoPlayer').classList.contains('hidden')
-                        ? document.getElementById('localVideoPlayer')
-                        : document.getElementById('localAudioPlayer');
-                    if (mediaEl.paused) {
-                        mediaEl.play().catch(function() {});
-                        syncAudioPlayPauseUI(true);
-                    } else {
-                        mediaEl.pause();
-                        syncAudioPlayPauseUI(false);
-                    }
-                    return;
-                }
-                if (!ytPlayerInstance) return;
-                var stateCode = typeof ytPlayerInstance.getPlayerState === 'function' ? ytPlayerInstance.getPlayerState() : -1;
-                if (stateCode === 1) {
-                    ytPlayerInstance.pauseVideo();
-                } else {
-                    ytPlayerInstance.playVideo();
-                }
-            });
-
-            document.getElementById('audioRewindBtn').addEventListener('click', function() {
-                if (isLocalMediaActive) {
-                    var mediaEl = !document.getElementById('localVideoPlayer').classList.contains('hidden')
-                        ? document.getElementById('localVideoPlayer')
-                        : document.getElementById('localAudioPlayer');
-                    mediaEl.currentTime = Math.max(0, (mediaEl.currentTime || 0) - 10);
-                    return;
-                }
-                if (ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
-                    ytPlayerInstance.seekTo(Math.max(0, ytPlayerInstance.getCurrentTime() - 10), true);
-                }
-            });
-
-            document.getElementById('audioForwardBtn').addEventListener('click', function() {
-                if (isLocalMediaActive) {
-                    var mediaEl = !document.getElementById('localVideoPlayer').classList.contains('hidden')
-                        ? document.getElementById('localVideoPlayer')
-                        : document.getElementById('localAudioPlayer');
-                    mediaEl.currentTime = (mediaEl.currentTime || 0) + 10;
-                    return;
-                }
-                if (ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
-                    ytPlayerInstance.seekTo(ytPlayerInstance.getCurrentTime() + 10, true);
-                }
-            });
-
-            document.getElementById('audioSeekSlider').addEventListener('input', function(e) {
-                var pct = Number(e.target.value) / 100;
-                if (isLocalMediaActive) {
-                    var mediaEl = !document.getElementById('localVideoPlayer').classList.contains('hidden')
-                        ? document.getElementById('localVideoPlayer')
-                        : document.getElementById('localAudioPlayer');
-                    if (mediaEl.duration) mediaEl.currentTime = pct * mediaEl.duration;
-                    return;
-                }
-                if (ytPlayerInstance && typeof ytPlayerInstance.getDuration === 'function') {
-                    var dur = ytPlayerInstance.getDuration() || 1;
-                    ytPlayerInstance.seekTo(pct * dur, true);
-                }
-            });
-
-            document.getElementById('localMediaInput').addEventListener('change', function(e) {
-                var file = e.target.files[0];
-                if (!file) return;
-                var url = URL.createObjectURL(file);
-                isLocalMediaActive = true;
-
-                if (ytPlayerInstance && typeof ytPlayerInstance.destroy === 'function') {
-                    ytPlayerInstance.destroy();
-                    ytPlayerInstance = null;
-                }
-                document.getElementById('ytPlayerContainer').classList.add('hidden');
-
-                var audioEl = document.getElementById('localAudioPlayer');
-                var videoEl = document.getElementById('localVideoPlayer');
-                document.getElementById('mp3LessonTitle').textContent = 'ملف محلي: ' + file.name;
-
-                if (file.type.indexOf('video/') === 0) {
-                    audioEl.pause();
-                    videoEl.src = url;
-                    videoEl.playbackRate = playbackRate;
-                    videoEl.classList.remove('hidden');
-                    setAudioMode(false);
-                    videoEl.play().catch(function() {});
-                } else {
-                    videoEl.pause();
-                    videoEl.classList.add('hidden');
-                    audioEl.src = url;
-                    audioEl.playbackRate = playbackRate;
-                    setAudioMode(true);
-                    audioEl.play().catch(function() {});
-                }
-                showToast('تم تحميل الملف: ' + file.name, 'success');
-                e.target.value = '';
-            });
-
-            document.getElementById('prevLessonBtn').addEventListener('click', function() {
-                if (activePlayerLessonId !== null && activePlayerLessonId > 1) {
-                    window.openLessonPlayer(activePlayerLessonId - 1);
-                }
-            });
-
-            document.getElementById('nextLessonBtn').addEventListener('click', function() {
-                if (activePlayerLessonId !== null && activePlayerLessonId < RAW_LESSONS.length) {
-                    window.openLessonPlayer(activePlayerLessonId + 1);
-                }
-            });
-
-            document.getElementById('playerMarkCompleteBtn').addEventListener('click', function() {
-                if (activePlayerLessonId !== null) {
-                    window.toggleLesson(activePlayerLessonId);
-                    mountLessonInPlayer(activePlayerLessonId);
-                }
-            });
-
-            document.getElementById('closeAssignmentModalBtn').addEventListener('click', closeAssignmentViewer);
-            document.getElementById('assignmentModal').addEventListener('click', function(e) {
-                if (e.target.id === 'assignmentModal') closeAssignmentViewer();
-            });
-            document.getElementById('prevAssignmentBtn').addEventListener('click', function() {
-                var prevId = state.activeAssignmentId > 1 ? state.activeAssignmentId - 1 : ASSIGNMENTS_DATA.length;
-                window.openAssignmentViewer(prevId);
-            });
-            document.getElementById('nextAssignmentBtn').addEventListener('click', function() {
-                var nextId = state.activeAssignmentId < ASSIGNMENTS_DATA.length ? state.activeAssignmentId + 1 : 1;
-                window.openAssignmentViewer(nextId);
-            });
-            document.getElementById('assignModalToggleDoneBtn').addEventListener('click', function() {
-                window.toggleAssignment(state.activeAssignmentId);
-                window.openAssignmentViewer(state.activeAssignmentId);
-            });
-
-            document.getElementById('assignModalSolveAllBtn').addEventListener('click', function() {
-                var assign = ASSIGNMENTS_DATA.find(function(a) { return a.id === state.activeAssignmentId; });
-                if (!assign) return;
-                for (var i = 1; i <= assign.count; i++) {
-                    state.completedExercises.add(assign.id + '-' + i);
-                }
-                state.completedAssignments.add(assign.id);
-                saveState();
-                updateDashboard();
-                renderActiveTab();
-                window.openAssignmentViewer(assign.id);
-                showToast('تم تحديد جميع تمارين التكليف #' + assign.id + ' كمحلولة ✓', 'success');
-            });
-
-            document.getElementById('assignScratchpadTextarea').addEventListener('input', function(e) {
-                var id = state.activeAssignmentId;
-                var val = e.target.value;
-                if (val.trim()) {
-                    state.assignmentNotes[id] = val;
-                } else {
-                    delete state.assignmentNotes[id];
-                }
-                saveState();
-            });
-
-            document.getElementById('jumpToTodayBtn').addEventListener('click', function() {
-                if (state.activeTab !== 'days') {
-                    document.querySelector('.main-tab-btn[data-tab="days"]').click();
-                }
-                window.resetFilters();
-
-                var todayISO = getTodayISO();
-                var scheduled = getScheduledLessons();
-                var todayLesson = scheduled.find(function(l) { return l.targetDate === todayISO; });
-                var targetDayNum = todayLesson ? todayLesson.dayNumber : 1;
-
-                state.collapsedDays.delete(targetDayNum);
-                renderActiveTab();
-
-                var el = document.getElementById('day-card-' + targetDayNum);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    showToast('تم الانتقال إلى اليوم ' + targetDayNum, 'info');
-                }
-            });
-
-            document.querySelectorAll('.plan-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    state.planDays = Number(btn.dataset.days);
-                    state.collapsedDays.clear();
-                    saveState();
-                    updateDashboard();
-                    renderActiveTab();
-                    showToast('تم ضبط الخطة على ' + state.planDays + ' يوماً', 'info');
-                });
-            });
-
-            document.getElementById('startDateInput').addEventListener('change', function(e) {
-                if (e.target.value) {
-                    state.startDate = e.target.value;
-                    saveState();
-                    updateDashboard();
-                    renderActiveTab();
-                    showToast('تم تحديث تاريخ البداية وإعادة حساب المواعيد', 'info');
-                }
-            });
-
-            document.querySelectorAll('.main-tab-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.main-tab-btn').forEach(function(b) {
-                        b.className = 'main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/70 transition flex items-center justify-center gap-2';
-                    });
-                    btn.className = 'main-tab-btn flex-1 min-w-[130px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-pythonBlue text-white shadow-md shadow-pythonBlue/25 transition flex items-center justify-center gap-2';
-
-                    state.activeTab = btn.dataset.tab;
-                    renderActiveTab();
-                });
-            });
-
-            document.querySelectorAll('.filter-btn').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn').forEach(function(b) {
-                        b.className = 'filter-btn px-3.5 py-2 rounded-xl text-xs font-bold glass-subtle text-slate-700 dark:text-slate-300 hover:border-pythonBlue transition whitespace-nowrap';
-                    });
-                    btn.className = 'filter-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 dark:bg-pythonYellow text-white dark:text-slate-950 transition whitespace-nowrap shadow-sm';
-
-                    state.currentFilter = btn.dataset.filter;
-                    renderActiveTab();
-                });
-            });
-
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                state.searchQuery = e.target.value;
-                renderActiveTab();
-            });
-
-            document.getElementById('expandAllDaysBtn').addEventListener('click', function() {
-                state.collapsedDays.clear();
-                renderActiveTab();
-            });
-
-            document.getElementById('collapseAllDaysBtn').addEventListener('click', function() {
-                for (var i = 1; i <= state.planDays; i++) {
-                    state.collapsedDays.add(i);
-                }
-                renderActiveTab();
-            });
-
-            document.getElementById('themeToggleBtn').addEventListener('click', function() {
-                document.documentElement.classList.toggle('dark');
-                var isDark = document.documentElement.classList.contains('dark');
-                try { localStorage.setItem(STORAGE_KEYS.THEME, isDark ? 'dark' : 'light'); } catch (_) {}
-            });
-
-            document.getElementById('closeNoteModalBtn').addEventListener('click', closeNoteModal);
-            document.getElementById('cancelNoteBtn').addEventListener('click', closeNoteModal);
-            document.getElementById('saveNoteBtn').addEventListener('click', function() {
-                if (state.activeNoteLessonId !== null) {
-                    var val = document.getElementById('noteTextarea').value.trim();
-                    if (val) {
-                        state.notes[state.activeNoteLessonId] = val;
-                        showToast('تم حفظ الملاحظة بنجاح', 'success');
-                    } else {
-                        delete state.notes[state.activeNoteLessonId];
-                    }
-                    saveState();
-                    renderActiveTab();
-                    closeNoteModal();
-                }
-            });
-            document.getElementById('deleteNoteBtn').addEventListener('click', function() {
-                if (state.activeNoteLessonId !== null) {
-                    delete state.notes[state.activeNoteLessonId];
-                    saveState();
-                    renderActiveTab();
-                    closeNoteModal();
-                    showToast('تم حذف الملاحظة', 'info');
-                }
-            });
-
-            document.getElementById('exportBtn').addEventListener('click', function() {
-                var payload = {
-                    course: 'Elzero Mastering Python 30-Day Tracker',
-                    exportedAt: new Date().toISOString(),
-                    startDate: state.startDate,
-                    planDays: state.planDays,
-                    completedLessons: Array.from(state.completedLessons),
-                    completedAssignments: Array.from(state.completedAssignments),
-                    completedExercises: Array.from(state.completedExercises),
-                    assignmentNotes: state.assignmentNotes,
-                    notes: state.notes
-                };
-                var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-                var url = URL.createObjectURL(blob);
-                var a = document.createElement('a');
-                a.href = url;
-                a.download = 'elzero-python-backup-' + getTodayISO() + '.json';
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('تم تحميل ملف النسخة الاحتياطية بنجاح', 'success');
-            });
-
-            document.getElementById('importInput').addEventListener('change', function(e) {
-                var file = e.target.files[0];
-                if (!file) return;
-                var reader = new FileReader();
-                reader.onload = function(ev) {
-                    try {
-                        var data = JSON.parse(ev.target.result);
-                        if (Array.isArray(data.completedLessons)) state.completedLessons = new Set(data.completedLessons.map(Number));
-                        if (Array.isArray(data.completedAssignments)) state.completedAssignments = new Set(data.completedAssignments.map(Number));
-                        if (Array.isArray(data.completedExercises)) state.completedExercises = new Set(data.completedExercises.map(String));
-                        if (data.assignmentNotes && typeof data.assignmentNotes === 'object') state.assignmentNotes = data.assignmentNotes;
-                        if (data.startDate && /^\d{4}-\d{2}-\d{2}$/.test(data.startDate)) state.startDate = data.startDate;
-                        if ([30, 45, 60].indexOf(Number(data.planDays)) !== -1) state.planDays = Number(data.planDays);
-                        if (data.notes && typeof data.notes === 'object') state.notes = data.notes;
-                        saveState();
-                        updateDashboard();
-                        renderActiveTab();
-                        showToast('تمت استعادة تقدمك بنجاح!', 'success');
-                    } catch (_) {
-                        showToast('الملف غير صالح، يرجى اختيار ملف صحيح', 'warning');
-                    }
-                    e.target.value = '';
-                };
-                reader.readAsText(file);
-            });
-
-            document.getElementById('resetProgressBtn').addEventListener('click', function() {
-                showConfirm(
-                    'تصفير جميع الإنجازات؟',
-                    'سيتم حذف علامات الإنجاز لجميع الدروس والتكليفات. يمكنك حفظ نسخة احتياطية أولاً قبل التصفير.'
-                ).then(function(ok) {
-                    if (ok) {
-                        state.completedLessons.clear();
-                        state.completedAssignments.clear();
-                        state.completedExercises.clear();
-                        saveState();
-                        updateDashboard();
-                        renderActiveTab();
-                        showToast('تم تصفير التقدم بالكامل', 'info');
-                    }
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                loadState();
-                bindAllEvents();
-                updateDashboard();
-                renderActiveTab();
-                loadYouTubeIframeAPI();
-            } catch (err) {
-                console.error('Initialization error:', err);
-                var container = document.getElementById('tabContentContainer');
-                if (container) {
-                    container.innerHTML = '<div class="p-6 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-sm font-bold">حدث خطأ أثناء تحميل البيانات، يرجى إعادة تحميل الصفحة.</div>';
-                }
-            }
+      </div>
+      <div class="controls-row">
+        <select id="planDaysSelect" title="مدة الخطة">
+          <option value="30" selected>خطة 30 يوماً</option>
+          <option value="45">خطة 45 يوماً</option>
+          <option value="60">خطة 60 يوماً</option>
+        </select>
+        <input type="date" id="startDateInput" title="تاريخ البداية" />
+        <button id="exportJsonBtn">تصدير JSON</button>
+        <button id="importJsonBtn">استيراد JSON</button>
+        <input type="file" id="importFileInput" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <section class="today-card glass" id="todayCard"></section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="schedule">الجدول اليومي</button>
+      <button class="tab-btn" data-tab="lessons">كل الدروس (152)</button>
+      <button class="tab-btn" data-tab="assignments">التكليفات (#1–#26)</button>
+      <button class="tab-btn" data-tab="stats">الإحصائيات</button>
+    </nav>
+
+    <main id="tabContent" class="glass" style="padding: 18px;"></main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal glass" id="modalBox"></div>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "elzero_python_tracker_v2";
+      const TOTAL_LESSONS = 152;
+      const DEFAULT_PLAYLIST_ID = "PLDoPjvoNmBAyE_x9F6vong0eCDLeTPkO9";
+
+      const TOPICS = [
+        "المقدمة وتجهيز البيئة", "المتغيرات وأنواع البيانات", "النصوص (Strings) ودوالها",
+        "الأرقام (Numbers) والعمليات", "القوائم (Lists)", "الصفوف (Tuples)",
+        "المجموعات (Sets)", "القواميس (Dictionaries)", "العمليات المنطقية والمقارنة",
+        "إدخال المستخدم والشروط (If / Elif / Else)", "حلقات التكرار (While & For)",
+        "الدوال (Functions) و Recursion و Lambda", "التعامل مع الملفات (Files)",
+        "الدوال الجاهزة (Built-in Functions)", "الوحدات والحزم (Modules & Packages)",
+        "التاريخ والوقت ومعالجة الأخطاء", "التعابير النمطية (RegEx) و OOP",
+        "قواعد البيانات (SQLite) والمواضيع المتقدمة"
+      ];
+
+      const ASSIGNMENTS = Array.from({ length: 26 }, (_, idx) => {
+        const num = idx + 1;
+        const start = Math.min(TOTAL_LESSONS, Math.max(1, Math.round((idx * TOTAL_LESSONS) / 26) + 1));
+        const end = idx === 25 ? TOTAL_LESSONS : Math.max(start, Math.min(TOTAL_LESSONS, Math.round(((idx + 1) * TOTAL_LESSONS) / 26)));
+        const span = Math.max(1, end - start + 1);
+        const exCount = Math.min(span, 4);
+        const exercises = Array.from({ length: exCount }, (__, eIdx) => {
+          const targetLesson = Math.min(end, start + Math.floor((eIdx * span) / exCount));
+          return {
+            id: `a${num}_e${eIdx + 1}`,
+            code: `#${num} • تمرين ${eIdx + 1}`,
+            lessonId: targetLesson,
+            title: `تطبيق عملي على الدرس #${String(targetLesson).padStart(3, "0")} (تكليف #${num})`,
+            desc: `نفّذ المطلوب برمجياً على مفاهيم الدرس #${targetLesson} وتأكد من صحة المخرجات.`
+          };
         });
-    </script>
+        return {
+          num,
+          start,
+          end,
+          title: `تكليفات بايثون رقم #${num} (الدروس ${String(start).padStart(3, "0")}–${String(end).padStart(3, "0")})`,
+          url: "https://elzero.org/category/assignments/python-assignments/",
+          exercises
+        };
+      });
+
+      const LESSONS = Array.from({ length: TOTAL_LESSONS }, (_, i) => {
+        const id = i + 1;
+        const topic = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
+        return {
+          id,
+          code: `#${String(id).padStart(3, "0")}`,
+          title: `الدرس ${id}: ${topic}`,
+          topic,
+          duration: `${6 + (id % 9)}:${String((id * 7) % 60).padStart(2, "0")}`
+        };
+      });
+
+      const DEFAULT_STATE = {
+        planDays: 30,
+        startDate: new Date().toISOString().slice(0, 10),
+        activeTab: "schedule",
+        selectedDay: 1,
+        searchQuery: "",
+        completedLessons: [],
+        completedExercises: [],
+        lessonVideos: {}
+      };
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return { ...DEFAULT_STATE };
+          const parsed = JSON.parse(raw);
+          return {
+            ...DEFAULT_STATE,
+            ...parsed,
+            completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
+            completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : [],
+            lessonVideos: parsed.lessonVideos && typeof parsed.lessonVideos === "object" ? parsed.lessonVideos : {}
+          };
+        } catch (err) {
+          console.warn("Storage fallback:", err);
+          return { ...DEFAULT_STATE };
+        }
+      }
+
+      let state = loadState();
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          console.warn("Save failed:", err);
+        }
+      }
+
+      function getDayChunks() {
+        const days = Number(state.planDays) || 30;
+        const chunks = [];
+        for (let d = 1; d <= days; d++) {
+          const from = Math.floor(((d - 1) * TOTAL_LESSONS) / days) + 1;
+          const to = Math.floor((d * TOTAL_LESSONS) / days);
+          const ids = [];
+          for (let x = from; x <= to; x++) ids.push(x);
+          chunks.push({ day: d, lessonIds: ids });
+        }
+        return chunks;
+      }
+
+      function getCurrentDayNumber() {
+        const days = Number(state.planDays) || 30;
+        const start = new Date(state.startDate + "T00:00:00");
+        const now = new Date();
+        if (Number.isNaN(start.getTime())) return 1;
+        const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
+        return Math.min(days, Math.max(1, diff));
+      }
+
+      function getExercisesForLesson(lessonId) {
+        const list = [];
+        for (const a of ASSIGNMENTS) {
+          for (const ex of a.exercises) {
+            if (ex.lessonId === lessonId) {
+              list.push({ ...ex, assignmentNum: a.num, assignmentUrl: a.url, assignmentTitle: a.title });
+            }
+          }
+        }
+        return list;
+      }
+
+      function toggleLessonComplete(id) {
+        const idx = state.completedLessons.indexOf(id);
+        if (idx >= 0) state.completedLessons.splice(idx, 1);
+        else state.completedLessons.push(id);
+        saveState();
+        renderAll();
+      }
+
+      function toggleExerciseComplete(exId) {
+        const idx = state.completedExercises.indexOf(exId);
+        if (idx >= 0) state.completedExercises.splice(idx, 1);
+        else state.completedExercises.push(exId);
+        saveState();
+        renderAll();
+      }
+
+      function extractYouTubeId(url) {
+        if (!url) return "";
+        const m = url.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
+        return m ? m[1] : "";
+      }
+
+      function getLessonPlayerSrc(lessonId) {
+        const customUrl = (state.lessonVideos[lessonId] || "").trim();
+        const ytId = extractYouTubeId(customUrl);
+        if (ytId) {
+          return {
+            type: "iframe",
+            src: `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`,
+            watchUrl: customUrl
+          };
+        }
+        return {
+          type: "iframe",
+          src: `https://www.youtube.com/embed/videoseries?list=${DEFAULT_PLAYLIST_ID}&index=${Math.max(0, lessonId - 1)}&autoplay=1&rel=0`,
+          watchUrl: `https://www.youtube.com/playlist?list=${DEFAULT_PLAYLIST_ID}`
+        };
+      }
+
+      function openMediaModal(lessonId) {
+        const lesson = LESSONS.find(l => l.id === lessonId);
+        if (!lesson) return;
+        const savedUrl = state.lessonVideos[lessonId] || "";
+        const playerInfo = getLessonPlayerSrc(lessonId);
+
+        const backdrop = document.getElementById("modalBackdrop");
+        const box = document.getElementById("modalBox");
+        box.innerHTML = `
+          <div class="modal-head">
+            <div>
+              <strong>${lesson.code} — ${lesson.title}</strong>
+              <div class="muted">المدة التقديرية: ${lesson.duration} • تشغيل مباشر داخل الموقع</div>
+            </div>
+            <button id="closeModalBtn">إغلاق ✕</button>
+          </div>
+
+          <div class="media-box">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <button class="primary" id="modeVideoBtn">مشاهدة داخل الموقع</button>
+              <button id="modeAudioBtn">وضع الصوت (Audio)</button>
+              <a href="${playerInfo.watchUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
+                <button class="warn" type="button">فتح في يوتيوب ↗</button>
+              </a>
+            </div>
+
+            <div id="playerStage">
+              <iframe src="${playerInfo.src}" title="${lesson.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <div class="wave" id="waveBars">
+              ${Array.from({ length: 18 }, (_, k) => `<span style="height:${25 + ((k * 17) % 70)}%"></span>`).join("")}
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;">
+              <label class="muted">السرعة:</label>
+              <select id="speedSelect">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+              <label style="cursor:pointer;" class="muted">
+                <span style="text-decoration:underline;">أو تشغيل ملف MP4 / MP3 من جهازك</span>
+                <input type="file" id="localFileInput" accept="video/*,audio/*" hidden />
+              </label>
+            </div>
+          </div>
+
+          <div class="glass" style="padding:12px;margin-bottom:12px;">
+            <label class="muted" style="display:block;margin-bottom:6px;">تخصيص رابط فيديو مباشر لهذا الدرس (اختياري):</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="customVideoUrlInput" value="${savedUrl.replace(/"/g, "&quot;")}" placeholder="https://www.youtube.com/watch?v=..." style="flex:1;" />
+              <button class="primary" id="saveVideoUrlBtn">حفظ</button>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <button class="success" id="modalToggleDoneBtn">
+              ${state.completedLessons.includes(lesson.id) ? "✓ مكتمل (إلغاء التحديد)" : "تحديد الدرس كمكتمل"}
+            </button>
+            <div style="display:flex;gap:8px;">
+              <button id="prevLessonBtn" ${lesson.id <= 1 ? "disabled" : ""}>السابق</button>
+              <button id="nextLessonBtn" ${lesson.id >= TOTAL_LESSONS ? "disabled" : ""}>التالي</button>
+            </div>
+          </div>
+        `;
+
+        backdrop.classList.add("open");
+        backdrop.setAttribute("aria-hidden", "false");
+
+        document.getElementById("closeModalBtn").onclick = closeModal;
+        backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
+
+        document.getElementById("saveVideoUrlBtn").onclick = () => {
+          const val = document.getElementById("customVideoUrlInput").value.trim();
+          if (val) state.lessonVideos[lesson.id] = val;
+          else delete state.lessonVideos[lesson.id];
+          saveState();
+          openMediaModal(lesson.id);
+        };
+
+        document.getElementById("modalToggleDoneBtn").onclick = () => {
+          toggleLessonComplete(lesson.id);
+          openMediaModal(lesson.id);
+        };
+
+        document.getElementById("prevLessonBtn").onclick = () => openMediaModal(lesson.id - 1);
+        document.getElementById("nextLessonBtn").onclick = () => openMediaModal(lesson.id + 1);
+
+        const speedSel = document.getElementById("speedSelect");
+        speedSel.onchange = () => {
+          const mediaEl = document.querySelector("#playerStage video, #playerStage audio");
+          if (mediaEl) mediaEl.playbackRate = parseFloat(speedSel.value) || 1;
+        };
+
+        document.getElementById("localFileInput").onchange = (ev) => {
+          const file = ev.target.files && ev.target.files[0];
+          if (!file) return;
+          const blobUrl = URL.createObjectURL(file);
+          const isAudio = file.type.startsWith("audio/");
+          document.getElementById("playerStage").innerHTML = isAudio
+            ? `<audio id="localAudioEl" src="${blobUrl}" controls autoplay></audio>`
+            : `<video id="localVideoEl" src="${blobUrl}" controls autoplay></video>`;
+          const el = document.querySelector("#playerStage video, #playerStage audio");
+          if (el) el.playbackRate = parseFloat(speedSel.value) || 1;
+        };
+
+        document.getElementById("modeAudioBtn").onclick = () => {
+          document.querySelectorAll("#waveBars span").forEach((bar, i) => {
+            bar.style.height = `${20 + ((i * 23 + Date.now()) % 75)}%`;
+          });
+          const stage = document.getElementById("playerStage");
+          if (!stage.querySelector("audio")) {
+            stage.innerHTML = `<div class="muted" style="padding:20px;text-align:center;">وضع الصوت نشط — يمكنك رفع ملف MP3/MP4 من جهازك أو العودة لوضع المشاهدة.</div>`;
+          }
+        };
+
+        document.getElementById("modeVideoBtn").onclick = () => openMediaModal(lesson.id);
+      }
+
+      function closeModal() {
+        const backdrop = document.getElementById("modalBackdrop");
+        backdrop.classList.remove("open");
+        backdrop.setAttribute("aria-hidden", "true");
+        document.getElementById("modalBox").innerHTML = "";
+      }
+
+      function openAssignmentPreview(assignNum) {
+        const a = ASSIGNMENTS.find(x => x.num === assignNum);
+        if (!a) return;
+        const backdrop = document.getElementById("modalBackdrop");
+        const box = document.getElementById("modalBox");
+        box.innerHTML = `
+          <div class="modal-head">
+            <div>
+              <strong>${a.title}</strong>
+              <div class="muted">نطاق الدروس: #${String(a.start).padStart(3, "0")} إلى #${String(a.end).padStart(3, "0")}</div>
+            </div>
+            <button id="closeModalBtn">إغلاق ✕</button>
+          </div>
+          <div class="grid" style="margin-bottom:14px;">
+            ${a.exercises.map(ex => {
+              const done = state.completedExercises.includes(ex.id);
+              return `
+                <div class="sub-ex-item">
+                  <div>
+                    <span class="sub-tag">${ex.code}</span>
+                    <strong>${ex.title}</strong>
+                    <div class="muted">${ex.desc}</div>
+                  </div>
+                  <button class="${done ? "success" : ""}" data-ex-toggle="${ex.id}">${done ? "✓ محلول" : "تحديد كمحلول"}</button>
+                </div>
+              `;
+            }).join("")}
+          </div>
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;">
+              <button class="primary" type="button">فتح صفحة التكليفات ↗</button>
+            </a>
+            <button id="closeModalBtn2">تم</button>
+          </div>
+        `;
+        backdrop.classList.add("open");
+        document.getElementById("closeModalBtn").onclick = closeModal;
+        document.getElementById("closeModalBtn2").onclick = closeModal;
+        backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
+        box.querySelectorAll("[data-ex-toggle]").forEach(btn => {
+          btn.onclick = () => {
+            toggleExerciseComplete(btn.getAttribute("data-ex-toggle"));
+            openAssignmentPreview(assignNum);
+          };
+        });
+      }
+
+      function renderLessonItem(lesson) {
+        const isDone = state.completedLessons.includes(lesson.id);
+        const exercises = getExercisesForLesson(lesson.id);
+        return `
+          <div class="lesson-card">
+            <div class="lesson-main">
+              <div class="lesson-left">
+                <input type="checkbox" ${isDone ? "checked" : ""} data-lesson-check="${lesson.id}" aria-label="إتمام ${lesson.title}" />
+                <span class="badge-num">${lesson.code}</span>
+                <div>
+                  <div style="${isDone ? "text-decoration:line-through;opacity:0.7;" : "font-weight:600;"}">${lesson.title}</div>
+                  <div class="muted">${lesson.topic} • ${lesson.duration}</div>
+                </div>
+              </div>
+              <div class="lesson-actions">
+                <button class="primary" data-play-lesson="${lesson.id}">مشاهدة</button>
+                <button class="${isDone ? "success" : ""}" data-lesson-check="${lesson.id}">${isDone ? "مكتمل" : "إتمام"}</button>
+              </div>
+            </div>
+
+            ${exercises.length ? `
+              <div class="sub-ex-list">
+                ${exercises.map(ex => {
+                  const exDone = state.completedExercises.includes(ex.id);
+                  return `
+                    <div class="sub-ex-item">
+                      <div>
+                        <input type="checkbox" ${exDone ? "checked" : ""} data-ex-check="${ex.id}" />
+                        <span class="sub-tag">${ex.code}</span>
+                        <span style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${ex.title}</span>
+                      </div>
+                      <div style="display:flex;gap:6px;">
+                        <button data-preview-assign="${ex.assignmentNum}">معاينة</button>
+                        <a href="${ex.assignmentUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
+                          <button type="button">الرابط ↗</button>
+                        </a>
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }
+
+      function renderTodayCard() {
+        const chunks = getDayChunks();
+        const todayNum = getCurrentDayNumber();
+        const todayChunk = chunks.find(c => c.day === todayNum) || chunks[0];
+        const doneCount = state.completedLessons.length;
+        const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
+
+        document.getElementById("todayCard").innerHTML = `
+          <div class="today-head">
+            <div>
+              <h2>مهام اليوم — اليوم ${todayNum} من ${state.planDays}</h2>
+              <div class="muted">دروس اليوم: ${todayChunk.lessonIds.map(id => "#" + String(id).padStart(3, "0")).join(" ، ")}</div>
+            </div>
+            <button class="success" id="completeTodayBtn">إتمام مهام اليوم ✓</button>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+          <div class="muted">الإنجاز الكلي: ${doneCount} من ${TOTAL_LESSONS} درس (${pct}%) • التمارين المحلولة: ${state.completedExercises.length}</div>
+        `;
+
+        document.getElementById("completeTodayBtn").onclick = () => {
+          todayChunk.lessonIds.forEach(id => {
+            if (!state.completedLessons.includes(id)) state.completedLessons.push(id);
+          });
+          saveState();
+          renderAll();
+        };
+      }
+
+      function renderTabContent() {
+        const container = document.getElementById("tabContent");
+        if (state.activeTab === "schedule") {
+          const chunks = getDayChunks();
+          const activeChunk = chunks.find(c => c.day === state.selectedDay) || chunks[0];
+          container.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+              ${chunks.map(c => `
+                <button class="${c.day === activeChunk.day ? "primary" : ""}" data-select-day="${c.day}" style="padding:6px 10px;">
+                  يوم ${c.day}
+                </button>
+              `).join("")}
+            </div>
+            <h3 style="margin-bottom:10px;">دروس اليوم ${activeChunk.day}</h3>
+            <div class="grid">
+              ${activeChunk.lessonIds.map(id => renderLessonItem(LESSONS[id - 1])).join("")}
+            </div>
+          `;
+          container.querySelectorAll("[data-select-day]").forEach(btn => {
+            btn.onclick = () => {
+              state.selectedDay = Number(btn.getAttribute("data-select-day"));
+              saveState();
+              renderTabContent();
+            };
+          });
+        } else if (state.activeTab === "lessons") {
+          const q = (state.searchQuery || "").trim().toLowerCase();
+          const filtered = LESSONS.filter(l => !q || l.title.toLowerCase().includes(q) || l.code.includes(q) || l.topic.toLowerCase().includes(q));
+          container.innerHTML = `
+            <div style="margin-bottom:14px;">
+              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث برقم الدرس أو العنوان أو الموضوع..." style="width:100%;max-width:420px;" />
+            </div>
+            <div class="grid">
+              ${filtered.map(renderLessonItem).join("") || `<div class="muted">لا توجد نتائج مطابقة.</div>`}
+            </div>
+          `;
+          document.getElementById("lessonSearchInput").oninput = (e) => {
+            state.searchQuery = e.target.value;
+            saveState();
+            renderTabContent();
+          };
+        } else if (state.activeTab === "assignments") {
+          container.innerHTML = `
+            <div class="grid">
+              ${ASSIGNMENTS.map(a => {
+                const doneEx = a.exercises.filter(e => state.completedExercises.includes(e.id)).length;
+                return `
+                  <div class="lesson-card">
+                    <div class="lesson-main">
+                      <div>
+                        <strong>${a.title}</strong>
+                        <div class="muted">التمارين الموزعة: ${doneEx} / ${a.exercises.length}</div>
+                      </div>
+                      <div style="display:flex;gap:8px;">
+                        <button data-preview-assign="${a.num}">معاينة التمارين</button>
+                        <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;">
+                          <button class="primary" type="button">فتح التكليف ↗</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `;
+        } else {
+          const totalEx = ASSIGNMENTS.reduce((acc, a) => acc + a.exercises.length, 0);
+          container.innerHTML = `
+            <div class="stats-grid">
+              <div class="glass stat-box"><div class="muted">الدروس المكتملة</div><div class="stat-val">${state.completedLessons.length} / ${TOTAL_LESSONS}</div></div>
+              <div class="glass stat-box"><div class="muted">التمارين المحلولة</div><div class="stat-val">${state.completedExercises.length} / ${totalEx}</div></div>
+              <div class="glass stat-box"><div class="muted">روابط الفيديو المخصصة</div><div class="stat-val">${Object.keys(state.lessonVideos).length}</div></div>
+              <div class="glass stat-box"><div class="muted">مدة الخطة الحالية</div><div class="stat-val">${state.planDays} يوم</div></div>
+            </div>
+          `;
+        }
+
+        container.querySelectorAll("[data-lesson-check]").forEach(el => {
+          el.onclick = () => toggleLessonComplete(Number(el.getAttribute("data-lesson-check")));
+        });
+        container.querySelectorAll("[data-play-lesson]").forEach(el => {
+          el.onclick = () => openMediaModal(Number(el.getAttribute("data-play-lesson")));
+        });
+        container.querySelectorAll("[data-ex-check]").forEach(el => {
+          el.onclick = () => toggleExerciseComplete(el.getAttribute("data-ex-check"));
+        });
+        container.querySelectorAll("[data-preview-assign]").forEach(el => {
+          el.onclick = () => openAssignmentPreview(Number(el.getAttribute("data-preview-assign")));
+        });
+      }
+
+      function renderAll() {
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-tab") === state.activeTab);
+        });
+        document.getElementById("planDaysSelect").value = String(state.planDays);
+        document.getElementById("startDateInput").value = state.startDate;
+        renderTodayCard();
+        renderTabContent();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        try {
+          document.querySelectorAll(".tab-btn").forEach(btn => {
+            btn.onclick = () => {
+              state.activeTab = btn.getAttribute("data-tab");
+              saveState();
+              renderAll();
+            };
+          });
+
+          document.getElementById("planDaysSelect").onchange = (e) => {
+            state.planDays = Number(e.target.value) || 30;
+            state.selectedDay = 1;
+            saveState();
+            renderAll();
+          };
+
+          document.getElementById("startDateInput").onchange = (e) => {
+            if (e.target.value) {
+              state.startDate = e.target.value;
+              saveState();
+              renderAll();
+            }
+          };
+
+          document.getElementById("exportJsonBtn").onclick = () => {
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "python-tracker-backup.json";
+            a.click();
+          };
+
+          const fileInput = document.getElementById("importFileInput");
+          document.getElementById("importJsonBtn").onclick = () => fileInput.click();
+          fileInput.onchange = (e) => {
+            const f = e.target.files && e.target.files[0];
+            if (!f) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              try {
+                const imported = JSON.parse(String(reader.result || "{}"));
+                state = { ...DEFAULT_STATE, ...imported };
+                saveState();
+                renderAll();
+              } catch {
+                alert("ملف JSON غير صالح");
+              }
+            };
+            reader.readAsText(f);
+          };
+
+          renderAll();
+        } catch (err) {
+          console.error("Init error:", err);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
