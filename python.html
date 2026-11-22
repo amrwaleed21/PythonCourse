@@ -286,6 +286,15 @@
       gap: 10px;
     }
 
+    .lesson-en-title {
+      direction: ltr;
+      text-align: right;
+      font-size: 0.8rem;
+      color: #7dd3fc;
+      font-family: Consolas, "Courier New", monospace;
+      margin-top: 2px;
+    }
+
     .badge-num {
       background: rgba(37, 99, 235, 0.24);
       border: 1px solid rgba(96, 165, 250, 0.3);
@@ -302,37 +311,24 @@
       gap: 8px;
     }
 
-    .sub-ex-list {
+    .lesson-task-box {
       margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(148, 163, 184, 0.18);
-      display: grid;
-      gap: 8px;
-    }
-
-    .sub-ex-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
       padding: 12px 13px;
       border-radius: 12px;
       background: rgba(250, 204, 21, 0.06);
       border: 1px solid rgba(250, 204, 21, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       font-size: 0.86rem;
     }
 
-    .sub-ex-top {
+    .lesson-task-top {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-    }
-
-    .sub-ex-btns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
     }
 
     .sub-tag {
@@ -585,7 +581,7 @@
         </div>
         <div>
           <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
-          <p>152 درساً + نص التكاليف والحلول لكل تمرين</p>
+          <p>152 درساً بالعربي والإنجليزي + تكليف تطبيقي وحل لكل درس</p>
         </div>
       </div>
       <div class="controls-row">
@@ -606,7 +602,7 @@
     <nav class="tabs" role="tablist">
       <button class="tab-btn active" data-tab="today">مهام اليوم</button>
       <button class="tab-btn" data-tab="lessons">كل الدروس (152)</button>
-      <button class="tab-btn" data-tab="assignments">التكليفات (#1–#26)</button>
+      <button class="tab-btn" data-tab="tasks">التكليفات العملية</button>
       <button class="tab-btn" data-tab="stats">الإحصائيات</button>
     </nav>
 
@@ -619,205 +615,127 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v7";
+      const STORAGE_KEY = "elzero_python_navy_v8";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
       const TOPICS = [
-        "المقدمة وتجهيز البيئة",
-        "المتغيرات وأنواع البيانات",
-        "النصوص (Strings) ودوالها",
-        "الأرقام (Numbers) والعمليات الحسابية",
-        "القوائم (Lists) ودوالها",
-        "الصفوف (Tuples) والمجموعات (Sets)",
-        "القواميس (Dictionaries)",
-        "العمليات المنطقية والمقارنة",
-        "إدخال المستخدم والشروط (If / Elif / Else)",
-        "حلقات التكرار (While & For Loop)",
-        "الدوال (Functions) و Recursion و Lambda",
-        "التعامل مع الملفات (File Handling)",
-        "الدوال الجاهزة (Built-in Functions)",
-        "الوحدات والحزم (Modules & Packages)",
-        "التاريخ والوقت ومعالجة الأخطاء",
-        "التعابير النمطية (Regular Expressions)",
-        "البرمجة كائنية التوجه (OOP)",
-        "قواعد البيانات (SQLite) والمواضيع المتقدمة"
+        { ar: "المقدمة وتجهيز البيئة", en: "Introduction And Setup" },
+        { ar: "المتغيرات وأنواع البيانات", en: "Variables And Data Types" },
+        { ar: "النصوص (Strings) ودوالها", en: "Strings And Methods" },
+        { ar: "الأرقام (Numbers) والعمليات الحسابية", en: "Numbers And Arithmetic" },
+        { ar: "القوائم (Lists) ودوالها", en: "Lists And Methods" },
+        { ar: "الصفوف (Tuples) والمجموعات (Sets)", en: "Tuples And Sets" },
+        { ar: "القواميس (Dictionaries)", en: "Dictionaries And Methods" },
+        { ar: "العمليات المنطقية والمقارنة", en: "Boolean And Comparison Operators" },
+        { ar: "إدخال المستخدم والشروط (If / Elif / Else)", en: "User Input And Control Flow" },
+        { ar: "حلقات التكرار (While & For Loop)", en: "Loops: While And For" },
+        { ar: "الدوال (Functions) و Recursion و Lambda", en: "Functions, Recursion And Lambda" },
+        { ar: "التعامل مع الملفات (File Handling)", en: "Files Handling Read And Write" },
+        { ar: "الدوال الجاهزة (Built-in Functions)", en: "Built-In Functions" },
+        { ar: "الوحدات والحزم (Modules & Packages)", en: "Modules And Packages" },
+        { ar: "التاريخ والوقت ومعالجة الأخطاء", en: "Date, Time And Exceptions" },
+        { ar: "التعابير النمطية (Regular Expressions)", en: "Regular Expressions (RegEx)" },
+        { ar: "البرمجة كائنية التوجه (OOP)", en: "Object Oriented Programming (OOP)" },
+        { ar: "قواعد البيانات (SQLite) والمواضيع المتقدمة", en: "Databases (SQLite) And Advanced Topics" }
       ];
 
-      const LESSON_TITLES_FIRST = {
-        1: "مقدمة وماذا ستتعلم في الدورة",
-        2: "ما هي لغة Python ولماذا تتعلمها",
-        3: "تثبيت بايثون وتجهيز محرر الأكواد",
-        4: "كتابة أول كود والتعامل مع التعليقات",
-        5: "التعامل مع البيانات وأنواعها (Data Types)",
-        6: "المتغيرات (Variables) — الجزء الأول",
-        7: "المتغيرات (Variables) — الجزء الثاني",
-        8: "التسلسل والـ Escape Sequences",
-        9: "دمج النصوص (Concatenation) والتدريب",
-        10: "النصوص (Strings) — الجزء الأول"
+      const FIRST_LESSONS_META = {
+        1: { ar: "مقدمة وماذا ستتعلم في الدورة", en: "Introduction And What I Will Learn" },
+        2: { ar: "ما هي لغة Python ولماذا تتعلمها", en: "What Is Python And Why Learn It" },
+        3: { ar: "تثبيت بايثون وتجهيز محرر الأكواد", en: "Install Python And Code Editor" },
+        4: { ar: "كتابة أول كود والتعامل مع التعليقات", en: "First Code And Comments" },
+        5: { ar: "التعامل مع البيانات وأنواعها", en: "Data Types Overview" },
+        6: { ar: "المتغيرات — الجزء الأول", en: "Variables Part 1" },
+        7: { ar: "المتغيرات — الجزء الثاني", en: "Variables Part 2" },
+        8: { ar: "التسلسل والـ Escape Sequences", en: "Escape Sequences Characters" },
+        9: { ar: "دمج النصوص والتدريب", en: "Concatenation And Training" },
+        10: { ar: "النصوص — الجزء الأول", en: "Strings Part 1" }
       };
 
-      const ASSIGNMENT_ITEMS_BY_NUM = {
-        1: [
-          {
-            prompt: "المطلوب: أنشئ ملف Python جديد واكتب تعليقات من سطر واحد ومتعددة الأسطر توضح اسمك وتاريخ بدء الكورس.",
-            solution: `# Name: Amr\n# Start Date: 2026\n"""\nMastering Python Course\nAssignment #1 - Exercise 1\n"""\nprint("Setup Ready!")`
-          },
-          {
-            prompt: "المطلوب: اطبع رسالة ترحيبية بكلمة Python باستخدام دالة print() وتأكد من عمل الكود بدون أخطاء.",
-            solution: `print("Hello Python")\nprint("I Love Programming With Python")`
-          },
-          {
-            prompt: "المطلوب: جرّب طباعة عدة أسطر في أمر واحد أو أوامر متتالية وقارن بين المخرجات.",
-            solution: `print("Line One\\nLine Two\\nLine Three")`
-          },
-          {
-            prompt: "المطلوب: تأكد من تشغيل الكود داخل محرر الأكواد (VS Code) أو الطرفية وعرض النتيجة بوضوح.",
-            solution: `name = "Amr"\ncourse = "Mastering Python"\nprint(f"Student: {name} | Course: {course}")`
-          }
-        ],
-        2: [
-          {
-            prompt: "المطلوب: عرّف متغيرات لاسمك وعمرك وبلدك ثم اطبعهم في جملة منظمة باستخدام المتغيرات.",
-            solution: `name = "Amr"\nage = "17"\ncountry = "Egypt"\nprint("Name: " + name + "\\nAge: " + age + "\\nCountry: " + country)`
-          },
-          {
-            prompt: "المطلوب: استخدم دالة type() لطباعة نوع البيانات لكل متغير (str, int, float, list, dict).",
-            solution: `a = "Python"\nb = 100\nc = 15.5\nd = [1, 2, 3]\ne = {"lang": "Python"}\nprint(type(a), type(b), type(c), type(d), type(e))`
-          },
-          {
-            prompt: "المطلوب: اختبر قواعد تسمية المتغيرات الصحيحة والأسماء غير المسموحة واكتب ملاحظاتك.",
-            solution: `user_name = "Amr"   # Valid snake_case\n_private_val = 10   # Valid\n# 1user = "No"      # Invalid: cannot start with number`
-          },
-          {
-            prompt: "المطلوب: عدّل قيمة متغير بعد تعريفه وأعد طباعته لتتبع تغير القيمة في الذاكرة.",
-            solution: `score = 50\nprint("Before:", score)\nscore = 95\nprint("After:", score)`
-          }
-        ],
-        3: [
-          {
-            prompt: "المطلوب: استخدم Escape Sequences مثل \\n و \\t و \\\" لطباعة نص منسق على عدة أسطر.",
-            solution: `print("Hello \\"Elzero\\" \\\\ \\nWe Love \\tPython")`
-          },
-          {
-            prompt: "المطلوب: ادمج نصوصاً باستخدام + وتأكد من عدم حدوث خطأ TypeError عند دمج نص مع رقم.",
-            solution: `name = "Amr"\nage = 17\nprint("My Name Is " + name + " And My Age Is " + str(age))`
-          },
-          {
-            prompt: "المطلوب: استخدم الفهرسة (Indexing) والتقطيع (Slicing) لاستخراج أجزاء محددة من نص.",
-            solution: `msg = "Elzero Web School"\nprint(msg[0])      # E\nprint(msg[-1])     # l\nprint(msg[0:6])    # Elzero`
-          },
-          {
-            prompt: "المطلوب: طبّق دوال النصوص مثل upper(), lower(), strip(), split(), replace() على نص تجريبي.",
-            solution: `txt = "   i love python   "\nprint(txt.strip().title())\nprint(txt.strip().replace("python", "Python 3"))`
-          }
-        ],
-        4: [
-          {
-            prompt: "المطلوب: نفّذ العمليات الحسابية (+, -, *, /, //, %, **) على أعداد صحيحة وعشرية.",
-            solution: `print(10 + 5)\nprint(17 // 3)   # Floor Division -> 5\nprint(17 % 3)    # Modulus -> 2\nprint(2 ** 4)    # Power -> 16`
-          },
-          {
-            prompt: "المطلوب: استخدم دالة round() و abs() و pow() ولاحظ الفرق بين القسمة العادية والرقمية.",
-            solution: `print(round(12.678, 2))\nprint(abs(-45))\nprint(pow(3, 3))`
-          },
-          {
-            prompt: "المطلوب: اكتب برنامجاً بسيطاً يحسب ناتج تعبير رياضي مع مراعاة أولويات العمليات.",
-            solution: `result = (10 + 20) * 3 / 2 ** 2\nprint("Result =", result)`
-          }
-        ],
-        5: [
-          {
-            prompt: "المطلوب: أنشئ قائمة (List) تحتوي على عناصر متنوعة وعدّل عنصراً وأضف عنصراً جديداً.",
-            solution: `langs = ["Python", "JS", "C++"]\nlangs[1] = "JavaScript"\nlangs.append("SQL")\nprint(langs)`
-          },
-          {
-            prompt: "المطلوب: استخدم append(), insert(), remove(), pop(), sort(), reverse() على القائمة.",
-            solution: `nums = [40, 10, 30, 20]\nnums.append(50)\nnums.insert(0, 5)\nnums.sort()\nprint(nums)`
-          },
-          {
-            prompt: "المطلوب: نفّذ التقطيع (Slicing) على القائمة واستخرج عناصر من البداية والنهاية.",
-            solution: `items = ["A", "B", "C", "D", "E"]\nprint(items[:3])\nprint(items[-2:])`
-          }
-        ]
-      };
-
-      const TOPIC_SOLUTIONS = {
-        "الصفوف (Tuples) والمجموعات (Sets)": `my_tuple = ("Python", "Django", "Flask")\nmy_set = {1, 2, 2, 3, 4}\nprint(my_tuple[0])\nprint(my_set)  # {1, 2, 3, 4}`,
-        "القواميس (Dictionaries)": `student = {\n  "name": "Amr",\n  "track": "Python",\n  "progress": 100\n}\nstudent["level"] = "Advanced"\nprint(student.get("track"))`,
-        "العمليات المنطقية والمقارنة": `a, b = 15, 20\nprint(a < b and b == 20)\nprint(not (a > b))`,
-        "إدخال المستخدم والشروط (If / Elif / Else)": `age = 17\nif age >= 18:\n    print("Eligible")\nelif age >= 16:\n    print("Almost Eligible")\nelse:\n    print("Underage")`,
-        "حلقات التكرار (While & For Loop)": `for num in range(1, 6):\n    if num == 3:\n        continue\n    print(f"Number: {num}")`,
-        "الدوال (Functions) و Recursion و Lambda": `def greet(user, lang="Python"):\n    return f"Hello {user}, Welcome to {lang}"\n\nsquare = lambda x: x * x\nprint(greet("Amr"))\nprint(square(6))`,
-        "التعامل مع الملفات (File Handling)": `with open("notes.txt", "w", encoding="utf-8") as f:\n    f.write("Mastering Python Notes\\n")\n\nwith open("notes.txt", "r", encoding="utf-8") as f:\n    print(f.read())`,
-        "الدوال الجاهزة (Built-in Functions)": `nums = [1, 2, 3, 4, 5]\ndoubled = list(map(lambda n: n * 2, nums))\nevens = list(filter(lambda n: n % 2 == 0, nums))\nprint(doubled, evens)`,
-        "الوحدات والحزم (Modules & Packages)": `import math, random\nprint(math.sqrt(64))\nprint(random.randint(1, 100))`,
-        "التاريخ والوقت ومعالجة الأخطاء": `from datetime import datetime\ntry:\n    print("Today:", datetime.now().strftime("%Y-%m-%d"))\n    val = int("123")\nexcept ValueError:\n    print("Invalid Number")`,
-        "التعابير النمطية (Regular Expressions)": `import re\ntext = "Order #450 confirmed"\nmatch = re.search(r"#(\\d+)", text)\nif match:\n    print("Order ID:", match.group(1))`,
-        "البرمجة كائنية التوجه (OOP)": `class Developer:\n    def __init__(self, name, skill):\n        self.name = name\n        self.skill = skill\n\n    def info(self):\n        return f"{self.name} -> {self.skill}"\n\ndev = Developer("Amr", "Python")\nprint(dev.info())`,
-        "قواعد البيانات (SQLite) والمواضيع المتقدمة": `import sqlite3\ndb = sqlite3.connect(":memory:")\ncr = db.cursor()\ncr.execute("CREATE TABLE users (id INTEGER, name TEXT)")\ncr.execute("INSERT INTO users VALUES (1, 'Amr')")\nprint(cr.execute("SELECT * FROM users").fetchall())\ndb.close()`
-      };
-
-      function buildExerciseData(num, eIdx, targetLesson, topic) {
-        const customList = ASSIGNMENT_ITEMS_BY_NUM[num];
-        if (customList && customList[eIdx % customList.length]) {
-          return customList[eIdx % customList.length];
+      function buildLessonExercise(id, titleAr, titleEn, topicAr, topicEn) {
+        if (id === 1) {
+          return {
+            prompt: "تطبيق الدرس #001: اكتب تعليقاً متعدد الأسطر في أعلى ملف بايثون يوضح هدفك من الكورس، ثم اطبع رسالة ترحيبية ببداية رحلتك.",
+            solution: `"""\nCourse: Mastering Python\nGoal: Learn Python from scratch and build real projects\n"""\nprint("Welcome to Mastering Python!")`
+          };
         }
-        const sol = TOPIC_SOLUTIONS[topic] || `# حل تمرين ${eIdx + 1} - تكليف #${num}\nlesson_num = ${targetLesson}\nprint(f"Completed Exercise ${eIdx + 1} for Lesson #{lesson_num:03d}")`;
+        if (id === 2) {
+          return {
+            prompt: "تطبيق الدرس #002: عرّف متغيراً يمثل مجالك المفضل مع بايثون (مثل Web أو Data أو Automation) واطبع جملة توضح لماذا اخترت بايثون.",
+            solution: `field = "Backend & Automation"\nprint(f"I chose Python because of its clarity and strength in {field}.")`
+          };
+        }
+        if (id === 3) {
+          return {
+            prompt: "تطبيق الدرس #003: اكتب برنامجاً صغيراً يطبع اسم البيئة التي تعمل عليها حالياً ورسالة تؤكد جاهزية المترجم لتشغيل الكود.",
+            solution: `editor = "VS Code"\nprint("Environment ready on:", editor)`
+          };
+        }
+        if (id === 4) {
+          return {
+            prompt: "تطبيق الدرس #004: اكتب سطراً برمجياً يطبع عبارة واضحة، وأضف تعليقاً بجانبه يشرح ماذا يفعل السطر وتجاهله عند التنفيذ.",
+            solution: `# Print a clear status message to the console\nprint("Step 4 completed successfully")`
+          };
+        }
+        if (id === 5) {
+          return {
+            prompt: "تطبيق الدرس #005: أنشئ متغيرات من أنواع مختلفة (نص، عدد صحيح، عدد عشري، قائمة، قاموس) واطبع نوع كل منها باستخدام type().",
+            solution: `s = "Python"\ni = 10\nf = 3.5\nl = [1, 2]\nd = {"key": "value"}\nfor item in (s, i, f, l, d):\n    print(item, "->", type(item))`
+          };
+        }
+        if (id === 6 || id === 7) {
+          return {
+            prompt: `تطبيق الدرس #${String(id).padStart(3, "0")}: عرّف متغيرات باسمك ومستواك وعدّل قيمة أحدها ثم اطبع القيمة القديمة والجديدة.`,
+            solution: `student_name = "Amr"\nlevel = "Beginner"\nprint("Initial:", student_name, level)\nlevel = "Practicing"\nprint("Updated:", student_name, level)`
+          };
+        }
+        if (id === 8) {
+          return {
+            prompt: "تطبيق الدرس #008: استخدم رموز الهروب (\\n و \\t و \\\") لطباعة نص منسق يظهر في سطرين مع مسافة جدولة.",
+            solution: `print("Line 1:\\t\\"Python\\"\\\\Basics")\nprint("Line 2:\\tReady to practice")`
+          };
+        }
+        if (id === 9) {
+          return {
+            prompt: "تطبيق الدرس #009: ادمج نصاً مع متغير رقمي باستخدام str() واطبع جملة كاملة دون أي أخطاء نوع بيانات.",
+            solution: `course_lessons = 152\nmessage = "Total lessons in course: " + str(course_lessons)\nprint(message)`
+          };
+        }
+        if (id === 10) {
+          return {
+            prompt: "تطبيق الدرس #010: خزّن جملة نصية في متغير واستخرج أول حرف وآخر حرف وجزءاً من منتصف النص باستخدام الفهرسة والتقطيع.",
+            solution: `text = "Mastering Python Course"\nprint("First:", text[0])\nprint("Last:", text[-1])\nprint("Slice:", text[0:9])`
+          };
+        }
+
         return {
-          prompt: `المطلوب في تكليف #${num} (تمرين ${eIdx + 1}): طبّق مفاهيم "${topic}" الخاصة بالدرس #${String(targetLesson).padStart(3, "0")} واكتب كود بايثون يختبر الفكرة عملياً ويطبع النتيجة.`,
-          solution: sol
+          prompt: `تطبيق الدرس #${String(id).padStart(3, "0")} (${titleAr}): اكتب كود بايثون يطبّق فكرة "${topicAr} (${topicEn})" بشكل عملي ويطبع النتيجة.`,
+          solution: `# Lesson #${String(id).padStart(3, "0")} - ${titleEn}\ntopic = "${topicEn}"\nresult = f"Practicing ${topic} (Lesson #${id})"\nprint(result)`
         };
       }
 
-      const ASSIGNMENT_EXERCISE_COUNTS = {
-        1: 4, 2: 4, 3: 4, 4: 3, 5: 3, 6: 3, 7: 4, 8: 3, 9: 3, 10: 3,
-        11: 4, 12: 3, 13: 2, 14: 3, 15: 3, 16: 2, 17: 4, 18: 3, 19: 3, 20: 4,
-        21: 4, 22: 4, 23: 4, 24: 3, 25: 4, 26: 4
-      };
-
       const LESSONS = Array.from({ length: TOTAL_LESSONS }, (_, i) => {
         const id = i + 1;
-        const topic = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
-        const customTitle = LESSON_TITLES_FIRST[id] || `${topic} — الدرس ${id}`;
+        const topicObj = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
+        const meta = FIRST_LESSONS_META[id];
+        const titleAr = meta ? meta.ar : `${topicObj.ar} — درس ${id}`;
+        const titleEn = meta ? meta.en : `${topicObj.en} - Lesson ${id}`;
+        const exercise = buildLessonExercise(id, titleAr, titleEn, topicObj.ar, topicObj.en);
+
         return {
           id,
           code: `#${String(id).padStart(3, "0")}`,
-          title: customTitle,
-          topic,
+          titleAr,
+          titleEn,
+          topicAr: topicObj.ar,
+          topicEn: topicObj.en,
           duration: `${7 + (id % 8)}:${String((id * 11) % 60).padStart(2, "0")}`,
-          playlistIndex: i
-        };
-      });
-
-      const ASSIGNMENTS = Array.from({ length: 26 }, (_, idx) => {
-        const num = idx + 1;
-        const start = idx === 0 ? 1 : Math.min(TOTAL_LESSONS, Math.round((idx * TOTAL_LESSONS) / 26) + 1);
-        const end = idx === 25 ? TOTAL_LESSONS : Math.max(start, Math.min(TOTAL_LESSONS, Math.round(((idx + 1) * TOTAL_LESSONS) / 26)));
-        const span = Math.max(1, end - start + 1);
-        const exCount = ASSIGNMENT_EXERCISE_COUNTS[num] || 3;
-
-        const exercises = Array.from({ length: exCount }, (__, eIdx) => {
-          const targetLesson = Math.min(end, start + Math.floor((eIdx * span) / exCount));
-          const lessonObj = LESSONS[targetLesson - 1];
-          const itemData = buildExerciseData(num, eIdx, targetLesson, lessonObj.topic);
-          return {
-            id: `a${num}_e${eIdx + 1}`,
-            code: `#${num} • تمرين ${eIdx + 1}`,
-            lessonId: targetLesson,
-            title: `تكليف #${num} — تمرين ${eIdx + 1} (الدرس #${String(targetLesson).padStart(3, "0")})`,
-            prompt: itemData.prompt,
-            solution: itemData.solution
-          };
-        });
-
-        return {
-          num,
-          start,
-          end,
-          title: `تكليف #${num} (الدروس ${String(start).padStart(3, "0")}–${String(end).padStart(3, "0")})`,
-          summary: `مجموعة تمارين عملية تغطي الدروس من #${String(start).padStart(3, "0")} إلى #${String(end).padStart(3, "0")}.`,
-          exercises
+          playlistIndex: i,
+          exerciseId: `ex_lesson_${id}`,
+          exerciseTitle: `تكليف الدرس #${String(id).padStart(3, "0")}`,
+          prompt: exercise.prompt,
+          solution: exercise.solution
         };
       });
 
@@ -849,7 +767,7 @@
       }
 
       let state = loadState();
-      let openSolutions = {}; // runtime toggle map for visible solutions
+      let openSolutions = {};
 
       function saveState() {
         try {
@@ -887,18 +805,6 @@
         if (Number.isNaN(start.getTime())) return 1;
         const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
         return Math.min(days, Math.max(1, diff));
-      }
-
-      function getExercisesForLesson(lessonId) {
-        const list = [];
-        for (const a of ASSIGNMENTS) {
-          for (const ex of a.exercises) {
-            if (ex.lessonId === lessonId) {
-              list.push({ ...ex, assignmentNum: a.num });
-            }
-          }
-        }
-        return list;
       }
 
       function toggleLessonComplete(id) {
@@ -959,13 +865,14 @@
             </div>
           </div>
 
-          <h3 style="margin-bottom:12px;font-size:1.08rem;">${lesson.title}</h3>
+          <h3 style="font-size:1.08rem;">${lesson.titleAr}</h3>
+          <div class="lesson-en-title" style="margin-bottom:12px;">${lesson.titleEn}</div>
 
           <div class="player-viewport" id="playerViewport">
             <iframe
               id="ytEmbedFrame"
               src="${embedSrc}"
-              title="${lesson.title}"
+              title="${lesson.titleAr}"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
@@ -1091,70 +998,67 @@
         ytPlayer = null;
       }
 
-      function renderExerciseBlock(ex, showPreviewBtn) {
-        const exDone = state.completedExercises.includes(ex.id);
-        const isSolOpen = Boolean(openSolutions[ex.id]);
+      function renderLessonTaskBlock(lesson) {
+        const exDone = state.completedExercises.includes(lesson.exerciseId);
+        const isSolOpen = Boolean(openSolutions[lesson.exerciseId]);
         return `
-          <div class="sub-ex-item">
-            <div class="sub-ex-top">
+          <div class="lesson-task-box">
+            <div class="lesson-task-top">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                 <button
                   type="button"
                   class="check-icon-btn ex-check ${exDone ? "done" : ""}"
-                  data-ex-check="${ex.id}"
-                  title="${exDone ? "التمرين محلول — اضغط لإلغاء التفعيل" : "تفعيل أنك حليت التمرين"}"
+                  data-ex-check="${lesson.exerciseId}"
+                  title="${exDone ? "تم حل التكليف — اضغط لإلغاء التفعيل" : "تفعيل أنك حليت التكليف"}"
                   style="width:28px;height:28px;font-size:0.82rem;">
                   ${exDone ? "✓" : "○"}
                 </button>
-                <span class="sub-tag">${ex.code}</span>
-                <strong style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${ex.title}</strong>
+                <span class="sub-tag">${lesson.code}</span>
+                <strong style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${lesson.exerciseTitle}</strong>
               </div>
-              <div class="sub-ex-btns">
-                <button type="button" class="solution-btn" data-toggle-sol="${ex.id}">
-                  ${isSolOpen ? "إخفاء الحل" : "إظهار الحل"}
-                </button>
-                ${showPreviewBtn ? `<button type="button" data-preview-assign="${ex.assignmentNum}">معاينة التكليف</button>` : ""}
-              </div>
+              <button type="button" class="solution-btn" data-toggle-sol="${lesson.exerciseId}">
+                ${isSolOpen ? "إخفاء الحل" : "إظهار الحل"}
+              </button>
             </div>
-            <div class="task-prompt">${ex.prompt}</div>
-            <div class="solution-box ${isSolOpen ? "open" : ""}" id="sol_box_${ex.id}">
+            <div class="task-prompt">${lesson.prompt}</div>
+            <div class="solution-box ${isSolOpen ? "open" : ""}">
               <div class="solution-box-head">
-                <span>الحل المقترح بلغة Python</span>
-                <button type="button" data-copy-sol="${ex.id}" style="padding:3px 9px;font-size:0.75rem;">نسخ الكود</button>
+                <span>الحل بلغة Python</span>
+                <button type="button" data-copy-sol="${lesson.exerciseId}" style="padding:3px 9px;font-size:0.75rem;">نسخ الكود</button>
               </div>
-              <pre>${escapeHtml(ex.solution)}</pre>
+              <pre>${escapeHtml(lesson.solution)}</pre>
             </div>
           </div>
         `;
       }
 
-      function bindExerciseEvents(rootEl, rerenderFn) {
+      function bindCardEvents(rootEl) {
+        rootEl.querySelectorAll("[data-lesson-check]").forEach(el => {
+          el.onclick = () => toggleLessonComplete(Number(el.getAttribute("data-lesson-check")));
+        });
+
+        rootEl.querySelectorAll("[data-play-lesson]").forEach(el => {
+          el.onclick = () => openMediaModal(Number(el.getAttribute("data-play-lesson")));
+        });
+
         rootEl.querySelectorAll("[data-ex-check]").forEach(el => {
-          el.onclick = () => {
-            toggleExerciseComplete(el.getAttribute("data-ex-check"));
-            if (rerenderFn) rerenderFn();
-          };
+          el.onclick = () => toggleExerciseComplete(el.getAttribute("data-ex-check"));
         });
 
         rootEl.querySelectorAll("[data-toggle-sol]").forEach(btn => {
           btn.onclick = () => {
             const exId = btn.getAttribute("data-toggle-sol");
             openSolutions[exId] = !openSolutions[exId];
-            if (rerenderFn) rerenderFn();
-            else renderTabContent();
+            renderTabContent();
           };
         });
 
         rootEl.querySelectorAll("[data-copy-sol]").forEach(btn => {
           btn.onclick = () => {
             const exId = btn.getAttribute("data-copy-sol");
-            let foundSol = "";
-            for (const a of ASSIGNMENTS) {
-              const ex = a.exercises.find(item => item.id === exId);
-              if (ex) { foundSol = ex.solution; break; }
-            }
-            if (foundSol && navigator.clipboard) {
-              navigator.clipboard.writeText(foundSol).then(() => {
+            const found = LESSONS.find(l => l.exerciseId === exId);
+            if (found && navigator.clipboard) {
+              navigator.clipboard.writeText(found.solution).then(() => {
                 btn.textContent = "تم النسخ ✓";
                 setTimeout(() => { btn.textContent = "نسخ الكود"; }, 1400);
               }).catch(() => {});
@@ -1163,41 +1067,8 @@
         });
       }
 
-      function openAssignmentPreview(assignNum) {
-        const a = ASSIGNMENTS.find(x => x.num === assignNum);
-        if (!a) return;
-        const backdrop = document.getElementById("modalBackdrop");
-        const box = document.getElementById("modalBox");
-
-        box.innerHTML = `
-          <div class="modal-header-bar">
-            <div>
-              <strong>${a.title}</strong>
-              <div class="muted">${a.summary}</div>
-            </div>
-            <button class="icon-pill close-pill" id="closeModalBtn">✕</button>
-          </div>
-
-          <div class="grid" style="margin-bottom:14px;">
-            ${a.exercises.map(ex => renderExerciseBlock(ex, false)).join("")}
-          </div>
-
-          <div style="display:flex;justify-content:flex-end;">
-            <button class="primary" id="closeModalBtn2">إغلاق</button>
-          </div>
-        `;
-
-        backdrop.classList.add("open");
-        document.getElementById("closeModalBtn").onclick = closeModal;
-        document.getElementById("closeModalBtn2").onclick = closeModal;
-        backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
-
-        bindExerciseEvents(box, () => openAssignmentPreview(assignNum));
-      }
-
-      function renderLessonItem(lesson) {
+      function renderLessonItem(lesson, showTaskBox = true) {
         const isDone = state.completedLessons.includes(lesson.id);
-        const exercises = getExercisesForLesson(lesson.id);
         return `
           <div class="lesson-card">
             <div class="lesson-main">
@@ -1207,13 +1078,14 @@
                   class="check-icon-btn ${isDone ? "done" : ""}"
                   data-lesson-check="${lesson.id}"
                   title="${isDone ? "تم إكمال الدرس — اضغط لإلغاء التفعيل" : "تفعيل أنك خلصت الدرس"}"
-                  aria-label="تفعيل إتمام ${lesson.title}">
+                  aria-label="تفعيل إتمام ${lesson.titleAr}">
                   ${isDone ? "✓" : "○"}
                 </button>
                 <span class="badge-num">${lesson.code}</span>
                 <div>
-                  <div style="${isDone ? "text-decoration:line-through;opacity:0.65;" : "font-weight:700;"}">${lesson.title}</div>
-                  <div class="muted">${lesson.topic} • ${lesson.duration}</div>
+                  <div style="${isDone ? "text-decoration:line-through;opacity:0.65;" : "font-weight:700;"}">${lesson.titleAr}</div>
+                  <div class="lesson-en-title">${lesson.titleEn}</div>
+                  <div class="muted" style="margin-top:2px;">${lesson.topicAr} • ${lesson.duration}</div>
                 </div>
               </div>
               <div class="lesson-actions">
@@ -1223,12 +1095,7 @@
                 </button>
               </div>
             </div>
-
-            ${exercises.length ? `
-              <div class="sub-ex-list">
-                ${exercises.map(ex => renderExerciseBlock(ex, true)).join("")}
-              </div>
-            ` : ""}
+            ${showTaskBox ? renderLessonTaskBlock(lesson) : ""}
           </div>
         `;
       }
@@ -1243,7 +1110,6 @@
 
         const doneCount = state.completedLessons.length;
         const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
-        const totalEx = ASSIGNMENTS.reduce((sum, a) => sum + a.exercises.length, 0);
         const codesList = todayIds.map(id => "#" + String(id).padStart(3, "0")).join(" ، ");
 
         document.getElementById("todayCard").innerHTML = `
@@ -1259,7 +1125,7 @@
           <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
           <div class="progress-meta">
             <span>الإنجاز الكلي: <strong style="color:#f1f5f9;">${doneCount}</strong> من ${TOTAL_LESSONS} درس (${pct}%)</span>
-            <span>التمارين المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${totalEx}</span>
+            <span>التكليفات المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${TOTAL_LESSONS}</span>
           </div>
         `;
 
@@ -1281,13 +1147,17 @@
           container.innerHTML = `
             <h3 style="margin-bottom:12px;">دروس اليوم ${todayChunk.day} (${todayChunk.lessonIds.length} دروس)</h3>
             <div class="grid">
-              ${todayChunk.lessonIds.map(id => renderLessonItem(LESSONS[id - 1])).join("")}
+              ${todayChunk.lessonIds.map(id => renderLessonItem(LESSONS[id - 1], true)).join("")}
             </div>
           `;
         } else if (state.activeTab === "lessons") {
           const q = (state.searchQuery || "").trim().toLowerCase();
           const filtered = LESSONS.filter(l => {
-            const matchesQuery = !q || l.title.toLowerCase().includes(q) || l.code.includes(q) || l.topic.toLowerCase().includes(q);
+            const matchesQuery = !q
+              || l.titleAr.toLowerCase().includes(q)
+              || l.titleEn.toLowerCase().includes(q)
+              || l.code.includes(q)
+              || l.topicAr.toLowerCase().includes(q);
             const isDone = state.completedLessons.includes(l.id);
             if (state.filterMode === "completed" && !isDone) return false;
             if (state.filterMode === "pending" && isDone) return false;
@@ -1296,13 +1166,13 @@
 
           container.innerHTML = `
             <div class="filter-bar">
-              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث برقم الدرس (#001) أو العنوان أو الموضوع..." style="flex:1;min-width:240px;" />
+              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث بالعربي أو الإنجليزي أو برقم الدرس (#001)..." style="flex:1;min-width:240px;" />
               <button class="${state.filterMode === "all" ? "primary" : ""}" data-filter="all">الكل (${TOTAL_LESSONS})</button>
               <button class="${state.filterMode === "pending" ? "primary" : ""}" data-filter="pending">المتبقي (${TOTAL_LESSONS - state.completedLessons.length})</button>
               <button class="${state.filterMode === "completed" ? "primary" : ""}" data-filter="completed">المكتمل (${state.completedLessons.length})</button>
             </div>
             <div class="grid">
-              ${filtered.map(renderLessonItem).join("") || `<div class="muted" style="padding:14px;">لا توجد دروس مطابقة لبحثك.</div>`}
+              ${filtered.map(l => renderLessonItem(l, true)).join("") || `<div class="muted" style="padding:14px;">لا توجد دروس مطابقة لبحثك.</div>`}
             </div>
           `;
 
@@ -1320,49 +1190,32 @@
               renderTabContent();
             };
           });
-        } else if (state.activeTab === "assignments") {
+        } else if (state.activeTab === "tasks") {
           container.innerHTML = `
+            <h3 style="margin-bottom:12px;">جميع التكليفات العملية وحلولها (${TOTAL_LESSONS} تكليف)</h3>
             <div class="grid">
-              ${ASSIGNMENTS.map(a => {
-                const doneEx = a.exercises.filter(e => state.completedExercises.includes(e.id)).length;
-                return `
-                  <div class="lesson-card">
-                    <div class="lesson-main">
-                      <div>
-                        <strong>${a.title}</strong>
-                        <div class="muted" style="margin-top:3px;">${a.summary} • المحلول: ${doneEx} / ${a.exercises.length}</div>
-                      </div>
-                      <button class="primary" data-preview-assign="${a.num}">عرض التمارين والحلول</button>
-                    </div>
-                  </div>
-                `;
-              }).join("")}
+              ${LESSONS.map(l => `
+                <div class="lesson-card">
+                  <div style="font-weight:700;">${l.code} — ${l.titleAr}</div>
+                  <div class="lesson-en-title" style="margin-bottom:6px;">${l.titleEn}</div>
+                  ${renderLessonTaskBlock(l)}
+                </div>
+              `).join("")}
             </div>
           `;
         } else {
-          const totalEx = ASSIGNMENTS.reduce((acc, a) => acc + a.exercises.length, 0);
           const pct = Math.round((state.completedLessons.length / TOTAL_LESSONS) * 100);
           container.innerHTML = `
             <div class="stats-grid">
               <div class="glass stat-box"><div class="muted">الدروس المكتملة</div><div class="stat-val">${state.completedLessons.length} / ${TOTAL_LESSONS}</div></div>
               <div class="glass stat-box"><div class="muted">نسبة الإنجاز</div><div class="stat-val" style="color:#facc15;">${pct}%</div></div>
-              <div class="glass stat-box"><div class="muted">التمارين المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${totalEx}</div></div>
+              <div class="glass stat-box"><div class="muted">التكليفات المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${TOTAL_LESSONS}</div></div>
               <div class="glass stat-box"><div class="muted">مدة الخطة الحالية</div><div class="stat-val">${state.planDays} يوم</div></div>
             </div>
           `;
         }
 
-        container.querySelectorAll("[data-lesson-check]").forEach(el => {
-          el.onclick = () => toggleLessonComplete(Number(el.getAttribute("data-lesson-check")));
-        });
-        container.querySelectorAll("[data-play-lesson]").forEach(el => {
-          el.onclick = () => openMediaModal(Number(el.getAttribute("data-play-lesson")));
-        });
-        container.querySelectorAll("[data-preview-assign]").forEach(el => {
-          el.onclick = () => openAssignmentPreview(Number(el.getAttribute("data-preview-assign")));
-        });
-
-        bindExerciseEvents(container, null);
+        bindCardEvents(container);
       }
 
       function renderAll() {
