@@ -145,6 +145,12 @@
       color: #fff;
     }
 
+    button.solution-btn {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+
     button.youtube-btn {
       background: #e11d48;
       border-color: rgba(251, 113, 133, 0.45);
@@ -306,15 +312,27 @@
 
     .sub-ex-item {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 11px 13px;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 13px;
       border-radius: 12px;
       background: rgba(250, 204, 21, 0.06);
       border: 1px solid rgba(250, 204, 21, 0.22);
       font-size: 0.86rem;
+    }
+
+    .sub-ex-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sub-ex-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .sub-tag {
@@ -328,7 +346,6 @@
     }
 
     .task-prompt {
-      margin-top: 6px;
       color: #e2e8f0;
       font-size: 0.84rem;
       line-height: 1.55;
@@ -336,6 +353,40 @@
       padding: 8px 10px;
       border-radius: 8px;
       border-right: 3px solid #facc15;
+    }
+
+    .solution-box {
+      display: none;
+      background: #050914;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 4px;
+    }
+
+    .solution-box.open {
+      display: block;
+    }
+
+    .solution-box-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.78rem;
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+
+    .solution-box pre {
+      direction: ltr;
+      text-align: left;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.83rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: pre-wrap;
     }
 
     .modal-backdrop {
@@ -534,7 +585,7 @@
         </div>
         <div>
           <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
-          <p>152 درساً + نص التكاليف والمطلوب لكل درس</p>
+          <p>152 درساً + نص التكاليف والحلول لكل تمرين</p>
         </div>
       </div>
       <div class="controls-row">
@@ -568,7 +619,7 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v6";
+      const STORAGE_KEY = "elzero_python_navy_v7";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
@@ -606,43 +657,117 @@
         10: "النصوص (Strings) — الجزء الأول"
       };
 
-      const ASSIGNMENT_PROMPTS_BY_NUM = {
+      const ASSIGNMENT_ITEMS_BY_NUM = {
         1: [
-          "المطلوب: أنشئ ملف Python جديد واكتب تعليقات من سطر واحد ومتعددة الأسطر توضح اسمك وتاريخ بدء الكورس.",
-          "المطلوب: اطبع رسالة ترحيبية بكلمة Python باستخدام دالة print() وتأكد من عمل الكود بدون أخطاء.",
-          "المطلوب: جرّب طباعة عدة أسطر في أمر واحد أو أوامر متتالية وقارن بين المخرجات.",
-          "المطلوب: تأكد من تشغيل الكود داخل محرر الأكواد (VS Code) أو الطرفية وعرض النتيجة بوضوح."
+          {
+            prompt: "المطلوب: أنشئ ملف Python جديد واكتب تعليقات من سطر واحد ومتعددة الأسطر توضح اسمك وتاريخ بدء الكورس.",
+            solution: `# Name: Amr\n# Start Date: 2026\n"""\nMastering Python Course\nAssignment #1 - Exercise 1\n"""\nprint("Setup Ready!")`
+          },
+          {
+            prompt: "المطلوب: اطبع رسالة ترحيبية بكلمة Python باستخدام دالة print() وتأكد من عمل الكود بدون أخطاء.",
+            solution: `print("Hello Python")\nprint("I Love Programming With Python")`
+          },
+          {
+            prompt: "المطلوب: جرّب طباعة عدة أسطر في أمر واحد أو أوامر متتالية وقارن بين المخرجات.",
+            solution: `print("Line One\\nLine Two\\nLine Three")`
+          },
+          {
+            prompt: "المطلوب: تأكد من تشغيل الكود داخل محرر الأكواد (VS Code) أو الطرفية وعرض النتيجة بوضوح.",
+            solution: `name = "Amr"\ncourse = "Mastering Python"\nprint(f"Student: {name} | Course: {course}")`
+          }
         ],
         2: [
-          "المطلوب: عرّف متغيرات لاسمك وعمرك وبلدك ثم اطبعهم في جملة منظمة باستخدام المتغيرات.",
-          "المطلوب: استخدم دالة type() لطباعة نوع البيانات لكل متغير (str, int, float, list, dict).",
-          "المطلوب: اختبر قواعد تسمية المتغيرات الصحيحة والأسماء غير المسموحة واكتب ملاحظاتك.",
-          "المطلوب: عدّل قيمة متغير بعد تعريفه وأعد طباعته لتتبع تغير القيمة في الذاكرة."
+          {
+            prompt: "المطلوب: عرّف متغيرات لاسمك وعمرك وبلدك ثم اطبعهم في جملة منظمة باستخدام المتغيرات.",
+            solution: `name = "Amr"\nage = "17"\ncountry = "Egypt"\nprint("Name: " + name + "\\nAge: " + age + "\\nCountry: " + country)`
+          },
+          {
+            prompt: "المطلوب: استخدم دالة type() لطباعة نوع البيانات لكل متغير (str, int, float, list, dict).",
+            solution: `a = "Python"\nb = 100\nc = 15.5\nd = [1, 2, 3]\ne = {"lang": "Python"}\nprint(type(a), type(b), type(c), type(d), type(e))`
+          },
+          {
+            prompt: "المطلوب: اختبر قواعد تسمية المتغيرات الصحيحة والأسماء غير المسموحة واكتب ملاحظاتك.",
+            solution: `user_name = "Amr"   # Valid snake_case\n_private_val = 10   # Valid\n# 1user = "No"      # Invalid: cannot start with number`
+          },
+          {
+            prompt: "المطلوب: عدّل قيمة متغير بعد تعريفه وأعد طباعته لتتبع تغير القيمة في الذاكرة.",
+            solution: `score = 50\nprint("Before:", score)\nscore = 95\nprint("After:", score)`
+          }
         ],
         3: [
-          "المطلوب: استخدم Escape Sequences مثل \\n و \\t و \\\" لطباعة نص منسق على عدة أسطر.",
-          "المطلوب: ادمج نصوصاً باستخدام + وتأكد من عدم حدوث خطأ TypeError عند دمج نص مع رقم.",
-          "المطلوب: استخدم الفهرسة (Indexing) والتقطيع (Slicing) لاستخراج أجزاء محددة من نص.",
-          "المطلوب: طبّق دوال النصوص مثل upper(), lower(), strip(), split(), replace() على نص تجريبي."
+          {
+            prompt: "المطلوب: استخدم Escape Sequences مثل \\n و \\t و \\\" لطباعة نص منسق على عدة أسطر.",
+            solution: `print("Hello \\"Elzero\\" \\\\ \\nWe Love \\tPython")`
+          },
+          {
+            prompt: "المطلوب: ادمج نصوصاً باستخدام + وتأكد من عدم حدوث خطأ TypeError عند دمج نص مع رقم.",
+            solution: `name = "Amr"\nage = 17\nprint("My Name Is " + name + " And My Age Is " + str(age))`
+          },
+          {
+            prompt: "المطلوب: استخدم الفهرسة (Indexing) والتقطيع (Slicing) لاستخراج أجزاء محددة من نص.",
+            solution: `msg = "Elzero Web School"\nprint(msg[0])      # E\nprint(msg[-1])     # l\nprint(msg[0:6])    # Elzero`
+          },
+          {
+            prompt: "المطلوب: طبّق دوال النصوص مثل upper(), lower(), strip(), split(), replace() على نص تجريبي.",
+            solution: `txt = "   i love python   "\nprint(txt.strip().title())\nprint(txt.strip().replace("python", "Python 3"))`
+          }
         ],
         4: [
-          "المطلوب: نفّذ العمليات الحسابية (+, -, *, /, //, %, **) على أعداد صحيحة وعشرية ومركبة.",
-          "المطلوب: استخدم دالة round() و abs() و pow() ولاحظ الفرق بين القسمة العادية والرقمية.",
-          "المطلوب: اكتب برنامجاً بسيطاً يحسب ناتج تعبير رياضي مع مراعاة أولويات العمليات."
+          {
+            prompt: "المطلوب: نفّذ العمليات الحسابية (+, -, *, /, //, %, **) على أعداد صحيحة وعشرية.",
+            solution: `print(10 + 5)\nprint(17 // 3)   # Floor Division -> 5\nprint(17 % 3)    # Modulus -> 2\nprint(2 ** 4)    # Power -> 16`
+          },
+          {
+            prompt: "المطلوب: استخدم دالة round() و abs() و pow() ولاحظ الفرق بين القسمة العادية والرقمية.",
+            solution: `print(round(12.678, 2))\nprint(abs(-45))\nprint(pow(3, 3))`
+          },
+          {
+            prompt: "المطلوب: اكتب برنامجاً بسيطاً يحسب ناتج تعبير رياضي مع مراعاة أولويات العمليات.",
+            solution: `result = (10 + 20) * 3 / 2 ** 2\nprint("Result =", result)`
+          }
         ],
         5: [
-          "المطلوب: أنشئ قائمة (List) تحتوي على عناصر متنوعة وعدّل عنصراً وأضف عنصراً جديداً بطرق مختلفة.",
-          "المطلوب: استخدم append(), insert(), extend(), remove(), pop(), sort(), reverse() على القائمة.",
-          "المطلوب: نفّذ التقطيع (Slicing) على القائمة واستخرج عناصر من البداية والنهاية وبخطوات مختلفة."
+          {
+            prompt: "المطلوب: أنشئ قائمة (List) تحتوي على عناصر متنوعة وعدّل عنصراً وأضف عنصراً جديداً.",
+            solution: `langs = ["Python", "JS", "C++"]\nlangs[1] = "JavaScript"\nlangs.append("SQL")\nprint(langs)`
+          },
+          {
+            prompt: "المطلوب: استخدم append(), insert(), remove(), pop(), sort(), reverse() على القائمة.",
+            solution: `nums = [40, 10, 30, 20]\nnums.append(50)\nnums.insert(0, 5)\nnums.sort()\nprint(nums)`
+          },
+          {
+            prompt: "المطلوب: نفّذ التقطيع (Slicing) على القائمة واستخرج عناصر من البداية والنهاية.",
+            solution: `items = ["A", "B", "C", "D", "E"]\nprint(items[:3])\nprint(items[-2:])`
+          }
         ]
       };
 
-      function buildExercisePrompt(num, eIdx, targetLesson, topic) {
-        const customList = ASSIGNMENT_PROMPTS_BY_NUM[num];
+      const TOPIC_SOLUTIONS = {
+        "الصفوف (Tuples) والمجموعات (Sets)": `my_tuple = ("Python", "Django", "Flask")\nmy_set = {1, 2, 2, 3, 4}\nprint(my_tuple[0])\nprint(my_set)  # {1, 2, 3, 4}`,
+        "القواميس (Dictionaries)": `student = {\n  "name": "Amr",\n  "track": "Python",\n  "progress": 100\n}\nstudent["level"] = "Advanced"\nprint(student.get("track"))`,
+        "العمليات المنطقية والمقارنة": `a, b = 15, 20\nprint(a < b and b == 20)\nprint(not (a > b))`,
+        "إدخال المستخدم والشروط (If / Elif / Else)": `age = 17\nif age >= 18:\n    print("Eligible")\nelif age >= 16:\n    print("Almost Eligible")\nelse:\n    print("Underage")`,
+        "حلقات التكرار (While & For Loop)": `for num in range(1, 6):\n    if num == 3:\n        continue\n    print(f"Number: {num}")`,
+        "الدوال (Functions) و Recursion و Lambda": `def greet(user, lang="Python"):\n    return f"Hello {user}, Welcome to {lang}"\n\nsquare = lambda x: x * x\nprint(greet("Amr"))\nprint(square(6))`,
+        "التعامل مع الملفات (File Handling)": `with open("notes.txt", "w", encoding="utf-8") as f:\n    f.write("Mastering Python Notes\\n")\n\nwith open("notes.txt", "r", encoding="utf-8") as f:\n    print(f.read())`,
+        "الدوال الجاهزة (Built-in Functions)": `nums = [1, 2, 3, 4, 5]\ndoubled = list(map(lambda n: n * 2, nums))\nevens = list(filter(lambda n: n % 2 == 0, nums))\nprint(doubled, evens)`,
+        "الوحدات والحزم (Modules & Packages)": `import math, random\nprint(math.sqrt(64))\nprint(random.randint(1, 100))`,
+        "التاريخ والوقت ومعالجة الأخطاء": `from datetime import datetime\ntry:\n    print("Today:", datetime.now().strftime("%Y-%m-%d"))\n    val = int("123")\nexcept ValueError:\n    print("Invalid Number")`,
+        "التعابير النمطية (Regular Expressions)": `import re\ntext = "Order #450 confirmed"\nmatch = re.search(r"#(\\d+)", text)\nif match:\n    print("Order ID:", match.group(1))`,
+        "البرمجة كائنية التوجه (OOP)": `class Developer:\n    def __init__(self, name, skill):\n        self.name = name\n        self.skill = skill\n\n    def info(self):\n        return f"{self.name} -> {self.skill}"\n\ndev = Developer("Amr", "Python")\nprint(dev.info())`,
+        "قواعد البيانات (SQLite) والمواضيع المتقدمة": `import sqlite3\ndb = sqlite3.connect(":memory:")\ncr = db.cursor()\ncr.execute("CREATE TABLE users (id INTEGER, name TEXT)")\ncr.execute("INSERT INTO users VALUES (1, 'Amr')")\nprint(cr.execute("SELECT * FROM users").fetchall())\ndb.close()`
+      };
+
+      function buildExerciseData(num, eIdx, targetLesson, topic) {
+        const customList = ASSIGNMENT_ITEMS_BY_NUM[num];
         if (customList && customList[eIdx % customList.length]) {
           return customList[eIdx % customList.length];
         }
-        return `المطلوب في تكليف #${num} (تمرين ${eIdx + 1}): طبّق مفاهيم "${topic}" الخاصة بالدرس #${String(targetLesson).padStart(3, "0")} واكتب كود بايثون يختبر الفكرة عملياً ويطبع النتيجة.`;
+        const sol = TOPIC_SOLUTIONS[topic] || `# حل تمرين ${eIdx + 1} - تكليف #${num}\nlesson_num = ${targetLesson}\nprint(f"Completed Exercise ${eIdx + 1} for Lesson #{lesson_num:03d}")`;
+        return {
+          prompt: `المطلوب في تكليف #${num} (تمرين ${eIdx + 1}): طبّق مفاهيم "${topic}" الخاصة بالدرس #${String(targetLesson).padStart(3, "0")} واكتب كود بايثون يختبر الفكرة عملياً ويطبع النتيجة.`,
+          solution: sol
+        };
       }
 
       const ASSIGNMENT_EXERCISE_COUNTS = {
@@ -675,13 +800,14 @@
         const exercises = Array.from({ length: exCount }, (__, eIdx) => {
           const targetLesson = Math.min(end, start + Math.floor((eIdx * span) / exCount));
           const lessonObj = LESSONS[targetLesson - 1];
-          const promptText = buildExercisePrompt(num, eIdx, targetLesson, lessonObj.topic);
+          const itemData = buildExerciseData(num, eIdx, targetLesson, lessonObj.topic);
           return {
             id: `a${num}_e${eIdx + 1}`,
             code: `#${num} • تمرين ${eIdx + 1}`,
             lessonId: targetLesson,
             title: `تكليف #${num} — تمرين ${eIdx + 1} (الدرس #${String(targetLesson).padStart(3, "0")})`,
-            prompt: promptText
+            prompt: itemData.prompt,
+            solution: itemData.solution
           };
         });
 
@@ -723,12 +849,22 @@
       }
 
       let state = loadState();
+      let openSolutions = {}; // runtime toggle map for visible solutions
+
       function saveState() {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         } catch (err) {
           console.warn("Save error:", err);
         }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
       function getDayChunks() {
@@ -955,6 +1091,78 @@
         ytPlayer = null;
       }
 
+      function renderExerciseBlock(ex, showPreviewBtn) {
+        const exDone = state.completedExercises.includes(ex.id);
+        const isSolOpen = Boolean(openSolutions[ex.id]);
+        return `
+          <div class="sub-ex-item">
+            <div class="sub-ex-top">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <button
+                  type="button"
+                  class="check-icon-btn ex-check ${exDone ? "done" : ""}"
+                  data-ex-check="${ex.id}"
+                  title="${exDone ? "التمرين محلول — اضغط لإلغاء التفعيل" : "تفعيل أنك حليت التمرين"}"
+                  style="width:28px;height:28px;font-size:0.82rem;">
+                  ${exDone ? "✓" : "○"}
+                </button>
+                <span class="sub-tag">${ex.code}</span>
+                <strong style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${ex.title}</strong>
+              </div>
+              <div class="sub-ex-btns">
+                <button type="button" class="solution-btn" data-toggle-sol="${ex.id}">
+                  ${isSolOpen ? "إخفاء الحل" : "إظهار الحل"}
+                </button>
+                ${showPreviewBtn ? `<button type="button" data-preview-assign="${ex.assignmentNum}">معاينة التكليف</button>` : ""}
+              </div>
+            </div>
+            <div class="task-prompt">${ex.prompt}</div>
+            <div class="solution-box ${isSolOpen ? "open" : ""}" id="sol_box_${ex.id}">
+              <div class="solution-box-head">
+                <span>الحل المقترح بلغة Python</span>
+                <button type="button" data-copy-sol="${ex.id}" style="padding:3px 9px;font-size:0.75rem;">نسخ الكود</button>
+              </div>
+              <pre>${escapeHtml(ex.solution)}</pre>
+            </div>
+          </div>
+        `;
+      }
+
+      function bindExerciseEvents(rootEl, rerenderFn) {
+        rootEl.querySelectorAll("[data-ex-check]").forEach(el => {
+          el.onclick = () => {
+            toggleExerciseComplete(el.getAttribute("data-ex-check"));
+            if (rerenderFn) rerenderFn();
+          };
+        });
+
+        rootEl.querySelectorAll("[data-toggle-sol]").forEach(btn => {
+          btn.onclick = () => {
+            const exId = btn.getAttribute("data-toggle-sol");
+            openSolutions[exId] = !openSolutions[exId];
+            if (rerenderFn) rerenderFn();
+            else renderTabContent();
+          };
+        });
+
+        rootEl.querySelectorAll("[data-copy-sol]").forEach(btn => {
+          btn.onclick = () => {
+            const exId = btn.getAttribute("data-copy-sol");
+            let foundSol = "";
+            for (const a of ASSIGNMENTS) {
+              const ex = a.exercises.find(item => item.id === exId);
+              if (ex) { foundSol = ex.solution; break; }
+            }
+            if (foundSol && navigator.clipboard) {
+              navigator.clipboard.writeText(foundSol).then(() => {
+                btn.textContent = "تم النسخ ✓";
+                setTimeout(() => { btn.textContent = "نسخ الكود"; }, 1400);
+              }).catch(() => {});
+            }
+          };
+        });
+      }
+
       function openAssignmentPreview(assignNum) {
         const a = ASSIGNMENTS.find(x => x.num === assignNum);
         if (!a) return;
@@ -971,21 +1179,7 @@
           </div>
 
           <div class="grid" style="margin-bottom:14px;">
-            ${a.exercises.map(ex => {
-              const done = state.completedExercises.includes(ex.id);
-              return `
-                <div class="sub-ex-item">
-                  <div style="flex:1;min-width:220px;">
-                    <span class="sub-tag">${ex.code}</span>
-                    <strong>${ex.title}</strong>
-                    <div class="task-prompt">${ex.prompt}</div>
-                  </div>
-                  <button class="${done ? "success-solid" : "success"}" data-ex-toggle="${ex.id}">
-                    ${done ? "✓ محلول" : "تحديد كمحلول"}
-                  </button>
-                </div>
-              `;
-            }).join("")}
+            ${a.exercises.map(ex => renderExerciseBlock(ex, false)).join("")}
           </div>
 
           <div style="display:flex;justify-content:flex-end;">
@@ -998,12 +1192,7 @@
         document.getElementById("closeModalBtn2").onclick = closeModal;
         backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
 
-        box.querySelectorAll("[data-ex-toggle]").forEach(btn => {
-          btn.onclick = () => {
-            toggleExerciseComplete(btn.getAttribute("data-ex-toggle"));
-            openAssignmentPreview(assignNum);
-          };
-        });
+        bindExerciseEvents(box, () => openAssignmentPreview(assignNum));
       }
 
       function renderLessonItem(lesson) {
@@ -1037,30 +1226,7 @@
 
             ${exercises.length ? `
               <div class="sub-ex-list">
-                ${exercises.map(ex => {
-                  const exDone = state.completedExercises.includes(ex.id);
-                  return `
-                    <div class="sub-ex-item">
-                      <div style="flex:1;min-width:220px;">
-                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                          <button
-                            type="button"
-                            class="check-icon-btn ex-check ${exDone ? "done" : ""}"
-                            data-ex-check="${ex.id}"
-                            title="${exDone ? "التمرين محلول — اضغط لإلغاء التفعيل" : "تفعيل أنك حليت التمرين"}"
-                            aria-label="تفعيل حل ${ex.title}"
-                            style="width:28px;height:28px;font-size:0.82rem;">
-                            ${exDone ? "✓" : "○"}
-                          </button>
-                          <span class="sub-tag">${ex.code}</span>
-                          <strong style="${exDone ? "text-decoration:line-through;opacity:0.75;" : ""}">${ex.title}</strong>
-                        </div>
-                        <div class="task-prompt">${ex.prompt}</div>
-                      </div>
-                      <button data-preview-assign="${ex.assignmentNum}">معاينة التكليف</button>
-                    </div>
-                  `;
-                }).join("")}
+                ${exercises.map(ex => renderExerciseBlock(ex, true)).join("")}
               </div>
             ` : ""}
           </div>
@@ -1146,8 +1312,6 @@
             saveState();
             renderTabContent();
           };
-          searchEl.focus();
-          searchEl.setSelectionRange(searchEl.value.length, searchEl.value.length);
 
           container.querySelectorAll("[data-filter]").forEach(btn => {
             btn.onclick = () => {
@@ -1168,7 +1332,7 @@
                         <strong>${a.title}</strong>
                         <div class="muted" style="margin-top:3px;">${a.summary} • المحلول: ${doneEx} / ${a.exercises.length}</div>
                       </div>
-                      <button class="primary" data-preview-assign="${a.num}">عرض التمارين والمطلوب</button>
+                      <button class="primary" data-preview-assign="${a.num}">عرض التمارين والحلول</button>
                     </div>
                   </div>
                 `;
@@ -1194,12 +1358,11 @@
         container.querySelectorAll("[data-play-lesson]").forEach(el => {
           el.onclick = () => openMediaModal(Number(el.getAttribute("data-play-lesson")));
         });
-        container.querySelectorAll("[data-ex-check]").forEach(el => {
-          el.onclick = () => toggleExerciseComplete(el.getAttribute("data-ex-check"));
-        });
         container.querySelectorAll("[data-preview-assign]").forEach(el => {
           el.onclick = () => openAssignmentPreview(Number(el.getAttribute("data-preview-assign")));
         });
+
+        bindExerciseEvents(container, null);
       }
 
       function renderAll() {
