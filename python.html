@@ -98,7 +98,19 @@
       gap: 8px;
     }
 
-    button, select, input[type="date"], input[type="text"] {
+    @keyframes btnGlowPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.75), 0 0 18px rgba(56, 189, 248, 0.55);
+      }
+      60% {
+        box-shadow: 0 0 0 8px rgba(56, 189, 248, 0), 0 0 26px rgba(250, 204, 21, 0.45);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+      }
+    }
+
+    button, select, input[type="date"], input[type="text"], label.icon-pill {
       background: rgba(30, 41, 59, 0.82);
       color: var(--text-main);
       border: 1px solid var(--border);
@@ -107,7 +119,7 @@
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.16s ease, box-shadow 0.22s ease, border-color 0.2s ease, background 0.2s ease;
       max-width: 100%;
     }
 
@@ -116,22 +128,37 @@
       font-weight: 400;
     }
 
-    button:hover, select:hover {
-      background: rgba(51, 65, 85, 0.9);
-      border-color: rgba(148, 163, 184, 0.34);
+    button:hover, select:hover, label.icon-pill:hover {
+      background: rgba(51, 65, 85, 0.92);
+      border-color: rgba(56, 189, 248, 0.45);
       transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.18);
+    }
+
+    button:active, label.icon-pill:active, button.press-glow {
+      transform: scale(0.95);
+      border-color: #38bdf8;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.65), 0 0 28px rgba(37, 99, 235, 0.45);
+      animation: btnGlowPulse 0.45s ease-out;
     }
 
     button:disabled {
       opacity: 0.45;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
+      animation: none;
     }
 
     button.primary {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-color: rgba(96, 165, 250, 0.45);
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      border-color: rgba(125, 211, 252, 0.55);
       color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    button.primary:active, button.primary.press-glow {
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.85), 0 0 34px rgba(37, 99, 235, 0.6);
     }
 
     button.success {
@@ -142,20 +169,34 @@
 
     button.success-solid {
       background: #059669;
-      border-color: #10b981;
+      border-color: #34d399;
       color: #fff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    button.success:active, button.success-solid:active,
+    button.success.press-glow, button.success-solid.press-glow {
+      box-shadow: 0 0 22px rgba(52, 211, 153, 0.8), 0 0 32px rgba(16, 185, 129, 0.5);
     }
 
     button.solution-btn {
       background: rgba(56, 189, 248, 0.16);
-      border-color: rgba(56, 189, 248, 0.4);
+      border-color: rgba(56, 189, 248, 0.42);
       color: #7dd3fc;
+    }
+
+    button.solution-btn:active, button.solution-btn.press-glow {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.78);
     }
 
     button.youtube-btn {
       background: #e11d48;
-      border-color: rgba(251, 113, 133, 0.45);
+      border-color: rgba(251, 113, 133, 0.5);
       color: #fff;
+    }
+
+    button.youtube-btn:active, button.youtube-btn.press-glow {
+      box-shadow: 0 0 22px rgba(251, 113, 133, 0.85);
     }
 
     .check-icon-btn {
@@ -177,14 +218,14 @@
       background: #059669;
       border-color: #34d399;
       color: #fff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);
     }
 
     .check-icon-btn.ex-check.done {
       background: #eab308;
       border-color: #fde047;
       color: #090d16;
-      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.55);
     }
 
     .today-card {
@@ -256,9 +297,9 @@
 
     .tab-btn.active {
       background: linear-gradient(135deg, #2563eb, #0284c7);
-      border-color: rgba(56, 189, 248, 0.55);
+      border-color: rgba(125, 211, 252, 0.75);
       color: #fff;
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.45), 0 6px 18px rgba(37, 99, 235, 0.35);
     }
 
     .grid {
@@ -329,6 +370,16 @@
       font-size: 0.86rem;
     }
 
+    .no-task-note {
+      margin-top: 10px;
+      padding: 8px 11px;
+      border-radius: 10px;
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px dashed rgba(148, 163, 184, 0.24);
+      color: var(--text-muted);
+      font-size: 0.81rem;
+    }
+
     .lesson-task-top {
       display: flex;
       flex-wrap: wrap;
@@ -350,9 +401,9 @@
     .task-prompt {
       color: #e2e8f0;
       font-size: 0.84rem;
-      line-height: 1.55;
+      line-height: 1.6;
       background: rgba(15, 23, 42, 0.65);
-      padding: 8px 10px;
+      padding: 9px 11px;
       border-radius: 8px;
       border-right: 3px solid #facc15;
     }
@@ -557,8 +608,9 @@
 
     .speed-pill.active {
       background: #2563eb;
-      border-color: #60a5fa;
+      border-color: #7dd3fc;
       color: #fff;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
     }
 
     .modal-footer-actions {
@@ -623,7 +675,7 @@
         </div>
         <div>
           <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
-          <p>152 درساً بعناوين البلايليست الأصلية + تكليف عملي وحل لكل درس</p>
+          <p>152 درساً بعناوين البلايليست الأصلية + تكليفات واقعية موزونة حسب الشرح</p>
         </div>
       </div>
       <div class="controls-row">
@@ -657,7 +709,7 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v13";
+      const STORAGE_KEY = "elzero_python_navy_v14";
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
       const RAW_PLAYLIST_TITLES = [
@@ -822,361 +874,467 @@
         return dashIdx >= 0 ? fullTitle.slice(dashIdx + 3).trim() : fullTitle.trim();
       }
 
+      const CUSTOM_EXERCISES = {
+        1: null,
+        2: null,
+        152: null,
+        3: {
+          prompt: "فكرة الدرس بسيطة: اكتب أول سطر كود صحيح في بايثون يطبع جملة ترحيبية وتأكد إن المسافات البادئة (Indentation) مظبوطة.",
+          solution: 'print("Hello Python! My first app works.")'
+        },
+        4: {
+          prompt: "فكرة الدرس مباشرة: اكتب تعليقاً يشرح وظيفة الكود، وجرّب تخلي تعليق يعطّل سطر طباعة عشان تشوف الفرق.",
+          solution: [
+            "# Print welcome message for the user",
+            'print("Active line")',
+            '# print("Commented out line will not run")'
+          ].join("\n")
+        },
+        5: {
+          prompt: "فكرة الدرس: في بايثون كل حاجة بتتعامل كـ Object، اكتب متغيرات بأرقام ونصوص وقائمة واطبع نوع كل واحد بـ type().",
+          solution: [
+            'name = "Amr"',
+            "lessons = 5",
+            'tools = ["VS Code", "Python"]',
+            "print(type(name), type(lessons), type(tools))"
+          ].join("\n")
+        },
+        6: {
+          prompt: "تمرين عملي قصير: عرّف مثال واحد لكل نوع من الأنواع الأساسية (str, int, float, bool, list, tuple, dict) واطبع قيمهم.",
+          solution: [
+            's, i, f, b = "Hi", 10, 3.5, True',
+            'l, t, d = [1, 2], (1, 2), {"k": "v"}',
+            "print(s, i, f, b, l, t, d)"
+          ].join("\n")
+        },
+        7: {
+          prompt: "فكرة الدرس: أنشئ متغيراً باسم موقعك أو هدفك ومتغيراً لعدد ساعات المذاكرة اليومية واطبعهم في جملة مفهومة.",
+          solution: [
+            'goal = "Python Mastery"',
+            "daily_hours = 2",
+            'print(f"Goal: {goal} | Daily study: {daily_hours}h")'
+          ].join("\n")
+        },
+        8: {
+          prompt: "تدريب مهم: أنشئ متغيراً بسعر منتج ثم غيّر قيمته بعد الخصم واطبع السعر قبل وبعد التعديل.",
+          solution: [
+            "price = 200",
+            'print("Original price:", price)',
+            "price = 150",
+            'print("Discounted price:", price)'
+          ].join("\n")
+        },
+        9: {
+          prompt: "فكرة الدرس: اطبع نصاً فيه سطر جديد (\\n)، وجدولة (\\t)، وعلامات تنصيص داخل النص (\\\") بدون أخطاء.",
+          solution: [
+            'print("Name:\\tAmr\\nQuote:\\t\\"Keep going\\"")'
+          ].join("\n")
+        },
+        10: {
+          prompt: "فكرة الدرس: ادمج نصوصاً مع رقم باستخدام str()، وتذكر إن دمج نص مع رقم مباشرة يطلع TypeError.",
+          solution: [
+            'course = "Learn Python in Arabic"',
+            "lesson_num = 10",
+            'print(course + " - Lesson #" + str(lesson_num))'
+          ].join("\n")
+        },
+        12: {
+          prompt: "فكرة الدرس: من كلمة \"Python\" اطبع أول حرف، وآخر حرف، والمقطع \"yth\" باستخدام Indexing و Slicing.",
+          solution: [
+            'word = "Python"',
+            'print("First:", word[0], "| Last:", word[-1], "| Slice:", word[1:4])'
+          ].join("\n")
+        },
+        39: {
+          prompt: "تدريب عملي حقيقي: خزّن بريداً إلكترونياً مثل \"amr.hassan@gmail.com\" واستخرج منه اسم المستخدم والـ domain واطبع كل واحد لوحده.",
+          solution: [
+            'email = "amr.hassan@gmail.com"',
+            'at_index = email.index("@")',
+            'username = email[:at_index]',
+            'domain = email[at_index + 1:]',
+            'print("Username:", username)',
+            'print("Domain:", domain)'
+          ].join("\n")
+        },
+        40: {
+          prompt: "تدريب عملي: احسب العمر بالسنوات، والشهور، والأيام، والساعات التقريبية بناءً على عمر مكتوب في متغير واطبع التفاصيل.",
+          solution: [
+            "age_years = 16",
+            "months = age_years * 12",
+            "days = age_years * 365",
+            "hours = days * 24",
+            'print(f"Years: {age_years}, Months: {months}, Days: {days}, Hours: {hours}")'
+          ].join("\n")
+        },
+        49: {
+          prompt: "تدريب واقعي (Bookmark Manager): أنشئ قائمة مواقع محفوظة وأضف موقعاً جديداً لها داخل حلقة while حتى يختار المستخدم الخروج.",
+          solution: [
+            "bookmarks = []",
+            "max_items = 2",
+            "while len(bookmarks) < max_items:",
+            '    site = f"https://site{len(bookmarks)+1}.com"',
+            "    bookmarks.append(site)",
+            'print("Saved bookmarks:", bookmarks)'
+          ].join("\n")
+        },
+        50: {
+          prompt: "تدريب واقعي (Password Guess): جرّب محاولات تخمين كلمة مرور بحد أقصى للمحاولات واطبع رسالة نجاح عند التطابق.",
+          solution: [
+            'secret = "py123"',
+            'attempts = ["0000", "admin", "py123"]',
+            "for guess in attempts:",
+            "    if guess == secret:",
+            '        print("Access granted!")',
+            "        break",
+            "else:",
+            '    print("Failed attempts")'
+          ].join("\n")
+        },
+        63: {
+          prompt: "فكرة Recursion: اكتب دالة تستدعي نفسها لحساب مضروب عدد (Factorial) أو جمع أرقام لحد n مع شرط توقف واضح.",
+          solution: [
+            "def factorial(n):",
+            "    if n <= 1:",
+            "        return 1",
+            "    return n * factorial(n - 1)",
+            "",
+            'print("5! =", factorial(5))'
+          ].join("\n")
+        },
+        85: {
+          prompt: "تدريب عملي: اكتب Decorator بسيط يقيس زمن تنفيذ دالة قبل وبعد استدعائها.",
+          solution: [
+            "import time",
+            "",
+            "def speed_test(func):",
+            "    def wrapper(*args, **kwargs):",
+            "        start = time.perf_counter()",
+            "        res = func(*args, **kwargs)",
+            "        end = time.perf_counter()",
+            '        print(f"Took {end - start:.6f}s")',
+            "        return res",
+            "    return wrapper",
+            "",
+            "@speed_test",
+            "def work():",
+            "    return sum(range(1000))",
+            "",
+            'print("Sum:", work())'
+          ].join("\n")
+        },
+        91: {
+          prompt: "فكرة الدرس: اكتب كود قسمة داخل try / except / else / finally وتعامل مع القسمة على صفر بشكل آمن.",
+          solution: [
+            "def divide_nums(x, y):",
+            "    try:",
+            "        result = x / y",
+            "    except ZeroDivisionError:",
+            '        print("Cannot divide by zero")',
+            "    else:",
+            '        print("Result:", result)',
+            "    finally:",
+            '        print("Operation finished")',
+            "",
+            "divide_nums(10, 2)"
+          ].join("\n")
+        },
+        103: {
+          prompt: "مقدمة OOP: فكّر في كيان واقعي (مثل طالب أو منتج) واكتب صنفاً بسيطاً يوضح فكرة الكائنات والخصائص.",
+          solution: [
+            "class Product:",
+            "    def __init__(self, name, price):",
+            "        self.name = name",
+            "        self.price = price",
+            "",
+            'item = Product("Dental Mirror", 120)',
+            'print(item.name, "-", item.price)'
+          ].join("\n")
+        },
+        118: {
+          prompt: "فكرة الدرس: أنشئ اتصالاً بقاعدة بيانات SQLite في الذاكرة وأنشئ جدولاً بسيطاً ثم أغلق الاتصال.",
+          solution: [
+            "import sqlite3",
+            "",
+            'conn = sqlite3.connect(":memory:")',
+            'conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER, name TEXT)")',
+            'print("Database and table ready")',
+            "conn.close()"
+          ].join("\n")
+        },
+        133: {
+          prompt: "مقدمة Flask: اكتب الهيكل الأساسي لتطبيق Flask يعرّف مساراً رئيسياً (/) يطبع رسالة ترحيب.",
+          solution: [
+            "# Requires: pip install flask",
+            "from flask import Flask",
+            "",
+            "app = Flask(__name__)",
+            "",
+            '@app.route("/")',
+            "def home():",
+            '    return "Hello from Flask!"'
+          ].join("\n")
+        },
+        142: {
+          prompt: "مقدمة NumPy: وضّح الفرق الأساسي بين قوائم بايثون العادية ومصفوفات NumPy من حيث السرعة والعمليات الرقمية.",
+          solution: [
+            "# Requires: pip install numpy",
+            "import numpy as np",
+            "",
+            "arr = np.array([10, 20, 30])",
+            'print("NumPy array:", arr * 2)'
+          ].join("\n")
+        }
+      };
+
       function buildExerciseForTitle(id, fullTitle, subject) {
+        if (Object.prototype.hasOwnProperty.call(CUSTOM_EXERCISES, id)) {
+          return CUSTOM_EXERCISES[id];
+        }
+
         const low = subject.toLowerCase();
 
-        if (id === 1) {
-          return {
-            prompt: `تكليف (${subject}): اكتب تعليقاً توضيحياً يصف هدفك من تعلم Python واطبع رسالة ترحيبية تؤكد بدء الدورة.`,
-            solution: [
-              "# Introduction And What's Python",
-              'print("Welcome to Learn Python in Arabic!")'
-            ].join("\n")
-          };
-        }
-        if (id === 2) {
-          return {
-            prompt: `تكليف (${subject}): حدد في متغيرات المسار أو المهارة التي تريد الوصول إليها واطبع خطتك المختصرة.`,
-            solution: [
-              'target_track = "Backend & Automation"',
-              'print("What I need to learn for:", target_track)'
-            ].join("\n")
-          };
-        }
-        if (id === 3) {
-          return {
-            prompt: `تكليف (${subject}): اكتب أول تطبيق بايثون يطبع سطراً منظماً يراعي قواعد Syntax وindentation الصحيحة.`,
-            solution: [
-              "if True:",
-              '    print("Syntax is clean and my first Python app works!")'
-            ].join("\n")
-          };
-        }
-        if (id === 4) {
-          return {
-            prompt: `تكليف (${subject}): استخدم تعليقاً من سطر واحد وتعليقاً متعدد الأسطر لشرح كود يطبع نتيجة بسيطة.`,
-            solution: [
-              "# Single-line comment explaining the output",
-              '"""Multi-line comment: testing comments in Python"""',
-              'print("Comments practice done")'
-            ].join("\n")
-          };
-        }
-        if (id === 5 || id === 6) {
-          return {
-            prompt: `تكليف (${subject}): أنشئ قيماً من أنواع بيانات مختلفة واطبع نوع كل قيمة باستخدام type().`,
-            solution: [
-              'data_items = ["Python", 100, 12.5, True, {"course": "Python"}]',
-              "for item in data_items:",
-              '    print(item, "->", type(item))'
-            ].join("\n")
-          };
-        }
-        if (id === 7 || id === 8) {
-          return {
-            prompt: `تكليف (${subject}): عرّف متغيرات بأسماء واضحة وغيّر قيمة أحدها ثم اطبع القيمة المحدثة.`,
-            solution: [
-              'student = "Amr"',
-              "score = 80",
-              "score = 95",
-              'print(f"{student}: {score}")'
-            ].join("\n")
-          };
-        }
-        if (id === 9) {
-          return {
-            prompt: `تكليف (${subject}): استخدم Escape Sequences مثل \\n و \\t و \\\" لطباعة نص منسق.`,
-            solution: [
-              'print("Line 1:\\t\\"Python\\"\\\\Escape")',
-              'print("Line 2:\\tFormatted")'
-            ].join("\n")
-          };
-        }
-        if (id === 10) {
-          return {
-            prompt: `تكليف (${subject}): ادمج نصوصاً مع رقم محوّل إلى str واطبع جملة تدريبية واضحة.`,
-            solution: [
-              'course = "Python"',
-              "part = 10",
-              'print("Training on " + course + " Lesson #" + str(part))'
-            ].join("\n")
-          };
-        }
-        if (low.includes("string") && !low.includes("methods") && !low.includes("formatting")) {
-          return {
-            prompt: `تكليف (${subject}): خزّن نصاً في متغير واطبع طوله باستخدام len() مع رسالة توضيحية.`,
-            solution: [
-              'sample = "Strings in Python"',
-              'print("Text:", sample, "| Length:", len(sample))'
-            ].join("\n")
-          };
-        }
-        if (low.includes("indexing") || low.includes("slicing")) {
-          return {
-            prompt: `تكليف (${subject}): استخرج أول حرف وآخر حرف ومقطعاً جزئياً من نص باستخدام الفهرسة والتقطيع.`,
-            solution: [
-              'word = "PythonProgramming"',
-              'print(word[0], word[-1], word[0:6], word[::2])'
-            ].join("\n")
-          };
-        }
         if (low.includes("strings methods")) {
           return {
-            prompt: `تكليف (${subject}): طبّق دوال النصوص (مثل strip, title, replace, split, count) على متغير نصي.`,
+            prompt: `طبق دوال النصوص المشروحة في (${subject}) على متغير نصي واطبع النتيجة بعد التعديل.`,
             solution: [
-              'raw = "  hello python world  "',
-              'clean = raw.strip().title().replace("Python", "Python 3")',
-              'print(clean, "| Words:", clean.split())'
+              'text = "  python programming language  "',
+              'print(text.strip().capitalize())'
             ].join("\n")
           };
         }
         if (low.includes("formatting")) {
           return {
-            prompt: `تكليف (${subject}): نسّق متغيرات الاسم واللغة والتقييم داخل نص واطبع النتيجة.`,
+            prompt: `نسّق متغيرات نصية ورقمية داخل جملة طباعة حسب أسلوب (${subject}).`,
             solution: [
-              'name = "Amr"',
               'lang = "Python"',
-              "rating = 9.8",
-              'print(f"Developer: {name}, Lang: {lang}, Score: {rating:.1f}")'
+              "version = 3",
+              'print(f"Learning {lang} {version}")'
             ].join("\n")
           };
         }
         if (low.includes("numbers") || low.includes("arithmetic")) {
           return {
-            prompt: `تكليف (${subject}): نفّذ عمليات حسابية (+, -, *, /, //, %, **) على أعداد واطبع النتائج.`,
+            prompt: `جرّب العمليات الحسابية في (${subject}) على رقمين واطبع النواتج.`,
             solution: [
-              "a, b = 17, 4",
-              'print("Add:", a + b, "Floor:", a // b, "Mod:", a % b, "Pow:", a ** 2)'
+              "x, y = 12, 5",
+              'print("Sum:", x + y, "Mod:", x % y, "Floor:", x // y)'
             ].join("\n")
           };
         }
         if (low.includes("list")) {
           return {
-            prompt: `تكليف (${subject}): أنشئ قائمة وعدّل عناصرها واستخدم دوال القائمة (مثل append, insert, sort, remove).`,
+            prompt: `طبّق فكرة (${subject}) على قائمة عناصر واطبع القائمة قبل وبعد التعديل.`,
             solution: [
-              'skills = ["HTML", "CSS", "Python"]',
-              'skills.append("SQLite")',
-              "skills.sort()",
-              'print("Skills:", skills)'
+              'items = ["one", "two"]',
+              'items.append("three")',
+              'print("List:", items)'
             ].join("\n")
           };
         }
         if (low.includes("tuple")) {
           return {
-            prompt: `تكليف (${subject}): أنشئ Tuple واستخرج عناصرها ولاحظ عدم قابليتها للتعديل المباشر.`,
+            prompt: `أنشئ Tuple وطبّق عليها ما ورد في (${subject}).`,
             solution: [
-              'coords = (31.26, 32.30, "Port Said")',
-              'print("Lat:", coords[0], "City:", coords[2], "Count:", coords.count("Port Said"))'
+              't = ("a", "b", "c")',
+              'print("Tuple:", t, "Count of a:", t.count("a"))'
             ].join("\n")
           };
         }
         if (low.includes("set")) {
           return {
-            prompt: `تكليف (${subject}): أنشئ Set لإزالة التكرار وجرّب دوال المجموعات (مثل add, union, intersection).`,
+            prompt: `طبّق فكرة (${subject}) على مجموعتين (Set) واطبع الناتج.`,
             solution: [
-              "s1 = {1, 2, 3, 3}",
-              "s2 = {3, 4, 5}",
-              'print("Union:", s1 | s2, "Common:", s1 & s2)'
+              "a = {1, 2, 3}",
+              "b = {3, 4, 5}",
+              'print("Difference:", a - b)'
             ].join("\n")
           };
         }
         if (low.includes("dictionary")) {
           return {
-            prompt: `تكليف (${subject}): أنشئ Dictionary بمفاتيح وقيم وأضف مفتاحاً جديداً واسترجع قيمة بأمان.`,
+            prompt: `أنشئ قاموساً (Dictionary) وطبّق عليه فكرة (${subject}).`,
             solution: [
-              'profile = {"name": "Amr", "track": "Python"}',
-              'profile["level"] = "Intermediate"',
-              'print(profile.get("name"), profile)'
+              'user = {"name": "Amr", "role": "Learner"}',
+              'print("Name:", user.get("name"))'
             ].join("\n")
           };
         }
         if (low.includes("boolean") || low.includes("comparison") || low.includes("assignment") || low.includes("membership")) {
           return {
-            prompt: `تكليف (${subject}): اختبر التعبيرات المنطقية أو المقارنة أو العضوية على متغيرات واطبع القيم المنطقية.`,
+            prompt: `اكتب تعبيراً يختبر (${subject}) على قيم حقيقية واطبع النتيجة.`,
             solution: [
-              'langs = ["Python", "C++", "Java"]',
-              "x = 15",
-              'print("In list:", "Python" in langs, "Check:", (x > 10) and (x != 20))'
+              "score = 75",
+              'print("Passed:", score >= 50 and score <= 100)'
             ].join("\n")
           };
         }
         if (low.includes("type conversion")) {
           return {
-            prompt: `تكليف (${subject}): حوّل قيماً بين الأنواع المختلفة (int, float, str, list) واطبع الناتج ونوعه.`,
+            prompt: `حوّل قيمة من نوع إلى نوع آخر كما في (${subject}) واطبع النوع الجديد.`,
             solution: [
-              'num_str = "42"',
-              "num_int = int(num_str)",
-              'print(num_int * 2, type(num_int))'
+              'val = "120"',
+              "num = int(val)",
+              'print(num + 30, type(num))'
             ].join("\n")
           };
         }
-        if (low.includes("user input") || low.includes("email slice") || low.includes("age")) {
+        if (low.includes("user input")) {
           return {
-            prompt: `تكليف (${subject}): اكتب منطقاً يأخذ بيانات (أو قيماً جاهزة للاختبار) ويستخرج منها تفاصيل واضحة مثل البريد أو العمر.`,
+            prompt: `اكتب كوداً يستقبل مدخلاً من المستخدم عبر input() ويطبعه بعد معالجة بسيطة.`,
             solution: [
-              'email = "amr.dev@example.com"',
-              'username, domain = email.split("@")',
-              'print("User:", username, "| Domain:", domain)'
+              '# username = input("Enter your name: ")',
+              'username = "Amr"',
+              'print("Welcome,", username)'
             ].join("\n")
           };
         }
         if (low.includes("if") || low.includes("ternary")) {
           return {
-            prompt: `تكليف (${subject}): اكتب شرطاً يتحقق من قيمة ويعرض رسالة مناسبة لكل حالة.`,
+            prompt: `اكتب شرطاً يوضح (${subject}) ويطبع نتيجة واضحة لكل شرط.`,
             solution: [
-              "grade = 88",
-              'status = "Excellent" if grade >= 85 else "Good"',
-              'print("Result:", status)'
+              "temp = 30",
+              'print("Hot day" if temp > 28 else "Normal day")'
             ].join("\n")
           };
         }
         if (low.includes("loop") || low.includes("break") || low.includes("continue") || low.includes("pass")) {
           return {
-            prompt: `تكليف (${subject}): نفّذ حلقة تكرار وطبّق التحكم في الدوران (break / continue / pass) على عناصر البيانات.`,
+            prompt: `اكتب حلقة تكرار توضح (${subject}) عملياً.`,
             solution: [
-              "for n in range(1, 7):",
-              "    if n == 2:",
+              "for i in range(1, 5):",
+              "    if i == 3:",
               "        continue",
-              "    if n == 6:",
-              "        break",
-              '    print("Item:", n)'
+              '    print("Step:", i)'
             ].join("\n")
           };
         }
-        if (low.includes("function") || low.includes("recursion") || low.includes("lambda")) {
+        if (low.includes("function") || low.includes("lambda")) {
           return {
-            prompt: `تكليف (${subject}): عرّف دالة واستدعها لاختبار الفكرة المطروحة في (${subject}).`,
+            prompt: `طبّق فكرة (${subject}) في دالة واضحة واختبر استدعاءها.`,
             solution: [
-              "def calc_area(width, height):",
-              "    return width * height",
-              "",
-              'print("Area:", calc_area(5, 4))'
+              "double = lambda n: n * 2",
+              'print("Double of 8:", double(8))'
             ].join("\n")
           };
         }
         if (low.includes("files handling")) {
           return {
-            prompt: `تكليف (${subject}): اكتب كوداً يوضح التعامل مع الملفات وطباعة المحتوى أو النتيجة بأمان.`,
+            prompt: `اكتب مثالاً عملياً يوضح (${subject}) باستخدام with open().`,
             solution: [
-              'content = "Python File Handling Practice"',
-              'print("Ready to write/read:", content)'
+              '# with open("notes.txt", "a", encoding="utf-8") as f:',
+              '#     f.write("Python note\\n")',
+              'print("File context pattern ready")'
             ].join("\n")
           };
         }
         if (low.includes("built in functions") || low.includes("map") || low.includes("filter") || low.includes("reduce")) {
           return {
-            prompt: `تكليف (${subject}): استخدم الدوال الجاهزة في بايثون لمعالجة قائمة أرقام أو نصوص وطباعة الناتج.`,
+            prompt: `استخدم الدوال الجاهزة المذكورة في (${subject}) على مجموعة بيانات واطبع النتيجة.`,
             solution: [
-              "nums = [1, 2, 3, 4, 5]",
-              "evens = list(filter(lambda x: x % 2 == 0, nums))",
-              'print("Max:", max(nums), "Evens:", evens)'
+              "scores = [40, 70, 90]",
+              "boosted = list(map(lambda s: s + 5, scores))",
+              'print("Boosted:", boosted)'
             ].join("\n")
           };
         }
         if (low.includes("modules") || low.includes("date and time") || low.includes("virtual environment")) {
           return {
-            prompt: `تكليف (${subject}): استورد وحدة قياسية مناسبة واستخدم دالة منها لطباعة نتيجة عملية.`,
+            prompt: `طبّق عملياً مفهوم (${subject}) في كود بايثون واضح.`,
             solution: [
-              "import math",
-              'print("Square root of 81:", math.sqrt(81))'
+              "from datetime import datetime",
+              'print("Current time:", datetime.now().strftime("%Y-%m-%d %H:%M"))'
             ].join("\n")
           };
         }
         if (low.includes("iterator") || low.includes("generators") || low.includes("decorators") || low.includes("zip") || low.includes("pillow")) {
           return {
-            prompt: `تكليف (${subject}): طبّق فكرة (${subject}) في مثال بايثون واضح يوضح آلية العمل.`,
+            prompt: `اكتب مثالاً عملياً يوضّح (${subject}) خطوة بخطوة.`,
             solution: [
-              "def gen_numbers(limit):",
-              "    for i in range(1, limit + 1):",
-              "        yield i * 10",
-              "",
-              'print("Generated:", list(gen_numbers(3)))'
+              'names = ["A", "B"]',
+              "ids = [1, 2]",
+              'print(list(zip(ids, names)))'
             ].join("\n")
           };
         }
         if (low.includes("docstring") || low.includes("pylint") || low.includes("exceptions") || low.includes("debugging") || low.includes("type hinting")) {
           return {
-            prompt: `تكليف (${subject}): اكتب كوداً يطبّق (${subject}) مع معالجة الأخطاء أو التوثيق أو تحديد الأنواع بوضوح.`,
+            prompt: `اكتب مثالاً يوضح (${subject}) عملياً في كود بايثون.`,
             solution: [
-              "def safe_divide(a: float, b: float) -> float:",
-              '    """Divide two numbers safely."""',
-              "    try:",
-              "        return a / b",
-              "    except ZeroDivisionError:",
-              "        return 0.0",
+              "def greet(user: str) -> str:",
+              '    """Return a clean greeting string."""',
+              '    return f"Hi, {user}"',
               "",
-              'print("Division:", safe_divide(10, 2))'
+              'print(greet("Amr"))'
             ].join("\n")
           };
         }
         if (low.includes("regular expressions")) {
           return {
-            prompt: `تكليف (${subject}): استخدم وحدة re لاختبار نمط نصي واستخراج المطابقات من نص تجريبي.`,
+            prompt: `استخدم وحدة re لتطبيق (${subject}) على نص تجريبي.`,
             solution: [
               "import re",
-              'sample = "Order ID: 2026-99"',
-              'found = re.findall(r"\\d+", sample)',
-              'print("Numbers found:", found)'
+              'text = "Code: PY-2026"',
+              'match = re.search(r"[A-Z]{2}-\\d{4}", text)',
+              'print("Match:", match.group(0) if match else None)'
             ].join("\n")
           };
         }
         if (low.includes("oop")) {
           return {
-            prompt: `تكليف (${subject}): أنشئ صنفاً (Class) وكائناً يطبّق مفهوم (${subject}) في بايثون.`,
+            prompt: `طبّق مفهوم (${subject}) في مثال OOP واضح ومباشر.`,
             solution: [
-              "class Course:",
-              "    def __init__(self, title):",
-              "        self.title = title",
+              "class Base:",
+              "    def info(self):",
+              '        return "OOP concept applied"',
               "",
-              "    def describe(self):",
-              '        return f"Course: {self.title}"',
-              "",
-              'c = Course("Mastering Python")',
-              'print(c.describe())'
+              "obj = Base()",
+              "print(obj.info())"
             ].join("\n")
           };
         }
         if (low.includes("databases") || low.includes("sqlite")) {
           return {
-            prompt: `تكليف (${subject}): اكتب مثالاً يوضح التعامل مع قاعدة بيانات SQLite وتنفيذ عملية أساسية.`,
+            prompt: `اكتب مثالاً يوضّح (${subject}) في SQLite بشكل مباشر.`,
             solution: [
               "import sqlite3",
               'conn = sqlite3.connect(":memory:")',
-              "cur = conn.cursor()",
-              'cur.execute("CREATE TABLE items (id INTEGER, name TEXT)")',
-              'cur.execute("INSERT INTO items VALUES (1, \'Python\')")',
-              'print("Rows:", cur.execute("SELECT * FROM items").fetchall())',
+              'conn.execute("CREATE TABLE skills (id INTEGER, title TEXT)")',
+              'conn.execute("INSERT INTO skills VALUES (1, \'Python\')")',
+              'rows = conn.execute("SELECT * FROM skills").fetchall()',
+              'print("Skills:", rows)',
               "conn.close()"
             ].join("\n")
           };
         }
         if (low.includes("flask")) {
           return {
-            prompt: `تكليف (${subject}): اكتب مثالاً يوضح فكرة (${subject}) في تطبيق ويب مبني بـ Flask.`,
+            prompt: `اكتب مثالاً يوضح فكرة (${subject}) في Flask.`,
             solution: [
-              "# Flask route / template concept",
-              'page_title = "Flask App"',
-              'print("Rendering:", page_title)'
+              "# Flask concept example",
+              'context = {"title": "Skills", "items": ["Python", "SQL"]}',
+              'print("Template context:", context)'
             ].join("\n")
           };
         }
         if (low.includes("numpy")) {
           return {
-            prompt: `تكليف (${subject}): اكتب مثالاً يوضح فكرة (${subject}) في التعامل مع المصفوفات والبيانات الرقمية.`,
+            prompt: `طبّق فكرة (${subject}) على مصفوفة رقمية في NumPy.`,
             solution: [
-              "# NumPy array concept",
-              "arr = [10, 20, 30, 40]",
-              'print("Array:", arr, "| Count:", len(arr))'
+              "# Requires: pip install numpy",
+              "import numpy as np",
+              "",
+              "arr = np.arange(1, 7)",
+              'print("Array:", arr)'
             ].join("\n")
           };
         }
 
         return {
-          prompt: `تكليف (${subject}): طبّق عملياً فكرة (${subject}) في كود بايثون واطبع النتيجة.`,
+          prompt: `طبّق عملياً فكرة (${subject}) كما وردت في الفيديو.`,
           solution: [
             `# ${fullTitle}`,
             `topic = ${JSON.stringify(subject)}`,
-            'print("Practicing:", topic)'
+            'print("Topic:", topic)'
           ].join("\n")
         };
       }
@@ -1193,12 +1351,15 @@
           subject,
           duration: `${7 + (id % 8)}:${String((id * 11) % 60).padStart(2, "0")}`,
           playlistIndex: idx,
+          hasTask: Boolean(exercise),
           exerciseId: `ex_lesson_${id}`,
           exerciseTitle: `تكليف الدرس #${String(id).padStart(3, "0")}`,
-          prompt: exercise.prompt,
-          solution: exercise.solution
+          prompt: exercise ? exercise.prompt : "",
+          solution: exercise ? exercise.solution : ""
         };
       });
+
+      const TASKS_LESSONS = LESSONS.filter(l => l.hasTask);
 
       const DEFAULT_STATE = {
         planDays: 30,
@@ -1245,6 +1406,21 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;");
       }
+
+      function triggerButtonGlow(el) {
+        if (!el) return;
+        el.classList.remove("press-glow");
+        void el.offsetWidth;
+        el.classList.add("press-glow");
+        setTimeout(() => el.classList.remove("press-glow"), 460);
+      }
+
+      document.addEventListener("pointerdown", (e) => {
+        const targetBtn = e.target.closest("button, label.icon-pill");
+        if (targetBtn && !targetBtn.disabled) {
+          triggerButtonGlow(targetBtn);
+        }
+      });
 
       function getDayChunks() {
         const days = Number(state.planDays) || 30;
@@ -1459,6 +1635,10 @@
       }
 
       function renderLessonTaskBlock(lesson) {
+        if (!lesson.hasTask) {
+          return `<div class="no-task-note">هذا الفيديو تعريفي/ختامي بدون شرح عملي مستقل، لذلك لا يوجد تكليف له.</div>`;
+        }
+
         const exDone = state.completedExercises.includes(lesson.exerciseId);
         const isSolOpen = Boolean(openSolutions[lesson.exerciseId]);
         return `
@@ -1584,7 +1764,7 @@
           <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
           <div class="progress-meta">
             <span>الإنجاز الكلي: <strong style="color:#f1f5f9;">${doneCount}</strong> من ${TOTAL_LESSONS} درس (${pct}%)</span>
-            <span>التكليفات المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${TOTAL_LESSONS}</span>
+            <span>التكليفات المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${TASKS_LESSONS.length}</span>
           </div>
         `;
 
@@ -1649,9 +1829,9 @@
           });
         } else if (state.activeTab === "tasks") {
           container.innerHTML = `
-            <h3 style="margin-bottom:12px;">جميع التكليفات العملية وحلولها (${TOTAL_LESSONS} تكليف)</h3>
+            <h3 style="margin-bottom:12px;">التكليفات العملية وحلولها (${TASKS_LESSONS.length} تكليف للدروس التطبيقية)</h3>
             <div class="grid">
-              ${LESSONS.map(l => `
+              ${TASKS_LESSONS.map(l => `
                 <div class="lesson-card">
                   <div class="lesson-video-title" style="margin-bottom:6px;">${escapeHtml(l.fullTitle)}</div>
                   ${renderLessonTaskBlock(l)}
@@ -1665,7 +1845,7 @@
             <div class="stats-grid">
               <div class="glass stat-box"><div class="muted">الدروس المكتملة</div><div class="stat-val">${state.completedLessons.length} / ${TOTAL_LESSONS}</div></div>
               <div class="glass stat-box"><div class="muted">نسبة الإنجاز</div><div class="stat-val" style="color:#facc15;">${pct}%</div></div>
-              <div class="glass stat-box"><div class="muted">التكليفات المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${TOTAL_LESSONS}</div></div>
+              <div class="glass stat-box"><div class="muted">التكليفات المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${TASKS_LESSONS.length}</div></div>
               <div class="glass stat-box"><div class="muted">مدة الخطة الحالية</div><div class="stat-val">${state.planDays} يوم</div></div>
             </div>
           `;
