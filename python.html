@@ -108,6 +108,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      max-width: 100%;
     }
 
     input[type="text"], input[type="date"] {
@@ -282,8 +283,10 @@
 
     .lesson-left {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
+      flex: 1 1 280px;
+      min-width: 0;
     }
 
     .lesson-en-title {
@@ -292,7 +295,8 @@
       font-size: 0.8rem;
       color: #7dd3fc;
       font-family: Consolas, "Courier New", monospace;
-      margin-top: 2px;
+      margin-top: 3px;
+      word-break: break-word;
     }
 
     .badge-num {
@@ -303,6 +307,8 @@
       border-radius: 9px;
       font-weight: 700;
       font-size: 0.82rem;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .lesson-actions {
@@ -388,12 +394,13 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.85);
+      background: rgba(2, 6, 23, 0.86);
       backdrop-filter: blur(10px);
       display: none;
       place-items: center;
-      padding: 14px;
+      padding: 12px;
       z-index: 999;
+      overflow-y: auto;
     }
 
     .modal-backdrop.open {
@@ -403,9 +410,10 @@
     .modal {
       width: 100%;
       max-width: 780px;
-      max-height: 94vh;
+      max-height: 92vh;
       overflow-y: auto;
-      padding: 18px;
+      overflow-x: hidden;
+      padding: 16px;
       background: #0d1526;
       border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 22px;
@@ -414,26 +422,49 @@
 
     .modal-header-bar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 12px;
     }
 
-    .modal-icon-btns {
+    .modal-meta-group {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 7px;
+      min-width: 0;
+    }
+
+    .live-badge {
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      padding: 4px 10px;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .modal-icon-btns {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
     }
 
     .icon-pill {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       padding: 0;
       display: grid;
       place-items: center;
       border-radius: 11px;
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(30, 41, 59, 0.88);
+      flex-shrink: 0;
     }
 
     .icon-pill.close-pill {
@@ -483,6 +514,7 @@
       gap: 5px;
       height: 44px;
       width: 220px;
+      max-width: 100%;
     }
 
     .wave span {
@@ -493,12 +525,14 @@
     }
 
     .player-controls-panel {
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.92);
       border: 1px solid rgba(148, 163, 184, 0.15);
       border-radius: 16px;
-      padding: 12px 14px;
-      display: grid;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
+      width: 100%;
     }
 
     .speed-group {
@@ -516,7 +550,7 @@
     }
 
     .speed-pill {
-      padding: 5px 10px;
+      padding: 6px 10px;
       font-size: 0.8rem;
       border-radius: 9px;
     }
@@ -533,8 +567,16 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding-top: 6px;
+      padding-top: 8px;
       border-top: 1px solid rgba(148, 163, 184, 0.12);
+      width: 100%;
+    }
+
+    .modal-nav-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
     }
 
     .stats-grid {
@@ -581,7 +623,7 @@
         </div>
         <div>
           <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
-          <p>152 درساً بالعربي والإنجليزي + تكليف تطبيقي وحل لكل درس</p>
+          <p>152 درساً بالعربي والإنجليزي + تكليف عملي وحل لكل درس</p>
         </div>
       </div>
       <div class="controls-row">
@@ -615,52 +657,52 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v9";
+      const STORAGE_KEY = "elzero_python_navy_v11";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
       const TOPICS = [
-        { ar: "المقدمة وتجهيز البيئة", en: "Introduction And Setup" },
-        { ar: "المتغيرات وأنواع البيانات", en: "Variables And Data Types" },
-        { ar: "النصوص (Strings) ودوالها", en: "Strings And Methods" },
-        { ar: "الأرقام (Numbers) والعمليات الحسابية", en: "Numbers And Arithmetic" },
-        { ar: "القوائم (Lists) ودوالها", en: "Lists And Methods" },
-        { ar: "الصفوف (Tuples) والمجموعات (Sets)", en: "Tuples And Sets" },
-        { ar: "القواميس (Dictionaries)", en: "Dictionaries And Methods" },
-        { ar: "العمليات المنطقية والمقارنة", en: "Boolean And Comparison Operators" },
-        { ar: "إدخال المستخدم والشروط (If / Elif / Else)", en: "User Input And Control Flow" },
-        { ar: "حلقات التكرار (While & For Loop)", en: "Loops: While And For" },
-        { ar: "الدوال (Functions) و Recursion و Lambda", en: "Functions, Recursion And Lambda" },
-        { ar: "التعامل مع الملفات (File Handling)", en: "Files Handling Read And Write" },
-        { ar: "الدوال الجاهزة (Built-in Functions)", en: "Built-In Functions" },
-        { ar: "الوحدات والحزم (Modules & Packages)", en: "Modules And Packages" },
-        { ar: "التاريخ والوقت ومعالجة الأخطاء", en: "Date, Time And Exceptions" },
-        { ar: "التعابير النمطية (Regular Expressions)", en: "Regular Expressions (RegEx)" },
-        { ar: "البرمجة كائنية التوجه (OOP)", en: "Object Oriented Programming (OOP)" },
-        { ar: "قواعد البيانات (SQLite) والمواضيع المتقدمة", en: "Databases (SQLite) And Advanced Topics" }
+        { ar: "المقدمة وتجهيز البيئة", en: "Introduction And Setup", hint: "تهيئة بيئة العمل وكتابة أول تعليقات وأوامر طباعة" },
+        { ar: "المتغيرات وأنواع البيانات", en: "Variables And Data Types", hint: "تعريف المتغيرات ومعرفة أنواع البيانات عبر type()" },
+        { ar: "النصوص (Strings) ودوالها", en: "Strings And Methods", hint: "التنسيق والفهرسة والتقطيع ودوال النصوص الجاهزة" },
+        { ar: "الأرقام (Numbers) والعمليات الحسابية", en: "Numbers And Arithmetic", hint: "العمليات الحسابية والأسس والقسمة الصحيحة والباقي" },
+        { ar: "القوائم (Lists) ودوالها", en: "Lists And Methods", hint: "إنشاء القوائم وتعديل العناصر ودوال الإضافة والحذف والفرز" },
+        { ar: "الصفوف (Tuples) والمجموعات (Sets)", en: "Tuples And Sets", hint: "الثبات في Tuple وعدم التكرار والعمليات على Sets" },
+        { ar: "القواميس (Dictionaries)", en: "Dictionaries And Methods", hint: "تخزين البيانات بمفتاح وقيمة واسترجاع وتحديث القيم" },
+        { ar: "العمليات المنطقية والمقارنة", en: "Boolean And Comparison Operators", hint: "اختبار الشروط المنطقية باستخدام and و or و not" },
+        { ar: "إدخال المستخدم والشروط (If / Elif / Else)", en: "User Input And Control Flow", hint: "قراءة المدخلات وتوجيه التنفيذ حسب الشروط" },
+        { ar: "حلقات التكرار (While & For Loop)", en: "Loops: While And For", hint: "تكرار العمليات والتحكم بالمسار عبر break و continue" },
+        { ar: "الدوال (Functions) و Recursion و Lambda", en: "Functions, Recursion And Lambda", hint: "تنظيم الكود في دوال وإعادة الاستخدام والدوال المجهولة" },
+        { ar: "التعامل مع الملفات (File Handling)", en: "Files Handling Read And Write", hint: "فتح الملفات وقراءتها وكتابتها وحفظ البيانات" },
+        { ar: "الدوال الجاهزة (Built-in Functions)", en: "Built-In Functions", hint: "توظيف دوال مثل len و sum و min و max و map و filter" },
+        { ar: "الوحدات والحزم (Modules & Packages)", en: "Modules And Packages", hint: "استيراد الوحدات القياسية وتقسيم الكود لوحدات منظمة" },
+        { ar: "التاريخ والوقت ومعالجة الأخطاء", en: "Date, Time And Exceptions", hint: "تنسيق التواريخ والتعامل الآمن مع الأخطاء عبر try/except" },
+        { ar: "التعابير النمطية (Regular Expressions)", en: "Regular Expressions (RegEx)", hint: "البحث واستخراج الأنماط النصية باستخدام وحدة re" },
+        { ar: "البرمجة كائنية التوجه (OOP)", en: "Object Oriented Programming (OOP)", hint: "بناء الأصناف والكائنات والخصائص والوراثة والتغليف" },
+        { ar: "قواعد البيانات (SQLite) والمواضيع المتقدمة", en: "Databases (SQLite) And Advanced Topics", hint: "إنشاء الجداول وإدخال واستعلام البيانات في SQLite" }
       ];
 
-      const FIRST_LESSONS_META = {
-        1: { ar: "مقدمة وماذا ستتعلم في الدورة", en: "Introduction And What I Will Learn" },
-        2: { ar: "ما هي لغة Python ولماذا تتعلمها", en: "What Is Python And Why Learn It" },
-        3: { ar: "تثبيت بايثون وتجهيز محرر الأكواد", en: "Install Python And Code Editor" },
-        4: { ar: "كتابة أول كود والتعامل مع التعليقات", en: "First Code And Comments" },
-        5: { ar: "التعامل مع البيانات وأنواعها", en: "Data Types Overview" },
-        6: { ar: "المتغيرات — الجزء الأول", en: "Variables Part 1" },
-        7: { ar: "المتغيرات — الجزء الثاني", en: "Variables Part 2" },
-        8: { ar: "التسلسل والـ Escape Sequences", en: "Escape Sequences Characters" },
-        9: { ar: "دمج النصوص والتدريب", en: "Concatenation And Training" },
-        10: { ar: "النصوص — الجزء الأول", en: "Strings Part 1" }
+      const PLAYLIST_TITLES_FIRST = {
+        1: { ar: "مقدمة وماذا ستتعلم في الدورة", en: "Mastering Python - Introduction And What I Will Learn" },
+        2: { ar: "ما هي لغة بايثون ولماذا تتعلمها", en: "Mastering Python - What Is Python And Why Learn It" },
+        3: { ar: "تثبيت بايثون وتجهيز محرر الأكواد", en: "Mastering Python - Install Python And Code Editor" },
+        4: { ar: "كتابة أول كود والتعامل مع التعليقات", en: "Mastering Python - First Code And Comments" },
+        5: { ar: "التعامل مع البيانات وأنواعها", en: "Mastering Python - Data Types Overview" },
+        6: { ar: "المتغيرات — الجزء الأول", en: "Mastering Python - Variables Part 1" },
+        7: { ar: "المتغيرات — الجزء الثاني", en: "Mastering Python - Variables Part 2" },
+        8: { ar: "التسلسل والـ Escape Sequences", en: "Mastering Python - Escape Sequences Characters" },
+        9: { ar: "دمج النصوص والتدريب", en: "Mastering Python - Concatenation And Training" },
+        10: { ar: "دمج النصوص والتدريبات", en: "Mastering Python - Concatenation And Trainings" }
       };
 
-      function buildLessonExercise(id, titleAr, titleEn, topicAr, topicEn) {
+      function buildLessonExercise(id, titleAr, titleEn, topicObj) {
         if (id === 1) {
           return {
-            prompt: "تطبيق الدرس #001: اكتب تعليقاً متعدد الأسطر في أعلى ملف بايثون يوضح هدفك من الكورس، ثم اطبع رسالة ترحيبية ببداية رحلتك.",
+            prompt: "تطبيق الدرس #001: اكتب تعليقاً متعدد الأسطر في أعلى الملف يوضح هدفك من الكورس، ثم اطبع رسالة ترحيبية ببداية تعلم بايثون.",
             solution: [
               '"""',
               "Course: Mastering Python",
-              "Goal: Learn Python from scratch and build real projects",
+              "Goal: Understand core concepts and build practical scripts",
               '"""',
               'print("Welcome to Mastering Python!")'
             ].join("\n")
@@ -668,95 +710,96 @@
         }
         if (id === 2) {
           return {
-            prompt: "تطبيق الدرس #002: عرّف متغيراً يمثل مجالك المفضل مع بايثون واطبع جملة توضح لماذا اخترت بايثون.",
+            prompt: "تطبيق الدرس #002: عرّف متغيراً يحدد سبب اختيارك للغة بايثون واطبع عبارة توضح الفائدة العملية للغة.",
             solution: [
-              'field = "Backend & Automation"',
-              'print(f"I chose Python because of its clarity and strength in {field}.")'
+              'reason = "readable syntax and rich ecosystem"',
+              'print(f"I am learning Python because of its {reason}.")'
             ].join("\n")
           };
         }
         if (id === 3) {
           return {
-            prompt: "تطبيق الدرس #003: اكتب برنامجاً صغيراً يطبع اسم البيئة التي تعمل عليها حالياً ورسالة تؤكد جاهزية المترجم لتشغيل الكود.",
+            prompt: "تطبيق الدرس #003: اكتب سطراً يطبع اسم محرر الأكواد ورسالة تؤكد أن بيئة بايثون جاهزة لتشغيل الملفات.",
             solution: [
               'editor = "VS Code"',
-              'print("Environment ready on:", editor)'
+              'print(f"Python environment is ready inside {editor}.")'
             ].join("\n")
           };
         }
         if (id === 4) {
           return {
-            prompt: "تطبيق الدرس #004: اكتب سطراً برمجياً يطبع عبارة واضحة، وأضف تعليقاً يشرح ماذا يفعل السطر.",
+            prompt: "تطبيق الدرس #004: اكتب تعليقاً يشرح مهمة الكود قبل سطر الطباعة، ثم اطبع نتيجة تنفيذ أول برنامج لك.",
             solution: [
-              "# Print a clear status message to the console",
-              'print("Step 4 completed successfully")'
+              "# Display a confirmation message for the first Python script",
+              'print("First Python code ran without errors!")'
             ].join("\n")
           };
         }
         if (id === 5) {
           return {
-            prompt: "تطبيق الدرس #005: أنشئ متغيرات من أنواع مختلفة (نص، عدد صحيح، عدد عشري، قائمة، قاموس) واطبع نوع كل منها باستخدام type().",
+            prompt: "تطبيق الدرس #005: أنشئ متغيراً لكل نوع بيانات أساسي (str, int, float, bool, list, dict) واطبع نوع كل متغير بدالة type().",
             solution: [
-              's = "Python"',
-              "i = 10",
-              "f = 3.5",
-              "l = [1, 2]",
-              'd = {"key": "value"}',
-              "for item in (s, i, f, l, d):",
-              '    print(item, "->", type(item))'
+              'text_val = "Python"',
+              "int_val = 25",
+              "float_val = 9.9",
+              "bool_val = True",
+              'list_val = ["a", "b"]',
+              'dict_val = {"lesson": 5}',
+              "for v in (text_val, int_val, float_val, bool_val, list_val, dict_val):",
+              '    print(v, "=>", type(v))'
             ].join("\n")
           };
         }
-        if (id === 6 || id === 7) {
+        if (id === 6) {
           return {
-            prompt: `تطبيق الدرس #${String(id).padStart(3, "0")}: عرّف متغيرات باسمك ومستواك وعدّل قيمة أحدها ثم اطبع القيمة القديمة والجديدة.`,
+            prompt: "تطبيق الدرس #006: عرّف متغيرات باسم المستخدم ومستواه ثم اطبعها في رسالة واضحة.",
             solution: [
-              'student_name = "Amr"',
-              'level = "Beginner"',
-              'print("Initial:", student_name, level)',
-              'level = "Practicing"',
-              'print("Updated:", student_name, level)'
+              'user_name = "Amr"',
+              'current_level = "Beginner"',
+              'print(f"User: {user_name} | Level: {current_level}")'
+            ].join("\n")
+          };
+        }
+        if (id === 7) {
+          return {
+            prompt: "تطبيق الدرس #007: عرّف متغيراً بقيمة أولية ثم أعد إسناد قيمة جديدة له واطبع القيمة بعد التعديل.",
+            solution: [
+              "lessons_done = 6",
+              'print("Before update:", lessons_done)',
+              "lessons_done = 7",
+              'print("After update:", lessons_done)'
             ].join("\n")
           };
         }
         if (id === 8) {
           return {
-            prompt: "تطبيق الدرس #008: استخدم رموز الهروب لطباعة نص منسق يظهر في سطرين مع مسافة جدولة.",
+            prompt: "تطبيق الدرس #008: استخدم رموز الهروب (\\n و \\t و \\\") لطباعة نص منسق على سطرين مع مسافة جدولة وعلامات تنصيص.",
             solution: [
-              'print("Line 1:\\t\\"Python\\"\\\\Basics")',
-              'print("Line 2:\\tReady to practice")'
+              'print("Part 1:\\t\\"Escape\\"\\\\Sequences")',
+              'print("Part 2:\\tFormatted Output")'
             ].join("\n")
           };
         }
-        if (id === 9) {
+        if (id === 9 || id === 10) {
           return {
-            prompt: "تطبيق الدرس #009: ادمج نصاً مع متغير رقمي باستخدام str() واطبع جملة كاملة دون أي أخطاء نوع بيانات.",
+            prompt: `تطبيق الدرس #${String(id).padStart(3, "0")}: ادمج نصوصاً مع رقم الدرس باستخدام str() واطبع عبارة تدريبية توضح دمج السلاسل النصية.`,
             solution: [
-              "course_lessons = 152",
-              'message = "Total lessons in course: " + str(course_lessons)',
-              "print(message)"
-            ].join("\n")
-          };
-        }
-        if (id === 10) {
-          return {
-            prompt: "تطبيق الدرس #010: خزّن جملة نصية في متغير واستخرج أول حرف وآخر حرف وجزءاً من النص باستخدام الفهرسة والتقطيع.",
-            solution: [
-              'text = "Mastering Python Course"',
-              'print("First:", text[0])',
-              'print("Last:", text[-1])',
-              'print("Slice:", text[0:9])'
+              `lesson_id = ${id}`,
+              'part_title = "Concatenation And Trainings"',
+              'print("Lesson #" + str(lesson_id) + " - " + part_title)'
             ].join("\n")
           };
         }
 
+        const stepInTopic = (id % 4) + 1;
         return {
-          prompt: `تطبيق الدرس #${String(id).padStart(3, "0")} (${titleAr}): اكتب كود بايثون يطبّق فكرة "${topicAr} (${topicEn})" بشكل عملي ويطبع النتيجة.`,
+          prompt: `تطبيق الدرس #${String(id).padStart(3, "0")} (${titleAr}): طبّق عملياً فكرة (${topicObj.hint}) في سيناريو تمرين رقم ${stepInTopic} واطبع النتيجة بوضوح.`,
           solution: [
-            `# Lesson #${String(id).padStart(3, "0")} - ${titleEn}`,
-            `topic = "${topicEn}"`,
-            `result = f"Practicing {topic} (Lesson #${id})"`,
-            "print(result)"
+            `# ${titleEn}`,
+            `topic = "${topicObj.en}"`,
+            `exercise_no = ${stepInTopic}`,
+            `output = f"{topic} -> Practice #{exercise_no} (Lesson ${id})"`,
+            "print(output)"
           ].join("\n")
         };
       }
@@ -764,10 +807,10 @@
       const LESSONS = Array.from({ length: TOTAL_LESSONS }, (_, i) => {
         const id = i + 1;
         const topicObj = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
-        const meta = FIRST_LESSONS_META[id];
+        const meta = PLAYLIST_TITLES_FIRST[id];
         const titleAr = meta ? meta.ar : `${topicObj.ar} — درس ${id}`;
-        const titleEn = meta ? meta.en : `${topicObj.en} - Lesson ${id}`;
-        const exercise = buildLessonExercise(id, titleAr, titleEn, topicObj.ar, topicObj.en);
+        const titleEn = meta ? meta.en : `Mastering Python - ${topicObj.en} ${id}`;
+        const exercise = buildLessonExercise(id, titleAr, titleEn, topicObj);
 
         return {
           id,
@@ -895,10 +938,10 @@
 
         box.innerHTML = `
           <div class="modal-header-bar">
-            <div style="display:flex;align-items:center;gap:8px;">
+            <div class="modal-meta-group">
               <span class="badge-num">${lesson.code}</span>
               <span class="muted">${lesson.duration}</span>
-              <span style="background:rgba(16,185,129,0.18);color:#6ee7b7;padding:3px 9px;border-radius:8px;font-size:0.78rem;font-weight:700;">مشغل الكورس المباشر</span>
+              <span class="live-badge">مشغل الكورس المباشر</span>
             </div>
             <div class="modal-icon-btns">
               <button class="icon-pill" id="audioTogglePill" title="وضع الصوت">🎵</button>
@@ -918,7 +961,7 @@
             <iframe
               id="ytEmbedFrame"
               src="${embedSrc}"
-              title="${lesson.titleAr}"
+              title="${lesson.titleEn}"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
@@ -946,7 +989,7 @@
                 ${isDone ? "✓ تم إكمال الدرس" : "✓ تحديد الدرس كمكتمل"}
               </button>
 
-              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+              <div class="modal-nav-group">
                 <button id="prevLessonBtn" ${lesson.id <= 1 ? "disabled" : ""}>→ السابق</button>
                 <button id="nextLessonBtn" ${lesson.id >= TOTAL_LESSONS ? "disabled" : ""}>التالي ←</button>
                 <a href="${ytDirectUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
@@ -1128,10 +1171,10 @@
                   ${isDone ? "✓" : "○"}
                 </button>
                 <span class="badge-num">${lesson.code}</span>
-                <div>
+                <div style="min-width:0;flex:1;">
                   <div style="${isDone ? "text-decoration:line-through;opacity:0.65;" : "font-weight:700;"}">${lesson.titleAr}</div>
                   <div class="lesson-en-title">${lesson.titleEn}</div>
-                  <div class="muted" style="margin-top:2px;">${lesson.topicAr} • ${lesson.duration}</div>
+                  <div class="muted" style="margin-top:3px;">${lesson.topicAr} • ${lesson.duration}</div>
                 </div>
               </div>
               <div class="lesson-actions">
