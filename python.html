@@ -615,7 +615,7 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v8";
+      const STORAGE_KEY = "elzero_python_navy_v9";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
@@ -657,61 +657,107 @@
         if (id === 1) {
           return {
             prompt: "تطبيق الدرس #001: اكتب تعليقاً متعدد الأسطر في أعلى ملف بايثون يوضح هدفك من الكورس، ثم اطبع رسالة ترحيبية ببداية رحلتك.",
-            solution: `"""\nCourse: Mastering Python\nGoal: Learn Python from scratch and build real projects\n"""\nprint("Welcome to Mastering Python!")`
+            solution: [
+              '"""',
+              "Course: Mastering Python",
+              "Goal: Learn Python from scratch and build real projects",
+              '"""',
+              'print("Welcome to Mastering Python!")'
+            ].join("\n")
           };
         }
         if (id === 2) {
           return {
-            prompt: "تطبيق الدرس #002: عرّف متغيراً يمثل مجالك المفضل مع بايثون (مثل Web أو Data أو Automation) واطبع جملة توضح لماذا اخترت بايثون.",
-            solution: `field = "Backend & Automation"\nprint(f"I chose Python because of its clarity and strength in {field}.")`
+            prompt: "تطبيق الدرس #002: عرّف متغيراً يمثل مجالك المفضل مع بايثون واطبع جملة توضح لماذا اخترت بايثون.",
+            solution: [
+              'field = "Backend & Automation"',
+              'print(f"I chose Python because of its clarity and strength in {field}.")'
+            ].join("\n")
           };
         }
         if (id === 3) {
           return {
             prompt: "تطبيق الدرس #003: اكتب برنامجاً صغيراً يطبع اسم البيئة التي تعمل عليها حالياً ورسالة تؤكد جاهزية المترجم لتشغيل الكود.",
-            solution: `editor = "VS Code"\nprint("Environment ready on:", editor)`
+            solution: [
+              'editor = "VS Code"',
+              'print("Environment ready on:", editor)'
+            ].join("\n")
           };
         }
         if (id === 4) {
           return {
-            prompt: "تطبيق الدرس #004: اكتب سطراً برمجياً يطبع عبارة واضحة، وأضف تعليقاً بجانبه يشرح ماذا يفعل السطر وتجاهله عند التنفيذ.",
-            solution: `# Print a clear status message to the console\nprint("Step 4 completed successfully")`
+            prompt: "تطبيق الدرس #004: اكتب سطراً برمجياً يطبع عبارة واضحة، وأضف تعليقاً يشرح ماذا يفعل السطر.",
+            solution: [
+              "# Print a clear status message to the console",
+              'print("Step 4 completed successfully")'
+            ].join("\n")
           };
         }
         if (id === 5) {
           return {
             prompt: "تطبيق الدرس #005: أنشئ متغيرات من أنواع مختلفة (نص، عدد صحيح، عدد عشري، قائمة، قاموس) واطبع نوع كل منها باستخدام type().",
-            solution: `s = "Python"\ni = 10\nf = 3.5\nl = [1, 2]\nd = {"key": "value"}\nfor item in (s, i, f, l, d):\n    print(item, "->", type(item))`
+            solution: [
+              's = "Python"',
+              "i = 10",
+              "f = 3.5",
+              "l = [1, 2]",
+              'd = {"key": "value"}',
+              "for item in (s, i, f, l, d):",
+              '    print(item, "->", type(item))'
+            ].join("\n")
           };
         }
         if (id === 6 || id === 7) {
           return {
             prompt: `تطبيق الدرس #${String(id).padStart(3, "0")}: عرّف متغيرات باسمك ومستواك وعدّل قيمة أحدها ثم اطبع القيمة القديمة والجديدة.`,
-            solution: `student_name = "Amr"\nlevel = "Beginner"\nprint("Initial:", student_name, level)\nlevel = "Practicing"\nprint("Updated:", student_name, level)`
+            solution: [
+              'student_name = "Amr"',
+              'level = "Beginner"',
+              'print("Initial:", student_name, level)',
+              'level = "Practicing"',
+              'print("Updated:", student_name, level)'
+            ].join("\n")
           };
         }
         if (id === 8) {
           return {
-            prompt: "تطبيق الدرس #008: استخدم رموز الهروب (\\n و \\t و \\\") لطباعة نص منسق يظهر في سطرين مع مسافة جدولة.",
-            solution: `print("Line 1:\\t\\"Python\\"\\\\Basics")\nprint("Line 2:\\tReady to practice")`
+            prompt: "تطبيق الدرس #008: استخدم رموز الهروب لطباعة نص منسق يظهر في سطرين مع مسافة جدولة.",
+            solution: [
+              'print("Line 1:\\t\\"Python\\"\\\\Basics")',
+              'print("Line 2:\\tReady to practice")'
+            ].join("\n")
           };
         }
         if (id === 9) {
           return {
             prompt: "تطبيق الدرس #009: ادمج نصاً مع متغير رقمي باستخدام str() واطبع جملة كاملة دون أي أخطاء نوع بيانات.",
-            solution: `course_lessons = 152\nmessage = "Total lessons in course: " + str(course_lessons)\nprint(message)`
+            solution: [
+              "course_lessons = 152",
+              'message = "Total lessons in course: " + str(course_lessons)',
+              "print(message)"
+            ].join("\n")
           };
         }
         if (id === 10) {
           return {
-            prompt: "تطبيق الدرس #010: خزّن جملة نصية في متغير واستخرج أول حرف وآخر حرف وجزءاً من منتصف النص باستخدام الفهرسة والتقطيع.",
-            solution: `text = "Mastering Python Course"\nprint("First:", text[0])\nprint("Last:", text[-1])\nprint("Slice:", text[0:9])`
+            prompt: "تطبيق الدرس #010: خزّن جملة نصية في متغير واستخرج أول حرف وآخر حرف وجزءاً من النص باستخدام الفهرسة والتقطيع.",
+            solution: [
+              'text = "Mastering Python Course"',
+              'print("First:", text[0])',
+              'print("Last:", text[-1])',
+              'print("Slice:", text[0:9])'
+            ].join("\n")
           };
         }
 
         return {
           prompt: `تطبيق الدرس #${String(id).padStart(3, "0")} (${titleAr}): اكتب كود بايثون يطبّق فكرة "${topicAr} (${topicEn})" بشكل عملي ويطبع النتيجة.`,
-          solution: `# Lesson #${String(id).padStart(3, "0")} - ${titleEn}\ntopic = "${topicEn}"\nresult = f"Practicing ${topic} (Lesson #${id})"\nprint(result)`
+          solution: [
+            `# Lesson #${String(id).padStart(3, "0")} - ${titleEn}`,
+            `topic = "${topicEn}"`,
+            `result = f"Practicing {topic} (Lesson #${id})"`,
+            "print(result)"
+          ].join("\n")
         };
       }
 
@@ -1166,7 +1212,7 @@
 
           container.innerHTML = `
             <div class="filter-bar">
-              <input type="text" id="lessonSearchInput" value="${state.searchQuery.replace(/"/g, "&quot;")}" placeholder="ابحث بالعربي أو الإنجليزي أو برقم الدرس (#001)..." style="flex:1;min-width:240px;" />
+              <input type="text" id="lessonSearchInput" value="${escapeHtml(state.searchQuery)}" placeholder="ابحث بالعربي أو الإنجليزي أو برقم الدرس (#001)..." style="flex:1;min-width:240px;" />
               <button class="${state.filterMode === "all" ? "primary" : ""}" data-filter="all">الكل (${TOTAL_LESSONS})</button>
               <button class="${state.filterMode === "pending" ? "primary" : ""}" data-filter="pending">المتبقي (${TOTAL_LESSONS - state.completedLessons.length})</button>
               <button class="${state.filterMode === "completed" ? "primary" : ""}" data-filter="completed">المكتمل (${state.completedLessons.length})</button>
