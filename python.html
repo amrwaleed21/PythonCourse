@@ -11,16 +11,12 @@
       --bg-grad-1: #0b1224;
       --bg-grad-2: #0f172a;
       --card-bg: rgba(15, 23, 42, 0.72);
-      --card-elevated: rgba(23, 33, 58, 0.85);
       --border: rgba(148, 163, 184, 0.16);
       --border-glow: rgba(56, 189, 248, 0.35);
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
-      --navy-accent: #1d4ed8;
       --sky-accent: #38bdf8;
       --gold-accent: #facc15;
-      --green-accent: #10b981;
-      --red-accent: #e11d48;
       --radius: 20px;
     }
 
@@ -57,7 +53,6 @@
       box-shadow: 0 18px 40px rgba(2, 6, 23, 0.55);
     }
 
-    /* Header */
     header.top {
       display: flex;
       flex-wrap: wrap;
@@ -89,7 +84,6 @@
     .brand h1 {
       font-size: 1.28rem;
       font-weight: 800;
-      letter-spacing: -0.2px;
     }
 
     .brand p {
@@ -106,7 +100,7 @@
     }
 
     button, select, input[type="text"] {
-      background: rgba(30, 41, 59, 0.75);
+      background: rgba(30, 41, 59, 0.78);
       color: var(--text-main);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -123,7 +117,7 @@
     }
 
     button:hover, select:hover {
-      background: rgba(51, 65, 85, 0.85);
+      background: rgba(51, 65, 85, 0.88);
       border-color: rgba(148, 163, 184, 0.32);
       transform: translateY(-1px);
     }
@@ -138,10 +132,6 @@
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       border-color: rgba(96, 165, 250, 0.4);
       color: #fff;
-    }
-
-    button.primary:hover {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
     }
 
     button.success {
@@ -162,14 +152,6 @@
       color: #fff;
     }
 
-    button.gold-btn {
-      background: #facc15;
-      border-color: #fde047;
-      color: #0f172a;
-      font-weight: 700;
-    }
-
-    /* Continue / Overview Card */
     .hero-card {
       padding: 20px;
       margin-bottom: 16px;
@@ -201,7 +183,6 @@
       transition: width 0.35s ease;
     }
 
-    /* Navigation Tabs */
     .tabs {
       display: flex;
       flex-wrap: wrap;
@@ -222,7 +203,6 @@
       box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
     }
 
-    /* Lessons & Exercises */
     .grid {
       display: grid;
       gap: 12px;
@@ -233,11 +213,6 @@
       border-radius: 16px;
       background: rgba(15, 23, 42, 0.65);
       border: 1px solid rgba(148, 163, 184, 0.14);
-      transition: border-color 0.2s ease;
-    }
-
-    .lesson-card:hover {
-      border-color: rgba(56, 189, 248, 0.32);
     }
 
     .lesson-main {
@@ -301,7 +276,6 @@
       margin-left: 6px;
     }
 
-    /* Dark Navy Player Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -493,17 +467,17 @@
         <div class="brand-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 64 64">
             <path fill="#3776ab" d="M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z"/>
-            <path fill="#ffd43b" d="M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0-4.2z"/>
+            <path fill="#ffd43b" d="M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z"/>
           </svg>
         </div>
         <div>
           <h1>Mastering Python — Elzero</h1>
-          <p>152 درساً بالترتيب المباشر + 26 تكليفاً موزعة على الدروس</p>
+          <p>152 درساً بالترتيب المباشر + 26 تكليفاً بروابطها وتمارينها</p>
         </div>
       </div>
       <div class="controls-row">
-        <button id="exportJsonBtn">تصدير JSON</button>
-        <button id="importJsonBtn">استيراد JSON</button>
+        <button id="exportProgressBtn">تصدير التقدم</button>
+        <button id="importProgressBtn">استيراد التقدم</button>
         <input type="file" id="importFileInput" accept="application/json" hidden />
       </div>
     </header>
@@ -519,14 +493,13 @@
     <main id="tabContent" class="glass" style="padding: 18px;"></main>
   </div>
 
-  <!-- Dark Navy Media Player Modal -->
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal" id="modalBox"></div>
   </div>
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v3";
+      const STORAGE_KEY = "elzero_python_navy_v4";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
@@ -564,28 +537,68 @@
         10: "النصوص (Strings) — الجزء الأول"
       };
 
+      // Each assignment (#1 to #26) has its own specific URL slug and exercises mapped to lessons
+      const ASSIGNMENT_SLUGS = {
+        1: "python-assignments-from-1-to-10",
+        2: "python-assignments-from-11-to-18",
+        3: "python-assignments-from-19-to-25",
+        4: "python-assignments-from-26-to-32",
+        5: "python-assignments-from-33-to-37",
+        6: "python-assignments-from-38-to-40",
+        7: "python-assignments-from-41-to-46",
+        8: "python-assignments-from-47-to-50",
+        9: "python-assignments-from-51-to-55",
+        10: "python-assignments-from-56-to-59",
+        11: "python-assignments-from-60-to-64",
+        12: "python-assignments-from-65-to-68",
+        13: "python-assignments-from-69-to-70",
+        14: "python-assignments-from-71-to-75",
+        15: "python-assignments-from-76-to-78",
+        16: "python-assignments-from-79-to-80",
+        17: "python-assignments-from-81-to-85",
+        18: "python-assignments-from-86-to-89",
+        19: "python-assignments-from-90-to-94",
+        20: "python-assignments-from-95-to-102",
+        21: "python-assignments-from-103-to-116",
+        22: "python-assignments-from-117-to-127",
+        23: "python-assignments-from-128-to-133",
+        24: "python-assignments-from-134-to-137",
+        25: "python-assignments-from-138-to-145",
+        26: "python-assignments-from-146-to-152"
+      };
+
+      const ASSIGNMENT_EXERCISE_COUNTS = {
+        1: 5, 2: 5, 3: 5, 4: 4, 5: 4, 6: 3, 7: 5, 8: 4, 9: 4, 10: 4,
+        11: 4, 12: 4, 13: 2, 14: 4, 15: 3, 16: 2, 17: 4, 18: 3, 19: 4, 20: 6,
+        21: 6, 22: 6, 23: 5, 24: 4, 25: 5, 26: 5
+      };
+
       const ASSIGNMENTS = Array.from({ length: 26 }, (_, idx) => {
         const num = idx + 1;
-        const start = Math.min(TOTAL_LESSONS, Math.max(1, Math.round((idx * TOTAL_LESSONS) / 26) + 1));
+        const start = idx === 0 ? 1 : Math.min(TOTAL_LESSONS, Math.round((idx * TOTAL_LESSONS) / 26) + 1);
         const end = idx === 25 ? TOTAL_LESSONS : Math.max(start, Math.min(TOTAL_LESSONS, Math.round(((idx + 1) * TOTAL_LESSONS) / 26)));
         const span = Math.max(1, end - start + 1);
-        const exCount = Math.min(span, 4);
+        const exCount = ASSIGNMENT_EXERCISE_COUNTS[num] || 4;
+        const slug = ASSIGNMENT_SLUGS[num] || "python-assignments";
+        const defaultUrl = `https://elzero.org/${slug}/`;
+
         const exercises = Array.from({ length: exCount }, (__, eIdx) => {
           const targetLesson = Math.min(end, start + Math.floor((eIdx * span) / exCount));
           return {
             id: `a${num}_e${eIdx + 1}`,
             code: `#${num} • تمرين ${eIdx + 1}`,
             lessonId: targetLesson,
-            title: `تطبيق عملي على الدرس #${String(targetLesson).padStart(3, "0")} (تكليف #${num})`,
-            desc: `اكتب كود بايثون لتنفيذ المطلوب على مفاهيم الدرس #${targetLesson} وتأكد من النتيجة.`
+            title: `تمرين ${eIdx + 1} من تكليف #${num} (الدرس #${String(targetLesson).padStart(3, "0")})`,
+            desc: `حل التمرين رقم ${eIdx + 1} الخاص بالتكليف #${num} وتأكد من صحة المخرجات.`
           };
         });
+
         return {
           num,
           start,
           end,
-          title: `تكليفات بايثون رقم #${num} (الدروس ${String(start).padStart(3, "0")}–${String(end).padStart(3, "0")})`,
-          url: "https://elzero.org/category/assignments/python-assignments/",
+          title: `تكليف #${num} (الدروس ${String(start).padStart(3, "0")}–${String(end).padStart(3, "0")})`,
+          defaultUrl,
           exercises
         };
       });
@@ -600,17 +613,17 @@
           title: customTitle,
           topic,
           duration: `${7 + (id % 8)}:${String((id * 11) % 60).padStart(2, "0")}`,
-          playlistIndex: i // 0-based index in playlist
+          playlistIndex: i
         };
       });
 
       const DEFAULT_STATE = {
         activeTab: "lessons",
-        filterMode: "all", // all | pending | completed
+        filterMode: "all",
         searchQuery: "",
         completedLessons: [],
         completedExercises: [],
-        lastWatchedLesson: 1
+        assignmentUrls: {} // custom URL per assignment number if user edits it
       };
 
       function loadState() {
@@ -622,7 +635,8 @@
             ...DEFAULT_STATE,
             ...parsed,
             completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
-            completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : []
+            completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : [],
+            assignmentUrls: parsed.assignmentUrls && typeof parsed.assignmentUrls === "object" ? parsed.assignmentUrls : {}
           };
         } catch {
           return { ...DEFAULT_STATE };
@@ -638,12 +652,23 @@
         }
       }
 
+      function getAssignmentUrl(num) {
+        const custom = (state.assignmentUrls[num] || "").trim();
+        if (custom) return custom;
+        const found = ASSIGNMENTS.find(a => a.num === num);
+        return found ? found.defaultUrl : "https://elzero.org/category/assignments/python-assignments/";
+      }
+
       function getExercisesForLesson(lessonId) {
         const list = [];
         for (const a of ASSIGNMENTS) {
           for (const ex of a.exercises) {
             if (ex.lessonId === lessonId) {
-              list.push({ ...ex, assignmentNum: a.num, assignmentUrl: a.url });
+              list.push({
+                ...ex,
+                assignmentNum: a.num,
+                assignmentUrl: getAssignmentUrl(a.num)
+              });
             }
           }
         }
@@ -666,7 +691,6 @@
         renderAll();
       }
 
-      // YouTube IFrame API helper for speed control & playlist indexing
       let ytPlayer = null;
       let ytApiReady = false;
       window.onYouTubeIframeAPIReady = function () {
@@ -683,8 +707,6 @@
       function openMediaModal(lessonId) {
         const lesson = LESSONS.find(l => l.id === lessonId);
         if (!lesson) return;
-        state.lastWatchedLesson = lesson.id;
-        saveState();
 
         const embedSrc = `https://www.youtube.com/embed/videoseries?list=${PLAYLIST_ID}&index=${lesson.playlistIndex}&autoplay=1&rel=0&enablejsapi=1`;
         const ytDirectUrl = `https://www.youtube.com/playlist?list=${PLAYLIST_ID}`;
@@ -765,9 +787,7 @@
             ytPlayer = new window.YT.Player("ytEmbedFrame", {
               events: {
                 onReady: (ev) => {
-                  try {
-                    ev.target.playVideoAt(lesson.playlistIndex);
-                  } catch {}
+                  try { ev.target.playVideoAt(lesson.playlistIndex); } catch {}
                 }
               }
             });
@@ -785,7 +805,6 @@
         document.getElementById("prevLessonBtn").onclick = () => openMediaModal(lesson.id - 1);
         document.getElementById("nextLessonBtn").onclick = () => openMediaModal(lesson.id + 1);
 
-        // Speed pills
         box.querySelectorAll("[data-speed]").forEach(btn => {
           btn.onclick = () => {
             const rate = parseFloat(btn.getAttribute("data-speed")) || 1;
@@ -799,7 +818,6 @@
           };
         });
 
-        // Audio mode toggle
         let audioMode = false;
         let waveTimer = null;
         document.getElementById("audioTogglePill").onclick = () => {
@@ -821,7 +839,6 @@
           }
         };
 
-        // Fullscreen toggle
         document.getElementById("fullscreenPill").onclick = () => {
           const vp = document.getElementById("playerViewport");
           if (!document.fullscreenElement && vp.requestFullscreen) {
@@ -831,7 +848,6 @@
           }
         };
 
-        // Local file playback
         document.getElementById("localFileInput").onchange = (ev) => {
           const file = ev.target.files && ev.target.files[0];
           if (!file) return;
@@ -852,16 +868,27 @@
       function openAssignmentPreview(assignNum) {
         const a = ASSIGNMENTS.find(x => x.num === assignNum);
         if (!a) return;
+        const currentUrl = getAssignmentUrl(assignNum);
         const backdrop = document.getElementById("modalBackdrop");
         const box = document.getElementById("modalBox");
+
         box.innerHTML = `
           <div class="modal-header-bar">
             <div>
               <strong>${a.title}</strong>
-              <div class="muted">نطاق الدروس: #${String(a.start).padStart(3, "0")} إلى #${String(a.end).padStart(3, "0")}</div>
+              <div class="muted">عدد التمارين: ${a.exercises.length} • الدروس #${String(a.start).padStart(3, "0")} إلى #${String(a.end).padStart(3, "0")}</div>
             </div>
             <button class="icon-pill close-pill" id="closeModalBtn">✕</button>
           </div>
+
+          <div class="lesson-card" style="margin-bottom:12px;">
+            <div class="muted" style="margin-bottom:6px;">رابط التكليف المخصص:</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <input type="text" id="assignUrlInput" value="${currentUrl.replace(/"/g, "&quot;")}" style="flex:1;min-width:200px;" />
+              <button class="primary" id="saveAssignUrlBtn">حفظ رابط التكليف</button>
+            </div>
+          </div>
+
           <div class="grid" style="margin-bottom:14px;">
             ${a.exercises.map(ex => {
               const done = state.completedExercises.includes(ex.id);
@@ -879,17 +906,28 @@
               `;
             }).join("")}
           </div>
+
           <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-            <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;">
-              <button class="primary" type="button">فتح صفحة التكليفات على الزيرو ↗</button>
+            <a href="${currentUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
+              <button class="primary" type="button">فتح التكليف رقم #${a.num} ↗</button>
             </a>
             <button id="closeModalBtn2">إغلاق</button>
           </div>
         `;
+
         backdrop.classList.add("open");
         document.getElementById("closeModalBtn").onclick = closeModal;
         document.getElementById("closeModalBtn2").onclick = closeModal;
         backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
+
+        document.getElementById("saveAssignUrlBtn").onclick = () => {
+          const val = document.getElementById("assignUrlInput").value.trim();
+          if (val) state.assignmentUrls[assignNum] = val;
+          else delete state.assignmentUrls[assignNum];
+          saveState();
+          openAssignmentPreview(assignNum);
+        };
+
         box.querySelectorAll("[data-ex-toggle]").forEach(btn => {
           btn.onclick = () => {
             toggleExerciseComplete(btn.getAttribute("data-ex-toggle"));
@@ -934,7 +972,7 @@
                       <div style="display:flex;gap:6px;">
                         <button data-preview-assign="${ex.assignmentNum}">معاينة</button>
                         <a href="${ex.assignmentUrl}" target="_blank" rel="noopener" style="text-decoration:none;">
-                          <button type="button">التكليف ↗</button>
+                          <button type="button">فتح التكليف ↗</button>
                         </a>
                       </div>
                     </div>
@@ -1020,17 +1058,18 @@
             <div class="grid">
               ${ASSIGNMENTS.map(a => {
                 const doneEx = a.exercises.filter(e => state.completedExercises.includes(e.id)).length;
+                const url = getAssignmentUrl(a.num);
                 return `
                   <div class="lesson-card">
                     <div class="lesson-main">
                       <div>
                         <strong>${a.title}</strong>
-                        <div class="muted" style="margin-top:3px;">التمارين المنجزة: ${doneEx} / ${a.exercises.length}</div>
+                        <div class="muted" style="margin-top:3px;">عدد التمارين: ${a.exercises.length} • المحلول: ${doneEx} / ${a.exercises.length}</div>
                       </div>
-                      <div style="display:flex;gap:8px;">
-                        <button data-preview-assign="${a.num}">معاينة التمارين</button>
-                        <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;">
-                          <button class="primary" type="button">فتح التكليف ↗</button>
+                      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button data-preview-assign="${a.num}">معاينة وتعديل الرابط</button>
+                        <a href="${url}" target="_blank" rel="noopener" style="text-decoration:none;">
+                          <button class="primary" type="button">فتح التكليف #${a.num} ↗</button>
                         </a>
                       </div>
                     </div>
@@ -1084,16 +1123,16 @@
             };
           });
 
-          document.getElementById("exportJsonBtn").onclick = () => {
+          document.getElementById("exportProgressBtn").onclick = () => {
             const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "mastering-python-progress.json";
+            a.download = "python-progress.json";
             a.click();
           };
 
           const fileInput = document.getElementById("importFileInput");
-          document.getElementById("importJsonBtn").onclick = () => fileInput.click();
+          document.getElementById("importProgressBtn").onclick = () => fileInput.click();
           fileInput.onchange = (e) => {
             const f = e.target.files && e.target.files[0];
             if (!f) return;
@@ -1105,7 +1144,7 @@
                 saveState();
                 renderAll();
               } catch {
-                alert("ملف JSON غير صالح");
+                alert("ملف التقدم غير صالح");
               }
             };
             reader.readAsText(f);
