@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mastering Python — منصة متابعة الكورس</title>
+  <title>Mastering Python — خطة 30 يوماً</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%233776ab' d='M31.8 6c-12.2 0-11.4 5.3-11.4 5.3l.01 5.5h11.6v1.6H15.8S6 17.5 6 29.8s8.5 11.9 8.5 11.9h5.1v-5.7s-.3-8.5 8.3-8.5h14.4s8 .1 8-7.7V13.8S51.5 6 31.8 6zm-6.6 4.7a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2z'/%3E%3Cpath fill='%23ffd43b' d='M32.2 58c12.2 0 11.4-5.3 11.4-5.3l-.01-5.5H32v-1.6h16.2S58 46.5 58 34.2s-8.5-11.9-8.5-11.9h-5.1v5.7s.3 8.5-8.3 8.5H21.7s-8-.1-8 7.7v6S12.5 58 32.2 58zm6.6-4.7a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2z'/%3E%3C/svg%3E" />
   <style>
     :root {
       --bg-base: #070b14;
       --bg-grad-1: #0b1224;
       --bg-grad-2: #0f172a;
-      --card-bg: rgba(15, 23, 42, 0.72);
+      --card-bg: rgba(15, 23, 42, 0.76);
       --border: rgba(148, 163, 184, 0.16);
       --border-glow: rgba(56, 189, 248, 0.35);
       --text-main: #f1f5f9;
@@ -78,11 +78,10 @@
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
     }
 
     .brand h1 {
-      font-size: 1.28rem;
+      font-size: 1.25rem;
       font-weight: 800;
     }
 
@@ -99,26 +98,26 @@
       gap: 8px;
     }
 
-    button, select, input[type="text"] {
-      background: rgba(30, 41, 59, 0.78);
+    button, select, input[type="date"], input[type="text"] {
+      background: rgba(30, 41, 59, 0.82);
       color: var(--text-main);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 9px 14px;
+      padding: 9px 13px;
       font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    input[type="text"] {
+    input[type="text"], input[type="date"] {
       cursor: text;
       font-weight: 400;
     }
 
     button:hover, select:hover {
-      background: rgba(51, 65, 85, 0.88);
-      border-color: rgba(148, 163, 184, 0.32);
+      background: rgba(51, 65, 85, 0.9);
+      border-color: rgba(148, 163, 184, 0.34);
       transform: translateY(-1px);
     }
 
@@ -130,7 +129,7 @@
 
     button.primary {
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-color: rgba(96, 165, 250, 0.4);
+      border-color: rgba(96, 165, 250, 0.45);
       color: #fff;
     }
 
@@ -152,25 +151,39 @@
       color: #fff;
     }
 
-    .hero-card {
+    .today-card {
       padding: 20px;
       margin-bottom: 16px;
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(30, 58, 138, 0.26));
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.88), rgba(30, 58, 138, 0.24));
     }
 
-    .hero-top {
+    .today-head {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+    }
+
+    .today-target-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      color: #bae6fd;
+      font-size: 0.85rem;
+      font-weight: 600;
     }
 
     .progress-wrap {
-      height: 10px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.14);
+      height: 11px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.16);
       border-radius: 999px;
       overflow: hidden;
       margin: 12px 0;
@@ -181,6 +194,15 @@
       width: 0%;
       background: linear-gradient(90deg, #2563eb, #38bdf8, #facc15);
       transition: width 0.35s ease;
+    }
+
+    .progress-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
     }
 
     .tabs {
@@ -211,7 +233,7 @@
     .lesson-card {
       padding: 15px 16px;
       border-radius: 16px;
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.68);
       border: 1px solid rgba(148, 163, 184, 0.14);
     }
 
@@ -471,21 +493,28 @@
           </svg>
         </div>
         <div>
-          <h1>Mastering Python — Elzero</h1>
-          <p>152 درساً بالترتيب المباشر + 26 تكليفاً بروابطها وتمارينها</p>
+          <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
+          <p>متابعة 152 درساً وتوزيع تمارين التكليفات (#1–#26) حسب الدرس</p>
         </div>
       </div>
       <div class="controls-row">
+        <select id="planDaysSelect" title="مدة الخطة">
+          <option value="30" selected>خطة 30 يوماً</option>
+          <option value="45">خطة 45 يوماً</option>
+          <option value="60">خطة 60 يوماً</option>
+        </select>
+        <input type="date" id="startDateInput" title="تاريخ البداية" />
         <button id="exportProgressBtn">تصدير التقدم</button>
         <button id="importProgressBtn">استيراد التقدم</button>
         <input type="file" id="importFileInput" accept="application/json" hidden />
       </div>
     </header>
 
-    <section class="hero-card glass" id="heroCard"></section>
+    <section class="today-card glass" id="todayCard"></section>
 
     <nav class="tabs" role="tablist">
-      <button class="tab-btn active" data-tab="lessons">كل الدروس (152)</button>
+      <button class="tab-btn active" data-tab="today">مهام اليوم</button>
+      <button class="tab-btn" data-tab="lessons">كل الدروس (152)</button>
       <button class="tab-btn" data-tab="assignments">التكليفات (#1–#26)</button>
       <button class="tab-btn" data-tab="stats">الإحصائيات</button>
     </nav>
@@ -499,7 +528,7 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v4";
+      const STORAGE_KEY = "elzero_python_navy_v5";
       const TOTAL_LESSONS = 152;
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
@@ -537,7 +566,6 @@
         10: "النصوص (Strings) — الجزء الأول"
       };
 
-      // Each assignment (#1 to #26) has its own specific URL slug and exercises mapped to lessons
       const ASSIGNMENT_SLUGS = {
         1: "python-assignments-from-1-to-10",
         2: "python-assignments-from-11-to-18",
@@ -618,12 +646,14 @@
       });
 
       const DEFAULT_STATE = {
-        activeTab: "lessons",
+        planDays: 30,
+        startDate: new Date().toISOString().slice(0, 10),
+        activeTab: "today",
         filterMode: "all",
         searchQuery: "",
         completedLessons: [],
         completedExercises: [],
-        assignmentUrls: {} // custom URL per assignment number if user edits it
+        assignmentUrls: {}
       };
 
       function loadState() {
@@ -634,6 +664,7 @@
           return {
             ...DEFAULT_STATE,
             ...parsed,
+            planDays: [30, 45, 60].includes(Number(parsed.planDays)) ? Number(parsed.planDays) : 30,
             completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
             completedExercises: Array.isArray(parsed.completedExercises) ? parsed.completedExercises : [],
             assignmentUrls: parsed.assignmentUrls && typeof parsed.assignmentUrls === "object" ? parsed.assignmentUrls : {}
@@ -650,6 +681,28 @@
         } catch (err) {
           console.warn("Save error:", err);
         }
+      }
+
+      function getDayChunks() {
+        const days = Number(state.planDays) || 30;
+        const chunks = [];
+        for (let d = 1; d <= days; d++) {
+          const from = Math.floor(((d - 1) * TOTAL_LESSONS) / days) + 1;
+          const to = Math.floor((d * TOTAL_LESSONS) / days);
+          const ids = [];
+          for (let x = from; x <= to; x++) ids.push(x);
+          chunks.push({ day: d, lessonIds: ids });
+        }
+        return chunks;
+      }
+
+      function getCurrentDayNumber() {
+        const days = Number(state.planDays) || 30;
+        const start = new Date(state.startDate + "T00:00:00");
+        const now = new Date();
+        if (Number.isNaN(start.getTime())) return 1;
+        const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
+        return Math.min(days, Math.max(1, diff));
       }
 
       function getAssignmentUrl(num) {
@@ -984,38 +1037,58 @@
         `;
       }
 
-      function renderHeroCard() {
+      function renderTodayCard() {
+        const chunks = getDayChunks();
+        const todayNum = getCurrentDayNumber();
+        const todayChunk = chunks.find(c => c.day === todayNum) || chunks[0];
+        const todayIds = todayChunk ? todayChunk.lessonIds : [];
+        const todayDoneCount = todayIds.filter(id => state.completedLessons.includes(id)).length;
+        const todayRemaining = Math.max(0, todayIds.length - todayDoneCount);
+
         const doneCount = state.completedLessons.length;
         const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
-        const nextLesson = LESSONS.find(l => !state.completedLessons.includes(l.id)) || LESSONS[0];
         const totalEx = ASSIGNMENTS.reduce((sum, a) => sum + a.exercises.length, 0);
+        const codesList = todayIds.map(id => "#" + String(id).padStart(3, "0")).join(" ، ");
 
-        document.getElementById("heroCard").innerHTML = `
-          <div class="hero-top">
+        document.getElementById("todayCard").innerHTML = `
+          <div class="today-head">
             <div>
-              <div class="muted" style="margin-bottom:4px;">الدرس التالي في قائمتك</div>
-              <h2 style="font-size:1.12rem;">${nextLesson.code} — ${nextLesson.title}</h2>
+              <h2 style="font-size:1.18rem;">مهام اليوم — اليوم ${todayNum} من ${state.planDays}</h2>
+              <div class="today-target-pill">
+                المفروض تشوفه اليوم: ${todayIds.length} دروس (${codesList}) — متبقي لليوم: ${todayRemaining}
+              </div>
             </div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;">
-              <button class="primary" id="continueWatchBtn">▶ متابعة المشاهدة الآن</button>
-              <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank" rel="noopener" style="text-decoration:none;">
-                <button type="button" class="youtube-btn">قائمة التشغيل ↗</button>
-              </a>
-            </div>
+            <button class="success-solid" id="completeTodayBtn">إتمام مهام اليوم ✓</button>
           </div>
           <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
-          <div class="muted">
-            التقدم الكلي: <strong style="color:#f1f5f9;">${doneCount}</strong> من ${TOTAL_LESSONS} درس (${pct}%) •
-            التمارين المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${totalEx}
+          <div class="progress-meta">
+            <span>الإنجاز الكلي: <strong style="color:#f1f5f9;">${doneCount}</strong> من ${TOTAL_LESSONS} درس (${pct}%)</span>
+            <span>التمارين المحلولة: <strong style="color:#fde047;">${state.completedExercises.length}</strong> من ${totalEx}</span>
           </div>
         `;
 
-        document.getElementById("continueWatchBtn").onclick = () => openMediaModal(nextLesson.id);
+        document.getElementById("completeTodayBtn").onclick = () => {
+          todayIds.forEach(id => {
+            if (!state.completedLessons.includes(id)) state.completedLessons.push(id);
+          });
+          saveState();
+          renderAll();
+        };
       }
 
       function renderTabContent() {
         const container = document.getElementById("tabContent");
-        if (state.activeTab === "lessons") {
+        if (state.activeTab === "today") {
+          const chunks = getDayChunks();
+          const todayNum = getCurrentDayNumber();
+          const todayChunk = chunks.find(c => c.day === todayNum) || chunks[0];
+          container.innerHTML = `
+            <h3 style="margin-bottom:12px;">دروس اليوم ${todayChunk.day} (${todayChunk.lessonIds.length} دروس)</h3>
+            <div class="grid">
+              ${todayChunk.lessonIds.map(id => renderLessonItem(LESSONS[id - 1])).join("")}
+            </div>
+          `;
+        } else if (state.activeTab === "lessons") {
           const q = (state.searchQuery || "").trim().toLowerCase();
           const filtered = LESSONS.filter(l => {
             const matchesQuery = !q || l.title.toLowerCase().includes(q) || l.code.includes(q) || l.topic.toLowerCase().includes(q);
@@ -1086,7 +1159,7 @@
               <div class="glass stat-box"><div class="muted">الدروس المكتملة</div><div class="stat-val">${state.completedLessons.length} / ${TOTAL_LESSONS}</div></div>
               <div class="glass stat-box"><div class="muted">نسبة الإنجاز</div><div class="stat-val" style="color:#facc15;">${pct}%</div></div>
               <div class="glass stat-box"><div class="muted">التمارين المحلولة</div><div class="stat-val" style="color:#10b981;">${state.completedExercises.length} / ${totalEx}</div></div>
-              <div class="glass stat-box"><div class="muted">الدروس المتبقية</div><div class="stat-val">${TOTAL_LESSONS - state.completedLessons.length}</div></div>
+              <div class="glass stat-box"><div class="muted">مدة الخطة الحالية</div><div class="stat-val">${state.planDays} يوم</div></div>
             </div>
           `;
         }
@@ -1106,10 +1179,14 @@
       }
 
       function renderAll() {
+        document.getElementById("headerTitle").textContent = `Mastering Python — خطة ${state.planDays} يوماً`;
+        document.title = `Mastering Python — خطة ${state.planDays} يوماً`;
+        document.getElementById("planDaysSelect").value = String(state.planDays);
+        document.getElementById("startDateInput").value = state.startDate;
         document.querySelectorAll(".tab-btn").forEach(btn => {
           btn.classList.toggle("active", btn.getAttribute("data-tab") === state.activeTab);
         });
-        renderHeroCard();
+        renderTodayCard();
         renderTabContent();
       }
 
@@ -1122,6 +1199,20 @@
               renderAll();
             };
           });
+
+          document.getElementById("planDaysSelect").onchange = (e) => {
+            state.planDays = Number(e.target.value) || 30;
+            saveState();
+            renderAll();
+          };
+
+          document.getElementById("startDateInput").onchange = (e) => {
+            if (e.target.value) {
+              state.startDate = e.target.value;
+              saveState();
+              renderAll();
+            }
+          };
 
           document.getElementById("exportProgressBtn").onclick = () => {
             const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
