@@ -289,13 +289,13 @@
       min-width: 0;
     }
 
-    .lesson-en-title {
+    .lesson-video-title {
       direction: ltr;
       text-align: right;
-      font-size: 0.8rem;
+      font-size: 0.86rem;
       color: #7dd3fc;
       font-family: Consolas, "Courier New", monospace;
-      margin-top: 3px;
+      font-weight: 700;
       word-break: break-word;
     }
 
@@ -623,7 +623,7 @@
         </div>
         <div>
           <h1 id="headerTitle">Mastering Python — خطة 30 يوماً</h1>
-          <p>152 درساً بالعربي والإنجليزي + تكليف عملي وحل لكل درس</p>
+          <p>152 درساً بعناوين البلايليست الأصلية + تكليف عملي وحل لكل درس</p>
         </div>
       </div>
       <div class="controls-row">
@@ -657,170 +657,542 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "elzero_python_navy_v11";
-      const TOTAL_LESSONS = 152;
+      const STORAGE_KEY = "elzero_python_navy_v13";
       const PLAYLIST_ID = "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs";
 
-      const TOPICS = [
-        { ar: "المقدمة وتجهيز البيئة", en: "Introduction And Setup", hint: "تهيئة بيئة العمل وكتابة أول تعليقات وأوامر طباعة" },
-        { ar: "المتغيرات وأنواع البيانات", en: "Variables And Data Types", hint: "تعريف المتغيرات ومعرفة أنواع البيانات عبر type()" },
-        { ar: "النصوص (Strings) ودوالها", en: "Strings And Methods", hint: "التنسيق والفهرسة والتقطيع ودوال النصوص الجاهزة" },
-        { ar: "الأرقام (Numbers) والعمليات الحسابية", en: "Numbers And Arithmetic", hint: "العمليات الحسابية والأسس والقسمة الصحيحة والباقي" },
-        { ar: "القوائم (Lists) ودوالها", en: "Lists And Methods", hint: "إنشاء القوائم وتعديل العناصر ودوال الإضافة والحذف والفرز" },
-        { ar: "الصفوف (Tuples) والمجموعات (Sets)", en: "Tuples And Sets", hint: "الثبات في Tuple وعدم التكرار والعمليات على Sets" },
-        { ar: "القواميس (Dictionaries)", en: "Dictionaries And Methods", hint: "تخزين البيانات بمفتاح وقيمة واسترجاع وتحديث القيم" },
-        { ar: "العمليات المنطقية والمقارنة", en: "Boolean And Comparison Operators", hint: "اختبار الشروط المنطقية باستخدام and و or و not" },
-        { ar: "إدخال المستخدم والشروط (If / Elif / Else)", en: "User Input And Control Flow", hint: "قراءة المدخلات وتوجيه التنفيذ حسب الشروط" },
-        { ar: "حلقات التكرار (While & For Loop)", en: "Loops: While And For", hint: "تكرار العمليات والتحكم بالمسار عبر break و continue" },
-        { ar: "الدوال (Functions) و Recursion و Lambda", en: "Functions, Recursion And Lambda", hint: "تنظيم الكود في دوال وإعادة الاستخدام والدوال المجهولة" },
-        { ar: "التعامل مع الملفات (File Handling)", en: "Files Handling Read And Write", hint: "فتح الملفات وقراءتها وكتابتها وحفظ البيانات" },
-        { ar: "الدوال الجاهزة (Built-in Functions)", en: "Built-In Functions", hint: "توظيف دوال مثل len و sum و min و max و map و filter" },
-        { ar: "الوحدات والحزم (Modules & Packages)", en: "Modules And Packages", hint: "استيراد الوحدات القياسية وتقسيم الكود لوحدات منظمة" },
-        { ar: "التاريخ والوقت ومعالجة الأخطاء", en: "Date, Time And Exceptions", hint: "تنسيق التواريخ والتعامل الآمن مع الأخطاء عبر try/except" },
-        { ar: "التعابير النمطية (Regular Expressions)", en: "Regular Expressions (RegEx)", hint: "البحث واستخراج الأنماط النصية باستخدام وحدة re" },
-        { ar: "البرمجة كائنية التوجه (OOP)", en: "Object Oriented Programming (OOP)", hint: "بناء الأصناف والكائنات والخصائص والوراثة والتغليف" },
-        { ar: "قواعد البيانات (SQLite) والمواضيع المتقدمة", en: "Databases (SQLite) And Advanced Topics", hint: "إنشاء الجداول وإدخال واستعلام البيانات في SQLite" }
+      const RAW_PLAYLIST_TITLES = [
+        'Learn Python in Arabic #001 - Introduction And What\'s Python',
+        'Learn Python in Arabic #002 - What I Need To Learn ?',
+        'Learn Python in Arabic #003 - Syntax And Your First App',
+        'Learn Python in Arabic #004 - Comments And How To Use It',
+        'Learn Python in Arabic #005 - Dealing With Data in Python',
+        'Learn Python in Arabic #006 - Some Data Types Overview',
+        'Learn Python in Arabic #007 - Variables Part One',
+        'Learn Python in Arabic #008 - Variables Part Two',
+        'Learn Python in Arabic #009 - Escape Sequences Characters',
+        'Learn Python in Arabic #010 - Concatenation And Training',
+        'Learn Python in Arabic #011 - Strings',
+        'Learn Python in Arabic #012 - Strings - Indexing And Slicing',
+        'Learn Python in Arabic #013 - Strings Methods Part One',
+        'Learn Python in Arabic #014 - Strings Methods Part Two',
+        'Learn Python in Arabic #015 - Strings Methods Part Three',
+        'Learn Python in Arabic #016 - Strings Methods Part Four',
+        'Learn Python in Arabic #017 - Strings Formatting The Old Way',
+        'Learn Python in Arabic #018 - Strings Formatting The New Ways',
+        'Learn Python in Arabic #019 - Numbers',
+        'Learn Python in Arabic #020 - Arithmetic Operators',
+        'Learn Python in Arabic #021 - Lists',
+        'Learn Python in Arabic #022 - Lists Methods Part One',
+        'Learn Python in Arabic #023 - Lists Methods Part Two',
+        'Learn Python in Arabic #024 - Tuples And Methods Part One',
+        'Learn Python in Arabic #025 - Tuples And Methods Part Two',
+        'Learn Python in Arabic #026 - Set',
+        'Learn Python in Arabic #027 - Set Methods Part One',
+        'Learn Python in Arabic #028 - Set Methods Part Two',
+        'Learn Python in Arabic #029 - Set Methods Part Three',
+        'Learn Python in Arabic #030 - Dictionary',
+        'Learn Python in Arabic #031 - Dictionary Methods Part One',
+        'Learn Python in Arabic #032 - Dictionary Methods Part Two',
+        'Learn Python in Arabic #033 - Boolean',
+        'Learn Python in Arabic #034 - Boolean Operators',
+        'Learn Python in Arabic #035 - Assignment Operators',
+        'Learn Python in Arabic #036 - Comparison Operators',
+        'Learn Python in Arabic #037 - Type Conversion',
+        'Learn Python in Arabic #038 - User Input',
+        'Learn Python in Arabic #039 - Practical - Email Slice',
+        'Learn Python in Arabic #040 - Practical - Your Age Full Details',
+        'Learn Python in Arabic #041 - Control Flow - If, Elif, Else',
+        'Learn Python in Arabic #042 - Control Flow - Nested If And Training',
+        'Learn Python in Arabic #043 - Control Flow - Ternary Conditional Operator',
+        'Learn Python in Arabic #044 - Calculate Age Advanced Version and Training',
+        'Learn Python in Arabic #045 - Membership Operators',
+        'Learn Python in Arabic #046 - Practical Membership Control',
+        'Learn Python in Arabic #047 - Loop - While and Else',
+        'Learn Python in Arabic #048 - Loop - While Training\'s',
+        'Learn Python in Arabic #049 - Loop - While Training\'s Bookmark Manager',
+        'Learn Python in Arabic #050 - Loop - While Training\'s Password Guess',
+        'Learn Python in Arabic #051 - Loop For and Else',
+        'Learn Python in Arabic #052 - Loop For Training\'s',
+        'Learn Python in Arabic #053 - Loop For Nested Loop',
+        'Learn Python in Arabic #054 - Loop - Break Continue Pass',
+        'Learn Python in Arabic #055 - Loop Advanced Dictionary',
+        'Learn Python in Arabic #056 - Function And Return',
+        'Learn Python in Arabic #057 - Function Parameters And Arguments',
+        'Learn Python in Arabic #058 - Function Packing, Unpacking Arguments',
+        'Learn Python in Arabic #059 - Function Default Parameters',
+        'Learn Python in Arabic #060 - Function Packing Unpacking Keyword Arguments',
+        'Learn Python in Arabic #061 - Function Packing Unpacking Arguments Training\'s',
+        'Learn Python in Arabic #062 - Function Scope',
+        'Learn Python in Arabic #063 - Function Recursion',
+        'Learn Python in Arabic #064 - Function Lambda',
+        'Learn Python in Arabic #065 - Files Handling Part One Intro',
+        'Learn Python in Arabic #066 - Files Handling Part 2 Read Files',
+        'Learn Python in Arabic #067 - Files Handling Part 3 Write and Append In Files',
+        'Learn Python in Arabic #068 - Files Handling Part 4 Important Info',
+        'Learn Python in Arabic #069 - Built In Functions Part One',
+        'Learn Python in Arabic #070 - Built In Functions Part Two',
+        'Learn Python in Arabic #071 - Built In Functions Part 3',
+        'Learn Python in Arabic #072 - Built In Functions Part 4 Map',
+        'Learn Python in Arabic #073 - Built In Functions Part 5 Filter',
+        'Learn Python in Arabic #074 - Built In Functions Part 6 Reduce',
+        'Learn Python in Arabic #075 - Built In Functions Part 7',
+        'Learn Python in Arabic #076 - Modules Part 1 - Intro And Built In Modules',
+        'Learn Python in Arabic #077 - Modules Part 2 - Create Your Module',
+        'Learn Python in Arabic #078 - Modules Part 3 - Install External Packages',
+        'Learn Python in Arabic #079 - Date And Time Introduction',
+        'Learn Python in Arabic #080 - Date And Time Format Date',
+        'Learn Python in Arabic #081 - Iterable Vs Iterator',
+        'Learn Python in Arabic #082 - Generators',
+        'Learn Python in Arabic #083 - Decorators - Intro',
+        'Learn Python in Arabic #084 - Decorators - Function With Parameters',
+        'Learn Python in Arabic #085 - Decorators - Practical Speed Test',
+        'Learn Python in Arabic #086 - Practical Loop On Many Iterators With Zip',
+        'Learn Python in Arabic #087 - Practical Image Manipulation With Pillow',
+        'Learn Python in Arabic #088 - Docstring And Commenting vs Documenting',
+        'Learn Python in Arabic #089 - Installing And Use Pylint For Better Code',
+        'Learn Python in Arabic #090 - Errors And Exceptions Raising',
+        'Learn Python in Arabic #091 - Exceptions Handling Try, Except, Else, Finally',
+        'Learn Python in Arabic #092 - Exceptions Handling Advanced Example',
+        'Learn Python in Arabic #093 - Debugging Code',
+        'Learn Python in Arabic #094 - Type Hinting',
+        'Learn Python in Arabic #095 - Regular Expressions Part 1 Intro',
+        'Learn Python in Arabic #096 - Regular Expressions Part 2 Quantifiers',
+        'Learn Python in Arabic #097 - Regular Expressions Part 3 Characters Classes Training\'s',
+        'Learn Python in Arabic #098 - Regular Expressions Part 4 Assertions & Email Pattern',
+        'Learn Python in Arabic #099 - Regular Expressions Part 5 Logical Or & Escaping',
+        'Learn Python in Arabic #100 - Regular Expressions Part 6 Re Module Search & FindAll',
+        'Learn Python in Arabic #101 - Regular Expressions Part 7 Re Module Split & Sub',
+        'Learn Python in Arabic #102 - Regular Expressions Part 8 Group Training\'s & Flags',
+        'Learn Python in Arabic #103 - OOP Part 1 - Intro',
+        'Learn Python in Arabic #104 - OOP Part 2 - Class Syntax And Info',
+        'Learn Python in Arabic #105 - OOP Part 3 - Instance Attributes And Methods Part 1',
+        'Learn Python in Arabic #106 - OOP Part 4 - Instance Attributes And Methods Part 2',
+        'Learn Python in Arabic #107 - OOP Part 5 - Class Attributes',
+        'Learn Python in Arabic #108 - OOP Part 6 - Class Methods And Static Methods',
+        'Learn Python in Arabic #109 - OOP Part 7 - Magic Methods',
+        'Learn Python in Arabic #110 - OOP Part 8 - Inheritance',
+        'Learn Python in Arabic #111 - OOP Part 9 - Multiple Inheritance And Method Overriding',
+        'Learn Python in Arabic #112 - OOP Part 10 -  Polymorphism',
+        'Learn Python in Arabic #113 - OOP Part 11 -  Encapsulation',
+        'Learn Python in Arabic #114 - OOP Part 12 Getters And Setters',
+        'Learn Python in Arabic #115 - OOP Part 13 @Property Decorator',
+        'Learn Python in Arabic #116 - OOP Part 14 ABCs Abstract Base Class',
+        'Learn Python in Arabic #117 - Databases - Intro About Databases',
+        'Learn Python in Arabic #118 - Databases - SQLite Create Database And Connect',
+        'Learn Python in Arabic #119 - Databases - SQLite Insert Data Into Database',
+        'Learn Python in Arabic #120 - Databases - SQLite Retrieve Data From Database',
+        'Learn Python in Arabic #121 - Databases - SQLite Training On Everything',
+        'Learn Python in Arabic #122 - Databases - SQLite Update And Delete From Database',
+        'Learn Python in Arabic #123 - Databases - SQLite Create Skills App Part 1',
+        'Learn Python in Arabic #124 - Databases - SQLite Create Skills App Part 2',
+        'Learn Python in Arabic #125 - Databases - SQLite Create Skills App Part 3',
+        'Learn Python in Arabic #126 - Databases - SQLite Create Skills App Part 4',
+        'Learn Python in Arabic #127 - Databases - SQLite Very Important Information',
+        'Learn Python in Arabic #128 - Advanced Lessons - __name__ And "__main__"',
+        'Learn Python in Arabic #129 - Advanced Lessons - Timing Your Code With Timeit',
+        'Learn Python in Arabic #130 - Advanced Lessons - Add Logging To Your Code',
+        'Learn Python in Arabic #131 - Advanced Lessons - Unit Testing With Unittest',
+        'Learn Python in Arabic #132 - Advanced Lessons - Generate Random Serial Numbers',
+        'Learn Python in Arabic #133 - Flask - Intro And Your First Page',
+        'Learn Python in Arabic #134 - Flask - Create Html Files',
+        'Learn Python in Arabic #135 - Flask - Create And Extends HTML Templates',
+        'Learn Python in Arabic #136 - Flask - Jinja Template',
+        'Learn Python in Arabic #137 - Flask - Advanced Css Task Using Jinja',
+        'Learn Python in Arabic #138 - Flask - Skills Page Using List Data',
+        'Learn Python in Arabic #139 - Flask - Customizing App With Css',
+        'Learn Python in Arabic #140 - Flask - Adding The JS Files',
+        'Learn Python in Arabic #141 - Web Scraping Control Browser With Selenium',
+        'Learn Python in Arabic #142 - Numpy - Intro',
+        'Learn Python in Arabic #143 - Numpy - Create Arrays',
+        'Learn Python in Arabic #144 - Numpy - Compare Data Location And Type',
+        'Learn Python in Arabic #145 - Numpy - Compare Performance And Memory Use',
+        'Learn Python in Arabic #146 - Numpy - Array Slicing',
+        'Learn Python in Arabic #147 - Numpy - Data Types And Control Array',
+        'Learn Python in Arabic #148 - Numpy - Arithmetic And Useful Operations',
+        'Learn Python in Arabic #149 - Numpy - Array Shape And ReShape',
+        'Learn Python in Arabic #150 - Virtual Environment Part 1',
+        'Learn Python in Arabic #151 - Virtual Environment Part 2',
+        'Learn Python in Arabic #152 - The End And Resources'
       ];
 
-      const PLAYLIST_TITLES_FIRST = {
-        1: { ar: "مقدمة وماذا ستتعلم في الدورة", en: "Mastering Python - Introduction And What I Will Learn" },
-        2: { ar: "ما هي لغة بايثون ولماذا تتعلمها", en: "Mastering Python - What Is Python And Why Learn It" },
-        3: { ar: "تثبيت بايثون وتجهيز محرر الأكواد", en: "Mastering Python - Install Python And Code Editor" },
-        4: { ar: "كتابة أول كود والتعامل مع التعليقات", en: "Mastering Python - First Code And Comments" },
-        5: { ar: "التعامل مع البيانات وأنواعها", en: "Mastering Python - Data Types Overview" },
-        6: { ar: "المتغيرات — الجزء الأول", en: "Mastering Python - Variables Part 1" },
-        7: { ar: "المتغيرات — الجزء الثاني", en: "Mastering Python - Variables Part 2" },
-        8: { ar: "التسلسل والـ Escape Sequences", en: "Mastering Python - Escape Sequences Characters" },
-        9: { ar: "دمج النصوص والتدريب", en: "Mastering Python - Concatenation And Training" },
-        10: { ar: "دمج النصوص والتدريبات", en: "Mastering Python - Concatenation And Trainings" }
-      };
+      const TOTAL_LESSONS = RAW_PLAYLIST_TITLES.length;
 
-      function buildLessonExercise(id, titleAr, titleEn, topicObj) {
+      function extractSubjectFromTitle(fullTitle) {
+        const dashIdx = fullTitle.indexOf(" - ");
+        return dashIdx >= 0 ? fullTitle.slice(dashIdx + 3).trim() : fullTitle.trim();
+      }
+
+      function buildExerciseForTitle(id, fullTitle, subject) {
+        const low = subject.toLowerCase();
+
         if (id === 1) {
           return {
-            prompt: "تطبيق الدرس #001: اكتب تعليقاً متعدد الأسطر في أعلى الملف يوضح هدفك من الكورس، ثم اطبع رسالة ترحيبية ببداية تعلم بايثون.",
+            prompt: `تكليف (${subject}): اكتب تعليقاً توضيحياً يصف هدفك من تعلم Python واطبع رسالة ترحيبية تؤكد بدء الدورة.`,
             solution: [
-              '"""',
-              "Course: Mastering Python",
-              "Goal: Understand core concepts and build practical scripts",
-              '"""',
-              'print("Welcome to Mastering Python!")'
+              "# Introduction And What's Python",
+              'print("Welcome to Learn Python in Arabic!")'
             ].join("\n")
           };
         }
         if (id === 2) {
           return {
-            prompt: "تطبيق الدرس #002: عرّف متغيراً يحدد سبب اختيارك للغة بايثون واطبع عبارة توضح الفائدة العملية للغة.",
+            prompt: `تكليف (${subject}): حدد في متغيرات المسار أو المهارة التي تريد الوصول إليها واطبع خطتك المختصرة.`,
             solution: [
-              'reason = "readable syntax and rich ecosystem"',
-              'print(f"I am learning Python because of its {reason}.")'
+              'target_track = "Backend & Automation"',
+              'print("What I need to learn for:", target_track)'
             ].join("\n")
           };
         }
         if (id === 3) {
           return {
-            prompt: "تطبيق الدرس #003: اكتب سطراً يطبع اسم محرر الأكواد ورسالة تؤكد أن بيئة بايثون جاهزة لتشغيل الملفات.",
+            prompt: `تكليف (${subject}): اكتب أول تطبيق بايثون يطبع سطراً منظماً يراعي قواعد Syntax وindentation الصحيحة.`,
             solution: [
-              'editor = "VS Code"',
-              'print(f"Python environment is ready inside {editor}.")'
+              "if True:",
+              '    print("Syntax is clean and my first Python app works!")'
             ].join("\n")
           };
         }
         if (id === 4) {
           return {
-            prompt: "تطبيق الدرس #004: اكتب تعليقاً يشرح مهمة الكود قبل سطر الطباعة، ثم اطبع نتيجة تنفيذ أول برنامج لك.",
+            prompt: `تكليف (${subject}): استخدم تعليقاً من سطر واحد وتعليقاً متعدد الأسطر لشرح كود يطبع نتيجة بسيطة.`,
             solution: [
-              "# Display a confirmation message for the first Python script",
-              'print("First Python code ran without errors!")'
+              "# Single-line comment explaining the output",
+              '"""Multi-line comment: testing comments in Python"""',
+              'print("Comments practice done")'
             ].join("\n")
           };
         }
-        if (id === 5) {
+        if (id === 5 || id === 6) {
           return {
-            prompt: "تطبيق الدرس #005: أنشئ متغيراً لكل نوع بيانات أساسي (str, int, float, bool, list, dict) واطبع نوع كل متغير بدالة type().",
+            prompt: `تكليف (${subject}): أنشئ قيماً من أنواع بيانات مختلفة واطبع نوع كل قيمة باستخدام type().`,
             solution: [
-              'text_val = "Python"',
-              "int_val = 25",
-              "float_val = 9.9",
-              "bool_val = True",
-              'list_val = ["a", "b"]',
-              'dict_val = {"lesson": 5}',
-              "for v in (text_val, int_val, float_val, bool_val, list_val, dict_val):",
-              '    print(v, "=>", type(v))'
+              'data_items = ["Python", 100, 12.5, True, {"course": "Python"}]',
+              "for item in data_items:",
+              '    print(item, "->", type(item))'
             ].join("\n")
           };
         }
-        if (id === 6) {
+        if (id === 7 || id === 8) {
           return {
-            prompt: "تطبيق الدرس #006: عرّف متغيرات باسم المستخدم ومستواه ثم اطبعها في رسالة واضحة.",
+            prompt: `تكليف (${subject}): عرّف متغيرات بأسماء واضحة وغيّر قيمة أحدها ثم اطبع القيمة المحدثة.`,
             solution: [
-              'user_name = "Amr"',
-              'current_level = "Beginner"',
-              'print(f"User: {user_name} | Level: {current_level}")'
+              'student = "Amr"',
+              "score = 80",
+              "score = 95",
+              'print(f"{student}: {score}")'
             ].join("\n")
           };
         }
-        if (id === 7) {
+        if (id === 9) {
           return {
-            prompt: "تطبيق الدرس #007: عرّف متغيراً بقيمة أولية ثم أعد إسناد قيمة جديدة له واطبع القيمة بعد التعديل.",
+            prompt: `تكليف (${subject}): استخدم Escape Sequences مثل \\n و \\t و \\\" لطباعة نص منسق.`,
             solution: [
-              "lessons_done = 6",
-              'print("Before update:", lessons_done)',
-              "lessons_done = 7",
-              'print("After update:", lessons_done)'
+              'print("Line 1:\\t\\"Python\\"\\\\Escape")',
+              'print("Line 2:\\tFormatted")'
             ].join("\n")
           };
         }
-        if (id === 8) {
+        if (id === 10) {
           return {
-            prompt: "تطبيق الدرس #008: استخدم رموز الهروب (\\n و \\t و \\\") لطباعة نص منسق على سطرين مع مسافة جدولة وعلامات تنصيص.",
+            prompt: `تكليف (${subject}): ادمج نصوصاً مع رقم محوّل إلى str واطبع جملة تدريبية واضحة.`,
             solution: [
-              'print("Part 1:\\t\\"Escape\\"\\\\Sequences")',
-              'print("Part 2:\\tFormatted Output")'
+              'course = "Python"',
+              "part = 10",
+              'print("Training on " + course + " Lesson #" + str(part))'
             ].join("\n")
           };
         }
-        if (id === 9 || id === 10) {
+        if (low.includes("string") && !low.includes("methods") && !low.includes("formatting")) {
           return {
-            prompt: `تطبيق الدرس #${String(id).padStart(3, "0")}: ادمج نصوصاً مع رقم الدرس باستخدام str() واطبع عبارة تدريبية توضح دمج السلاسل النصية.`,
+            prompt: `تكليف (${subject}): خزّن نصاً في متغير واطبع طوله باستخدام len() مع رسالة توضيحية.`,
             solution: [
-              `lesson_id = ${id}`,
-              'part_title = "Concatenation And Trainings"',
-              'print("Lesson #" + str(lesson_id) + " - " + part_title)'
+              'sample = "Strings in Python"',
+              'print("Text:", sample, "| Length:", len(sample))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("indexing") || low.includes("slicing")) {
+          return {
+            prompt: `تكليف (${subject}): استخرج أول حرف وآخر حرف ومقطعاً جزئياً من نص باستخدام الفهرسة والتقطيع.`,
+            solution: [
+              'word = "PythonProgramming"',
+              'print(word[0], word[-1], word[0:6], word[::2])'
+            ].join("\n")
+          };
+        }
+        if (low.includes("strings methods")) {
+          return {
+            prompt: `تكليف (${subject}): طبّق دوال النصوص (مثل strip, title, replace, split, count) على متغير نصي.`,
+            solution: [
+              'raw = "  hello python world  "',
+              'clean = raw.strip().title().replace("Python", "Python 3")',
+              'print(clean, "| Words:", clean.split())'
+            ].join("\n")
+          };
+        }
+        if (low.includes("formatting")) {
+          return {
+            prompt: `تكليف (${subject}): نسّق متغيرات الاسم واللغة والتقييم داخل نص واطبع النتيجة.`,
+            solution: [
+              'name = "Amr"',
+              'lang = "Python"',
+              "rating = 9.8",
+              'print(f"Developer: {name}, Lang: {lang}, Score: {rating:.1f}")'
+            ].join("\n")
+          };
+        }
+        if (low.includes("numbers") || low.includes("arithmetic")) {
+          return {
+            prompt: `تكليف (${subject}): نفّذ عمليات حسابية (+, -, *, /, //, %, **) على أعداد واطبع النتائج.`,
+            solution: [
+              "a, b = 17, 4",
+              'print("Add:", a + b, "Floor:", a // b, "Mod:", a % b, "Pow:", a ** 2)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("list")) {
+          return {
+            prompt: `تكليف (${subject}): أنشئ قائمة وعدّل عناصرها واستخدم دوال القائمة (مثل append, insert, sort, remove).`,
+            solution: [
+              'skills = ["HTML", "CSS", "Python"]',
+              'skills.append("SQLite")',
+              "skills.sort()",
+              'print("Skills:", skills)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("tuple")) {
+          return {
+            prompt: `تكليف (${subject}): أنشئ Tuple واستخرج عناصرها ولاحظ عدم قابليتها للتعديل المباشر.`,
+            solution: [
+              'coords = (31.26, 32.30, "Port Said")',
+              'print("Lat:", coords[0], "City:", coords[2], "Count:", coords.count("Port Said"))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("set")) {
+          return {
+            prompt: `تكليف (${subject}): أنشئ Set لإزالة التكرار وجرّب دوال المجموعات (مثل add, union, intersection).`,
+            solution: [
+              "s1 = {1, 2, 3, 3}",
+              "s2 = {3, 4, 5}",
+              'print("Union:", s1 | s2, "Common:", s1 & s2)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("dictionary")) {
+          return {
+            prompt: `تكليف (${subject}): أنشئ Dictionary بمفاتيح وقيم وأضف مفتاحاً جديداً واسترجع قيمة بأمان.`,
+            solution: [
+              'profile = {"name": "Amr", "track": "Python"}',
+              'profile["level"] = "Intermediate"',
+              'print(profile.get("name"), profile)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("boolean") || low.includes("comparison") || low.includes("assignment") || low.includes("membership")) {
+          return {
+            prompt: `تكليف (${subject}): اختبر التعبيرات المنطقية أو المقارنة أو العضوية على متغيرات واطبع القيم المنطقية.`,
+            solution: [
+              'langs = ["Python", "C++", "Java"]',
+              "x = 15",
+              'print("In list:", "Python" in langs, "Check:", (x > 10) and (x != 20))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("type conversion")) {
+          return {
+            prompt: `تكليف (${subject}): حوّل قيماً بين الأنواع المختلفة (int, float, str, list) واطبع الناتج ونوعه.`,
+            solution: [
+              'num_str = "42"',
+              "num_int = int(num_str)",
+              'print(num_int * 2, type(num_int))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("user input") || low.includes("email slice") || low.includes("age")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب منطقاً يأخذ بيانات (أو قيماً جاهزة للاختبار) ويستخرج منها تفاصيل واضحة مثل البريد أو العمر.`,
+            solution: [
+              'email = "amr.dev@example.com"',
+              'username, domain = email.split("@")',
+              'print("User:", username, "| Domain:", domain)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("if") || low.includes("ternary")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب شرطاً يتحقق من قيمة ويعرض رسالة مناسبة لكل حالة.`,
+            solution: [
+              "grade = 88",
+              'status = "Excellent" if grade >= 85 else "Good"',
+              'print("Result:", status)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("loop") || low.includes("break") || low.includes("continue") || low.includes("pass")) {
+          return {
+            prompt: `تكليف (${subject}): نفّذ حلقة تكرار وطبّق التحكم في الدوران (break / continue / pass) على عناصر البيانات.`,
+            solution: [
+              "for n in range(1, 7):",
+              "    if n == 2:",
+              "        continue",
+              "    if n == 6:",
+              "        break",
+              '    print("Item:", n)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("function") || low.includes("recursion") || low.includes("lambda")) {
+          return {
+            prompt: `تكليف (${subject}): عرّف دالة واستدعها لاختبار الفكرة المطروحة في (${subject}).`,
+            solution: [
+              "def calc_area(width, height):",
+              "    return width * height",
+              "",
+              'print("Area:", calc_area(5, 4))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("files handling")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب كوداً يوضح التعامل مع الملفات وطباعة المحتوى أو النتيجة بأمان.`,
+            solution: [
+              'content = "Python File Handling Practice"',
+              'print("Ready to write/read:", content)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("built in functions") || low.includes("map") || low.includes("filter") || low.includes("reduce")) {
+          return {
+            prompt: `تكليف (${subject}): استخدم الدوال الجاهزة في بايثون لمعالجة قائمة أرقام أو نصوص وطباعة الناتج.`,
+            solution: [
+              "nums = [1, 2, 3, 4, 5]",
+              "evens = list(filter(lambda x: x % 2 == 0, nums))",
+              'print("Max:", max(nums), "Evens:", evens)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("modules") || low.includes("date and time") || low.includes("virtual environment")) {
+          return {
+            prompt: `تكليف (${subject}): استورد وحدة قياسية مناسبة واستخدم دالة منها لطباعة نتيجة عملية.`,
+            solution: [
+              "import math",
+              'print("Square root of 81:", math.sqrt(81))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("iterator") || low.includes("generators") || low.includes("decorators") || low.includes("zip") || low.includes("pillow")) {
+          return {
+            prompt: `تكليف (${subject}): طبّق فكرة (${subject}) في مثال بايثون واضح يوضح آلية العمل.`,
+            solution: [
+              "def gen_numbers(limit):",
+              "    for i in range(1, limit + 1):",
+              "        yield i * 10",
+              "",
+              'print("Generated:", list(gen_numbers(3)))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("docstring") || low.includes("pylint") || low.includes("exceptions") || low.includes("debugging") || low.includes("type hinting")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب كوداً يطبّق (${subject}) مع معالجة الأخطاء أو التوثيق أو تحديد الأنواع بوضوح.`,
+            solution: [
+              "def safe_divide(a: float, b: float) -> float:",
+              '    """Divide two numbers safely."""',
+              "    try:",
+              "        return a / b",
+              "    except ZeroDivisionError:",
+              "        return 0.0",
+              "",
+              'print("Division:", safe_divide(10, 2))'
+            ].join("\n")
+          };
+        }
+        if (low.includes("regular expressions")) {
+          return {
+            prompt: `تكليف (${subject}): استخدم وحدة re لاختبار نمط نصي واستخراج المطابقات من نص تجريبي.`,
+            solution: [
+              "import re",
+              'sample = "Order ID: 2026-99"',
+              'found = re.findall(r"\\d+", sample)',
+              'print("Numbers found:", found)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("oop")) {
+          return {
+            prompt: `تكليف (${subject}): أنشئ صنفاً (Class) وكائناً يطبّق مفهوم (${subject}) في بايثون.`,
+            solution: [
+              "class Course:",
+              "    def __init__(self, title):",
+              "        self.title = title",
+              "",
+              "    def describe(self):",
+              '        return f"Course: {self.title}"',
+              "",
+              'c = Course("Mastering Python")',
+              'print(c.describe())'
+            ].join("\n")
+          };
+        }
+        if (low.includes("databases") || low.includes("sqlite")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب مثالاً يوضح التعامل مع قاعدة بيانات SQLite وتنفيذ عملية أساسية.`,
+            solution: [
+              "import sqlite3",
+              'conn = sqlite3.connect(":memory:")',
+              "cur = conn.cursor()",
+              'cur.execute("CREATE TABLE items (id INTEGER, name TEXT)")',
+              'cur.execute("INSERT INTO items VALUES (1, \'Python\')")',
+              'print("Rows:", cur.execute("SELECT * FROM items").fetchall())',
+              "conn.close()"
+            ].join("\n")
+          };
+        }
+        if (low.includes("flask")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب مثالاً يوضح فكرة (${subject}) في تطبيق ويب مبني بـ Flask.`,
+            solution: [
+              "# Flask route / template concept",
+              'page_title = "Flask App"',
+              'print("Rendering:", page_title)'
+            ].join("\n")
+          };
+        }
+        if (low.includes("numpy")) {
+          return {
+            prompt: `تكليف (${subject}): اكتب مثالاً يوضح فكرة (${subject}) في التعامل مع المصفوفات والبيانات الرقمية.`,
+            solution: [
+              "# NumPy array concept",
+              "arr = [10, 20, 30, 40]",
+              'print("Array:", arr, "| Count:", len(arr))'
             ].join("\n")
           };
         }
 
-        const stepInTopic = (id % 4) + 1;
         return {
-          prompt: `تطبيق الدرس #${String(id).padStart(3, "0")} (${titleAr}): طبّق عملياً فكرة (${topicObj.hint}) في سيناريو تمرين رقم ${stepInTopic} واطبع النتيجة بوضوح.`,
+          prompt: `تكليف (${subject}): طبّق عملياً فكرة (${subject}) في كود بايثون واطبع النتيجة.`,
           solution: [
-            `# ${titleEn}`,
-            `topic = "${topicObj.en}"`,
-            `exercise_no = ${stepInTopic}`,
-            `output = f"{topic} -> Practice #{exercise_no} (Lesson ${id})"`,
-            "print(output)"
+            `# ${fullTitle}`,
+            `topic = ${JSON.stringify(subject)}`,
+            'print("Practicing:", topic)'
           ].join("\n")
         };
       }
 
-      const LESSONS = Array.from({ length: TOTAL_LESSONS }, (_, i) => {
-        const id = i + 1;
-        const topicObj = TOPICS[Math.min(TOPICS.length - 1, Math.floor((i / TOTAL_LESSONS) * TOPICS.length))];
-        const meta = PLAYLIST_TITLES_FIRST[id];
-        const titleAr = meta ? meta.ar : `${topicObj.ar} — درس ${id}`;
-        const titleEn = meta ? meta.en : `Mastering Python - ${topicObj.en} ${id}`;
-        const exercise = buildLessonExercise(id, titleAr, titleEn, topicObj);
+      const LESSONS = RAW_PLAYLIST_TITLES.map((fullTitle, idx) => {
+        const id = idx + 1;
+        const subject = extractSubjectFromTitle(fullTitle);
+        const exercise = buildExerciseForTitle(id, fullTitle, subject);
 
         return {
           id,
           code: `#${String(id).padStart(3, "0")}`,
-          titleAr,
-          titleEn,
-          topicAr: topicObj.ar,
-          topicEn: topicObj.en,
+          fullTitle,
+          subject,
           duration: `${7 + (id % 8)}:${String((id * 11) % 60).padStart(2, "0")}`,
-          playlistIndex: i,
+          playlistIndex: idx,
           exerciseId: `ex_lesson_${id}`,
           exerciseTitle: `تكليف الدرس #${String(id).padStart(3, "0")}`,
           prompt: exercise.prompt,
@@ -954,14 +1326,13 @@
             </div>
           </div>
 
-          <h3 style="font-size:1.08rem;">${lesson.titleAr}</h3>
-          <div class="lesson-en-title" style="margin-bottom:12px;">${lesson.titleEn}</div>
+          <div class="lesson-video-title" style="margin-bottom:12px;">${escapeHtml(lesson.fullTitle)}</div>
 
           <div class="player-viewport" id="playerViewport">
             <iframe
               id="ytEmbedFrame"
               src="${embedSrc}"
-              title="${lesson.titleEn}"
+              title="${escapeHtml(lesson.fullTitle)}"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
@@ -1109,7 +1480,7 @@
                 ${isSolOpen ? "إخفاء الحل" : "إظهار الحل"}
               </button>
             </div>
-            <div class="task-prompt">${lesson.prompt}</div>
+            <div class="task-prompt">${escapeHtml(lesson.prompt)}</div>
             <div class="solution-box ${isSolOpen ? "open" : ""}">
               <div class="solution-box-head">
                 <span>الحل بلغة Python</span>
@@ -1167,14 +1538,13 @@
                   class="check-icon-btn ${isDone ? "done" : ""}"
                   data-lesson-check="${lesson.id}"
                   title="${isDone ? "تم إكمال الدرس — اضغط لإلغاء التفعيل" : "تفعيل أنك خلصت الدرس"}"
-                  aria-label="تفعيل إتمام ${lesson.titleAr}">
+                  aria-label="تفعيل إتمام ${escapeHtml(lesson.fullTitle)}">
                   ${isDone ? "✓" : "○"}
                 </button>
                 <span class="badge-num">${lesson.code}</span>
                 <div style="min-width:0;flex:1;">
-                  <div style="${isDone ? "text-decoration:line-through;opacity:0.65;" : "font-weight:700;"}">${lesson.titleAr}</div>
-                  <div class="lesson-en-title">${lesson.titleEn}</div>
-                  <div class="muted" style="margin-top:3px;">${lesson.topicAr} • ${lesson.duration}</div>
+                  <div class="lesson-video-title" style="${isDone ? "text-decoration:line-through;opacity:0.65;" : ""}">${escapeHtml(lesson.fullTitle)}</div>
+                  <div class="muted" style="margin-top:3px;">المدة: ${lesson.duration}</div>
                 </div>
               </div>
               <div class="lesson-actions">
@@ -1243,10 +1613,8 @@
           const q = (state.searchQuery || "").trim().toLowerCase();
           const filtered = LESSONS.filter(l => {
             const matchesQuery = !q
-              || l.titleAr.toLowerCase().includes(q)
-              || l.titleEn.toLowerCase().includes(q)
-              || l.code.includes(q)
-              || l.topicAr.toLowerCase().includes(q);
+              || l.fullTitle.toLowerCase().includes(q)
+              || l.code.includes(q);
             const isDone = state.completedLessons.includes(l.id);
             if (state.filterMode === "completed" && !isDone) return false;
             if (state.filterMode === "pending" && isDone) return false;
@@ -1255,7 +1623,7 @@
 
           container.innerHTML = `
             <div class="filter-bar">
-              <input type="text" id="lessonSearchInput" value="${escapeHtml(state.searchQuery)}" placeholder="ابحث بالعربي أو الإنجليزي أو برقم الدرس (#001)..." style="flex:1;min-width:240px;" />
+              <input type="text" id="lessonSearchInput" value="${escapeHtml(state.searchQuery)}" placeholder="ابحث بعنوان الفيديو أو برقم الدرس (#001)..." style="flex:1;min-width:240px;" />
               <button class="${state.filterMode === "all" ? "primary" : ""}" data-filter="all">الكل (${TOTAL_LESSONS})</button>
               <button class="${state.filterMode === "pending" ? "primary" : ""}" data-filter="pending">المتبقي (${TOTAL_LESSONS - state.completedLessons.length})</button>
               <button class="${state.filterMode === "completed" ? "primary" : ""}" data-filter="completed">المكتمل (${state.completedLessons.length})</button>
@@ -1285,8 +1653,7 @@
             <div class="grid">
               ${LESSONS.map(l => `
                 <div class="lesson-card">
-                  <div style="font-weight:700;">${l.code} — ${l.titleAr}</div>
-                  <div class="lesson-en-title" style="margin-bottom:6px;">${l.titleEn}</div>
+                  <div class="lesson-video-title" style="margin-bottom:6px;">${escapeHtml(l.fullTitle)}</div>
                   ${renderLessonTaskBlock(l)}
                 </div>
               `).join("")}
