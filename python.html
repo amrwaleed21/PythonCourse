@@ -1133,6 +1133,7 @@ button { font-family: inherit; }
             <button type="button" id="plan-opt-45" class="ez-plan-opt" onclick="choosePlan(45)">45 يوم<span class="ez-plan-opt-en" dir="ltr">45 days</span></button>
             <button type="button" id="plan-opt-60" class="ez-plan-opt" onclick="choosePlan(60)">60 يوم<span class="ez-plan-opt-en" dir="ltr">60 days</span></button>
         </div>
+        <div class="ez-practice" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0"><label for="plan-start" style="font-weight:700">📅 تاريخ بداية الكورس</label><input type="date" id="plan-start" onchange="setStartDate(this.value)" style="padding:6px 10px;border-radius:10px;border:1px solid rgba(167,139,250,.5);background:rgba(15,23,42,.6);color:inherit;font:inherit;color-scheme:dark"><span id="plan-end" style="opacity:.85"></span></div>
         <p class="ez-plan-hint" id="plan-hint"></p>
         <button type="button" class="ez-jump" onclick="jumpToCurrent()">⤵ روح لليوم الحالي</button>
         <div class="ez-days" id="plan-zone"></div>
@@ -1164,13 +1165,23 @@ function normToday(t) {
     return nums.length ? { date: t.date, day: Math.max(1, parseInt(t.day, 10) || 1), course: t.course, nums: nums } : null;
 }
 function todayKey() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function normDate(x) { return typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x) && !isNaN(parseDate(x)) ? x : null; }
+function parseDate(k) { const p = String(k).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function dayDiff(a, b) { return Math.round((parseDate(b) - parseDate(a)) / 86400000); }
+function addDays(k, n) { const d = parseDate(k); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function fmtDateAr(k) { try { return parseDate(k).toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long' }); } catch (e) { return fmtDate(k); } }
+function dayTask(d) {
+    const a = VIDEO_BY_N[d.course][d.nums[0]], b = VIDEO_BY_N[d.course][d.nums[d.nums.length - 1]];
+    return (d.course === 'cmd' ? '💻 ' : '🐍 ') + 'المطلوب: شوف الدروس من #' + String(a.n).padStart(3, '0') + ' ' + a.title + (b.n !== a.n ? ' لحد #' + String(b.n).padStart(3, '0') + ' ' + b.title : '');
+}
+function fmtDate(k) { const p = k.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
 function loadState() {
     let raw = null;
     try { raw = JSON.parse(localStorage.getItem(STORE_KEY)); } catch (e) { raw = null; }
     if (!raw || typeof raw !== 'object') raw = {};
     const pd = Number(raw.planDays);
     // old generations stored day checkmarks (planDone) separately; day state is now derived from lessons only
-    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30, dayNo: Math.max(0, parseInt(raw.dayNo, 10) || 0), today: normToday(raw.today) };
+    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30, dayNo: Math.max(0, parseInt(raw.dayNo, 10) || 0), today: normToday(raw.today), earlyDays: Math.max(0, parseInt(raw.earlyDays, 10) || 0), startDate: normDate(raw.startDate) || (raw.today && normDate(raw.today.date)) || todayKey() };
 }
 let state = loadState();
 
@@ -1396,36 +1407,63 @@ function mkDay(day, course, nums) {
     const practice = course === 'cmd' ? PRACTICE['command-line-course'] : (PRACTICE[slugs[slugs.length - 1]] || '');
     return { day: day, course: course, nums: nums, assigns: course === 'cmd' ? 0 : assigns, mins: Math.round(m / 60), practice: practice };
 }
-// pack unfinished lessons (in course order) into day-sized chunks; skip = lessons already placed in today's day
+/* Real-time plan: the course has a fixed START DATE and a fixed length (30/45/60 calendar days).
+   Today's day number = (today - start date + 1). The unfinished lessons are spread over the days that are left,
+   so the end date never moves: ahead of schedule => lighter days, behind => heavier days. */
+function curDayNo() { return Math.max(1, dayDiff(state.startDate, todayKey()) + 1); }
+// Plan length: planDays minus the FULL extra days finished ahead of schedule (a lesson or two ahead does not shorten it).
+// Full days ahead = whole "days of work" done (by watch time, vs. the original plan's daily load) minus today's day number. Kept once earned.
+function updateEarly() {
+    const all = totalSeconds(DATA.python) + totalSeconds(DATA.cmd), perDay = all / state.planDays;
+    let done = 0;
+    DATA.cmd.sections.forEach(sec => sec.videos.forEach(v => { if (state.cmd.indexOf(v.n) >= 0) done += v.dur; }));
+    DATA.python.sections.forEach(sec => sec.videos.forEach(v => { if (state.py.indexOf(v.n) >= 0) done += v.dur; }));
+    const ahead = Math.floor(done / perDay + 1e-9) - curDayNo();
+    if (ahead > state.earlyDays) { state.earlyDays = Math.min(ahead, state.planDays - 1); save(); }
+}
+function effLen() { return Math.max(curDayNo(), state.planDays - state.earlyDays); }
+function daysLeft() { return Math.max(1, effLen() - curDayNo() + 1); }
+function endDateKey() { return addDays(state.startDate, effLen() - 1); }
+// split a list of lessons [{n,dur}] into k chunks of roughly equal watch time (cumulative targets)
+function splitByTime(list, k, course, out) {
+    if (!list.length) return;
+    k = Math.max(1, Math.min(k, list.length));
+    const total = list.reduce((a, v) => a + v.dur, 0);
+    let cum = 0, cur = [], idx = 1;
+    list.forEach((v, i) => {
+        cur.push(v.n); cum += v.dur;
+        const left = list.length - i - 1, chunksLeft = k - idx;
+        if (idx < k && (cum >= total * idx / k || left <= chunksLeft - 0 && left === chunksLeft)) {
+            out.push({ course: course, nums: cur }); cur = []; idx++;
+        }
+    });
+    if (cur.length) out.push({ course: course, nums: cur });
+}
+// pack unfinished lessons (in course order) into 'days' day-sized chunks; skip = lessons already placed in today's day
 function packRemaining(days, skip) {
     const chunks = [];
-    const cmdLeft = [], pyFlat = [];
-    DATA.cmd.sections.forEach(sec => sec.videos.forEach(v => { if (state.cmd.indexOf(v.n) < 0 && !(skip.course === 'cmd' && skip.nums.indexOf(v.n) >= 0)) cmdLeft.push(v.n); }));
-    for (let i = 0; i < cmdLeft.length; i += 4) chunks.push({ course: 'cmd', nums: cmdLeft.slice(i, i + 4) });
-    DATA.python.sections.forEach(sec => sec.videos.forEach(v => { if (state.py.indexOf(v.n) < 0 && !(skip.course === 'python' && skip.nums.indexOf(v.n) >= 0)) pyFlat.push({ n: v.n, dur: v.dur, slug: sec.slug }); }));
-    const avgDay = totalSeconds(DATA.python) / Math.max(1, days - 2);
-    let idx = 0;
-    while (idx < pyFlat.length) {
-        const nums = [];
-        let m = 0;
-        while (idx < pyFlat.length) {
-            const v = pyFlat[idx];
-            const atBoundary = idx + 1 >= pyFlat.length || pyFlat[idx + 1].slug !== v.slug;
-            if (nums.length && m >= avgDay && (atBoundary || SEC_MIN[v.slug] > avgDay * 1.6)) break;
-            nums.push(v.n); m += v.dur; idx++;
-        }
-        chunks.push({ course: 'python', nums: nums });
-    }
+    const cmdLeft = [], pyLeft = [];
+    DATA.cmd.sections.forEach(sec => sec.videos.forEach(v => { if (state.cmd.indexOf(v.n) < 0 && !(skip.course === 'cmd' && skip.nums.indexOf(v.n) >= 0)) cmdLeft.push({ n: v.n, dur: v.dur }); }));
+    DATA.python.sections.forEach(sec => sec.videos.forEach(v => { if (state.py.indexOf(v.n) < 0 && !(skip.course === 'python' && skip.nums.indexOf(v.n) >= 0)) pyLeft.push({ n: v.n, dur: v.dur }); }));
+    const tc = cmdLeft.reduce((a, v) => a + v.dur, 0), tp = pyLeft.reduce((a, v) => a + v.dur, 0);
+    days = Math.max(1, days);
+    let cd = 0, pd = 0;
+    if (cmdLeft.length && pyLeft.length) { cd = Math.min(Math.max(1, Math.round(days * tc / (tc + tp))), Math.max(1, days - 1)); pd = Math.max(1, days - cd); }
+    else if (cmdLeft.length) cd = days; else pd = days;
+    splitByTime(cmdLeft, cd, 'cmd', chunks);
+    splitByTime(pyLeft, pd, 'python', chunks);
     return chunks;
 }
 function ensureToday() {
+    updateEarly();
     const key = todayKey();
     const t = state.today;
-    if (t && t.date === key) return;
-    const chunks = packRemaining(state.planDays, { course: '', nums: [] });
+    const no = curDayNo();
+    if (t && t.date === key && t.day === no) return;
+    const chunks = packRemaining(daysLeft(), { course: '', nums: [] });
+    state.dayNo = no;
     if (!chunks.length) { state.today = null; return; }
-    state.dayNo += 1;
-    state.today = { date: key, day: state.dayNo, course: chunks[0].course, nums: chunks[0].nums };
+    state.today = { date: key, day: no, course: chunks[0].course, nums: chunks[0].nums };
     save();
 }
 function buildPlan(days) {
@@ -1433,7 +1471,7 @@ function buildPlan(days) {
     const t = state.today;
     if (!t) return [];
     const plan = [mkDay(t.day, t.course, t.nums)];
-    packRemaining(days, t).forEach((c, i) => plan.push(mkDay(t.day + 1 + i, c.course, c.nums)));
+    packRemaining(daysLeft() - 1, t).forEach((c, i) => plan.push(mkDay(t.day + 1 + i, c.course, c.nums)));
     return plan;
 }
 function dayStats(d) {
@@ -1457,10 +1495,10 @@ function renderPlan() {
     if (!planInit) { planInit = true; if (curDay > 0) openDays[curDay] = true; }
     const pct = Math.round((doneLessons / allLessons) * 100);
     const remDays = plan.filter(d => !isDone(d)).length;
-    document.getElementById('plan-progress').innerHTML = num(doneLessons + '/' + allLessons) + ' درس • ' + (remDays ? 'فاضل ' + num('~' + remDays) + ' يوم' : 'خلصت 🏆');
+    document.getElementById('plan-progress').innerHTML = num(doneLessons + '/' + allLessons) + ' درس • ' + (remDays ? 'يوم ' + num(curDayNo() > effLen() ? effLen() + '+' : curDayNo()) + ' من ' + num(effLen()) + ' • فاضل ' + num(daysLeft()) + ' يوم • ينتهي ' + num(fmtDate(endDateKey())) : 'خلصت 🏆');
     let html = '';
     if (!plan.length) html = '<div class="ez-practice">🏆 خلصت كل الدروس، مفيش حاجة متبقية في الخطة.</div>';
-    else html = '<div class="ez-practice">🔄 الخطة بتتظبط تلقائي: لو خلصت دروس زيادة النهارده، بكرة هتلاقي الدروس الجاية اللي لسه ماخلصتهاش بس.</div>';
+    else html = '<div class="ez-practice">🔄 الخطة على الوقت الفعلي: تاريخ النهاية ' + num(fmtDate(endDateKey())) + (state.earlyDays ? ' (قدّمته ' + num(state.earlyDays) + ' يوم لأنك خلصت أيام كاملة بدري)' : '') + '. دروس زيادة بسيطة بتخفف الأيام الجاية بس، ويوم كامل زيادة بيقصّر الخطة يوم.</div>';
     plan.forEach(d => {
         const st = dayStats(d), done = st.done === st.total;
         const locked = isLocked(d.course);
@@ -1471,11 +1509,11 @@ function renderPlan() {
             '<button type="button" class="ez-check ez-day-check' + (locked ? ' is-lockedbtn' : '') + '" onclick="' + (locked ? 'lockedMsg()' : 'togglePlanDay(' + d.day + ')') + '" aria-pressed="' + done + '" aria-label="' + (done ? 'إلغاء إنجاز اليوم' : 'خلصت اليوم ده') + '">' + (locked ? LOCK_SVG : CHECK_SVG) + '</button>' +
             '<button type="button" class="ez-day-toggle" aria-expanded="' + expanded + '" onclick="toggleDayOpen(' + d.day + ')">' +
             '<span class="ez-day-badge"><small>يوم</small><b>' + d.day + '</b></span>' +
-            '<span class="ez-day-goal"><span class="ez-day-goal-main">' + (d.course === 'cmd' ? '💻 Command Line' : '🐍 ' + esc(topics.join(' • '))) + '</span>' +
+            '<span class="ez-day-goal"><span class="ez-day-goal-sub">📅 ' + (d.day === curDayNo() ? '<b>النهارده</b> • ' : '') + 'يوم ' + num(d.day) + ' • ' + esc(fmtDateAr(addDays(state.startDate, d.day - 1))) + '</span><span class="ez-day-goal-main">' + (d.course === 'cmd' ? '💻 Command Line' : '🐍 ' + esc(topics.join(' • '))) + '</span>' +
             '<span class="ez-day-goal-sub">' + (locked ? '🔒 مقفول لحد ما تخلص Command Line' : 'دروس ' + num(d.nums.length) + ' • ' + num(st.done + '/' + st.total) + ' اتعلّموا' + ' • ⏱ ' + num('~' + d.mins + ' د')) + (d.assigns > 0 ? ' • 📝 ' + num(d.assigns) + ' تكليف' : '') + '</span>' +
             '<span class="ez-day-bar"><span style="width:' + Math.round(st.done / st.total * 100) + '%"></span></span></span>' +
             '<span class="ez-chev' + (expanded ? ' is-open' : '') + '">‹</span></button></div>' +
-            '<div class="ez-acc' + (expanded ? ' is-open' : '') + '"><div class="ez-acc-inner">' + (d.practice ? '<div class="ez-practice">🎯 <b>تطبيق اليوم:</b> ' + esc(d.practice) + '</div>' : '') + '<div class="ez-day-lessons">';
+            '<div class="ez-acc' + (expanded ? ' is-open' : '') + '"><div class="ez-acc-inner">' + '<div class="ez-practice" dir="auto">' + esc(dayTask(d)) + ' (' + num(d.nums.length) + ' دروس، ~' + num(d.mins) + ' د)</div>' + (d.practice ? '<div class="ez-practice">🎯 <b>تطبيق اليوم:</b> ' + esc(d.practice) + '</div>' : '') + '<div class="ez-day-lessons">';
         d.nums.forEach(n => { html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.day); });
         html += '</div></div></div></div>';
     });
@@ -1484,6 +1522,8 @@ function renderPlan() {
         const b = document.getElementById('plan-opt-' + n);
         b.classList.toggle('is-active', state.planDays === n); b.setAttribute('aria-pressed', state.planDays === n);
     });
+    document.getElementById('plan-start').value = state.startDate;
+    document.getElementById('plan-end').textContent = 'النهاية: ' + fmtDate(endDateKey()) + (curDayNo() > effLen() ? ' (الميعاد عدّى، كمّل بالدروس المتبقية)' : '');
     const totMin = Math.round((totalSeconds(DATA.python) + totalSeconds(DATA.cmd)) / 60 / state.planDays);
     document.getElementById('plan-hint').textContent = (state.planDays === 30 ? 'خطة مكثفة: حوالي ' : state.planDays === 45 ? 'خطة متوازنة: حوالي ' : 'خطة مريحة: حوالي ') + totMin + ' دقيقة مشاهدة + تطبيق عملي كل يوم.';
 }
@@ -1495,7 +1535,14 @@ function toggleDayOpen(day) {
     el.querySelector('.ez-day-toggle').setAttribute('aria-expanded', openDays[day]);
 }
 function choosePlan(d) {
-    if (state.planDays !== d) { state.planDays = d; for (const k in openDays) delete openDays[k]; planInit = false; state.today = null; state.dayNo = Math.max(0, state.dayNo - 1); save(); renderPlan(); renderNext(); }
+    if (state.planDays !== d) { state.planDays = d; state.earlyDays = 0; for (const k in openDays) delete openDays[k]; planInit = false; state.today = null; save(); renderPlan(); renderNext(); }
+}
+function setStartDate(v) {
+    const k = normDate(v);
+    if (!k) return;
+    state.startDate = k; state.earlyDays = 0; state.today = null; planInit = false;
+    for (const x in openDays) delete openDays[x];
+    save(); renderPlan(); renderNext();
 }
 function togglePlanDay(day) {
     const d = buildPlan(state.planDays).find(x => x.day === day);
