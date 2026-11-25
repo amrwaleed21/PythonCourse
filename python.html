@@ -896,11 +896,133 @@ button { font-family: inherit; }
     pointer-events: none;
     z-index: 9999;
 }
+
+/* ---------- v4: lessons, assignment chips, plan days, modal ---------- */
+.ez-noscroll { overflow: hidden; }
+.ez-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(3,8,16,0.82); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; padding: 12px; animation: ez-fade-up 0.25s ease both; }
+.ez-overlay .ez-player { width: min(760px, 100%); margin: 0; max-height: calc(100vh - 24px); overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.7); }
+.ez-lesson + .ez-lesson { border-top: 1px solid rgba(255,255,255,0.07); }
+.ez-lesson .ez-video + .ez-video { border-top: 0; }
+.ez-lesson.is-locked { opacity: 0.5; }
+.ez-lesson .ez-video { padding: 7px 6px; }
+.ez-asbtn { flex-shrink: 0; border: 1px solid rgba(255,212,59,0.35); background: rgba(255,212,59,0.1);
+    color: #ffd43b; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.ez-asbtn.is-open { background: rgba(255,212,59,0.25); }
+.ez-lesson .ez-assigns { margin: 2px 6px 10px; }
+.ez-day { display: block; padding: 0; overflow: hidden; }
+.ez-day.is-current { border-color: rgba(167,139,250,0.6); box-shadow: 0 0 0 1px rgba(167,139,250,0.25); }
+.ez-day-head { display: flex; align-items: center; gap: 9px; padding: 8px 10px; }
+.ez-day-toggle { flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0;
+    color: inherit; cursor: pointer; text-align: start; padding: 0; font-family: inherit; }
+.ez-day-goal { display: flex; flex-direction: column; gap: 1px; text-decoration: none !important; flex: 1; min-width: 0; }
+.ez-day-goal-main { font-size: 12.5px; font-weight: 700; }
+.ez-day-goal-sub { font-size: 10.5px; color: rgba(214,228,245,0.6); }
+.ez-day.is-done .ez-day-goal-main { color: rgba(214,228,245,0.6); text-decoration: none; }
+.ez-day-toggle .ez-chev { color: #a78bfa; }
+.ez-day-lessons { padding: 2px 8px 8px; border-top: 1px solid rgba(255,255,255,0.07); }
+.ez-plan-days { max-height: none; overflow: visible; }
+
+/* ================= v5: glow, shapes, motion, views ================= */
+.ez-root { position: relative; animation: ez-fade 0.5s ease both; isolation: isolate; }
+@keyframes ez-fade { from { opacity: 0; } to { opacity: 1; } }
+.ez-aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+.ez-blob { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; opacity: .55; will-change: transform; }
+.ez-blob-1 { top: -30vmax; right: -25vmax; background: radial-gradient(circle, rgba(255,212,59,.20), transparent 62%); animation: ez-drift1 22s ease-in-out infinite; }
+.ez-blob-2 { bottom: -35vmax; left: -30vmax; background: radial-gradient(circle, rgba(87,167,232,.26), transparent 62%); animation: ez-drift2 26s ease-in-out infinite; }
+.ez-blob-3 { top: 25%; left: 30%; width: 45vmax; height: 45vmax; background: radial-gradient(circle, rgba(167,139,250,.18), transparent 62%); animation: ez-drift1 30s ease-in-out infinite reverse; }
+@keyframes ez-drift1 { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-8vmax,10vmax,0); } }
+@keyframes ez-drift2 { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(10vmax,-8vmax,0); } }
+
+/* hero */
+.ez-hero { border-color: rgba(255,212,59,.35); box-shadow: 0 0 0 1px rgba(255,212,59,.12), 0 12px 40px rgba(3,10,20,.55), 0 0 46px -8px rgba(87,167,232,.55); }
+.ez-hero-title { background: linear-gradient(90deg,#fff 0%,#ffe98a 30%,#fff 55%,#7cc4ff 80%,#fff 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: ez-shimmer 7s linear infinite; text-shadow: none; }
+@keyframes ez-shimmer { from { background-position: 0% 0; } to { background-position: -250% 0; } }
+.ez-hero-badge { box-shadow: 0 0 16px rgba(255,212,59,.35); border-color: rgba(255,212,59,.5); }
+.ez-hero-art { box-shadow: 0 0 0 1px rgba(255,212,59,.35), 0 0 34px rgba(255,212,59,.35), 0 8px 28px rgba(0,0,0,.35); }
+.ez-hero > * { position: relative; z-index: 1; }
+.ez-shapes { position: absolute !important; inset: 0; z-index: 0 !important; pointer-events: none; overflow: hidden; }
+.ez-shape { position: absolute; font-family: "SF Mono", Consolas, monospace; font-weight: 700; color: rgba(255,255,255,.16); text-shadow: 0 0 14px rgba(124,196,255,.8); animation: ez-bob 7s ease-in-out infinite; will-change: transform; }
+.ez-shape:nth-child(1) { top: 8%; left: 6%; font-size: 26px; }
+.ez-shape:nth-child(2) { top: 62%; left: 14%; font-size: 20px; color: rgba(255,212,59,.22); animation-delay: -2s; animation-duration: 9s; }
+.ez-shape:nth-child(3) { top: 14%; left: 46%; font-size: 18px; animation-delay: -4s; }
+.ez-shape:nth-child(4) { top: 70%; left: 58%; font-size: 28px; color: rgba(52,211,153,.22); animation-delay: -1s; animation-duration: 11s; }
+.ez-shape:nth-child(5) { top: 40%; left: 90%; font-size: 22px; animation-delay: -5s; }
+.ez-shape-ring { width: 54px; height: 54px; border: 2px solid rgba(255,212,59,.28); border-radius: 50%; box-shadow: 0 0 18px rgba(255,212,59,.3), inset 0 0 14px rgba(255,212,59,.2); top: -14px; left: 30%; animation: ez-spin 18s linear infinite; }
+.ez-shape-sq { width: 30px; height: 30px; border: 2px solid rgba(124,196,255,.3); border-radius: 8px; box-shadow: 0 0 16px rgba(124,196,255,.35); bottom: 26%; left: 38%; top: auto !important; animation: ez-spin 24s linear infinite reverse; }
+@keyframes ez-bob { 0%,100% { transform: translate3d(0,0,0) rotate(-4deg); } 50% { transform: translate3d(6px,-14px,0) rotate(5deg); } }
+@keyframes ez-spin { to { transform: rotate(360deg); } }
+.ez-bar-fill { position: relative; overflow: hidden; }
+.ez-bar-fill::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent); transform: translateX(-100%); animation: ez-sweep 2.6s ease-in-out infinite; }
+@keyframes ez-sweep { to { transform: translateX(100%); } }
+.ez-stat { box-shadow: inset 0 0 18px rgba(255,255,255,.04); }
+.ez-stat-num { text-shadow: 0 0 12px rgba(255,255,255,.45); }
+
+/* view switcher */
+.ez-views { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 6px; }
+.ez-view { border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); color: rgba(232,241,251,.85); border-radius: 16px; padding: 12px 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: transform .2s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease; }
+.ez-view small { font-size: 10px; font-weight: 600; opacity: .7; letter-spacing: .06em; }
+.ez-view:hover { transform: translateY(-2px); }
+.ez-view:active { transform: scale(.97); }
+.ez-view.is-active { background: linear-gradient(135deg,#1f5c8b,#6d28d9); border-color: rgba(196,181,253,.75); color: #fff; box-shadow: 0 0 22px rgba(124,196,255,.45), 0 6px 22px rgba(109,40,217,.4); }
+.ez-view-plan.is-active { background: linear-gradient(135deg,#6d28d9,#c026d3); box-shadow: 0 0 22px rgba(192,38,211,.45), 0 6px 22px rgba(109,40,217,.4); }
+.ez-view-body { animation: ez-fade-up .35s ease both; }
+
+/* continue card */
+.ez-next { position: relative; display: flex; align-items: center; gap: 12px; margin: 12px 0 4px; padding: 14px; border-radius: 18px; border: 1px solid rgba(255,212,59,.55); background: linear-gradient(135deg, rgba(255,212,59,.16), rgba(87,167,232,.14) 60%, rgba(12,20,36,.6)); box-shadow: 0 0 26px -4px rgba(255,212,59,.45); overflow: hidden; animation: ez-fade-up .4s ease both; }
+.ez-next::before { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -50%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.16), transparent); animation: ez-sweepx 4.5s ease-in-out infinite; pointer-events: none; }
+@keyframes ez-sweepx { 0% { left: -50%; } 60%,100% { left: 130%; } }
+.ez-next-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ez-next-tag { font-size: 11px; font-weight: 800; color: #ffd43b; letter-spacing: .03em; }
+.ez-next-title { font-size: 14px; font-weight: 800; color: #fff; text-align: left; overflow-wrap: anywhere; }
+.ez-next-sub { font-size: 11px; color: rgba(214,228,245,.7); }
+.ez-next-play { position: relative; flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer; background: linear-gradient(135deg,#ff6b4a,#ff3b30); color: #fff; font-size: 20px; display: flex; align-items: center; justify-content: center; padding-inline-start: 3px; box-shadow: 0 0 22px rgba(255,59,48,.65); transition: transform .2s ease; }
+.ez-next-play:hover { transform: scale(1.08); }
+.ez-next-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255,90,70,.8); animation: ez-ring 1.9s ease-out infinite; }
+@keyframes ez-ring { from { transform: scale(1); opacity: .9; } to { transform: scale(1.7); opacity: 0; } }
+.ez-next-done { border-color: rgba(52,211,153,.55); background: linear-gradient(135deg, rgba(52,211,153,.18), rgba(12,20,36,.6)); box-shadow: 0 0 26px -4px rgba(52,211,153,.5); }
+
+/* tabs / sections / lessons glow */
+.ez-tab-cmd.is-active { box-shadow: 0 0 20px rgba(52,211,153,.55), 0 3px 14px rgba(43,122,120,.5); }
+.ez-tab-py.is-active { box-shadow: 0 0 20px rgba(87,167,232,.6), 0 3px 14px rgba(55,118,171,.55); }
+.ez-section { --ez-hue: #57a7e8; box-shadow: 0 8px 22px -14px var(--ez-hue); transition: border-color .25s ease, box-shadow .25s ease, transform .2s ease; }
+.ez-hue-0 { --ez-hue: #57a7e8; } .ez-hue-1 { --ez-hue: #2dd4bf; } .ez-hue-2 { --ez-hue: #ffd43b; } .ez-hue-3 { --ez-hue: #a78bfa; } .ez-hue-4 { --ez-hue: #4ade80; } .ez-hue-5 { --ez-hue: #fb923c; }
+.ez-section:hover { border-color: var(--ez-hue); box-shadow: 0 0 22px -6px var(--ez-hue); }
+.ez-section-head { background: linear-gradient(90deg, rgba(255,255,255,.03), transparent); }
+.ez-secnum { flex-shrink: 0; width: 34px; height: 34px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #08111f; background: var(--ez-hue); box-shadow: 0 0 16px var(--ez-hue); }
+.ez-section.is-complete .ez-secnum { background: linear-gradient(135deg,#34d399,#2b7a78); }
+.ez-section-title { text-shadow: 0 0 14px rgba(255,255,255,.12); }
+.ez-section { animation: ez-fade-up .45s ease both; }
+.ez-section:nth-child(2) { animation-delay: .04s; } .ez-section:nth-child(3) { animation-delay: .08s; } .ez-section:nth-child(4) { animation-delay: .12s; } .ez-section:nth-child(5) { animation-delay: .16s; } .ez-section:nth-child(n+6) { animation-delay: .2s; }
+.ez-minibar-fill { box-shadow: 0 0 8px var(--ez-hue); }
+.ez-video:hover { background: rgba(255,255,255,.07); box-shadow: inset 3px 0 0 var(--ez-hue, #57a7e8); }
+.ez-lesson.is-watched .ez-check, .ez-video.is-watched .ez-check { box-shadow: 0 0 12px rgba(52,211,153,.7); }
+.ez-play { background: linear-gradient(135deg,#ff6b4a,#ff3b30); box-shadow: 0 0 14px rgba(255,59,48,.55); }
+.ez-play:hover { background: linear-gradient(135deg,#ff7d5f,#ff4a40); transform: scale(1.15); }
+.ez-asbtn { box-shadow: 0 0 10px rgba(255,212,59,.25); }
+.ez-day.is-current { animation: ez-glowpulse 2.8s ease-in-out infinite; }
+@keyframes ez-glowpulse { 0%,100% { box-shadow: 0 0 0 1px rgba(167,139,250,.3), 0 0 10px rgba(167,139,250,.25); } 50% { box-shadow: 0 0 0 1px rgba(167,139,250,.6), 0 0 24px rgba(167,139,250,.55); } }
+.ez-day.is-done { box-shadow: 0 0 14px -6px rgba(52,211,153,.6); }
+.ez-plan { box-shadow: 0 0 30px -10px rgba(167,139,250,.6), 0 8px 26px rgba(3,10,20,.35); }
+.ez-plan-opt.is-active { box-shadow: 0 0 20px rgba(109,40,217,.65); }
+.ez-gate { box-shadow: 0 0 22px -8px rgba(255,212,59,.6); }
+
+/* modal glow */
+.ez-modal { box-shadow: 0 0 0 1px rgba(124,196,255,.3), 0 0 50px rgba(87,167,232,.35), 0 24px 80px rgba(0,0,0,.7); animation: ez-modal-in .28s cubic-bezier(.22,1,.36,1) both; }
+@keyframes ez-modal-in { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
+.ez-overlay .ez-player { animation: ez-modal-in .28s cubic-bezier(.22,1,.36,1) both; box-shadow: 0 0 0 1px rgba(124,196,255,.3), 0 0 50px rgba(87,167,232,.35); }
+
+@media (prefers-reduced-motion: reduce) {
+    .ez-blob, .ez-shape, .ez-hero-title, .ez-bar-fill::after, .ez-next::before, .ez-next-play::after, .ez-day.is-current, .ez-hero, .ez-hero-art { animation: none !important; }
+}
+
 </style>
 </head>
 <body>
 <div class="ez-root">
+    <div class="ez-aurora" aria-hidden="true"><i class="ez-blob ez-blob-1"></i><i class="ez-blob ez-blob-2"></i><i class="ez-blob ez-blob-3"></i></div>
     <div class="ez-hero">
+        <div class="ez-shapes" aria-hidden="true"><span class="ez-shape">{ }</span><span class="ez-shape">&lt;/&gt;</span><span class="ez-shape">def</span><span class="ez-shape">01</span><span class="ez-shape">λ</span><span class="ez-shape ez-shape-ring"></span><span class="ez-shape ez-shape-sq"></span></div>
         <div class="ez-hero-grid">
             <div class="ez-hero-main">
                 <div class="ez-hero-badge">🐍 رحلة تعلم بايثون • Python Journey</div>
@@ -933,6 +1055,13 @@ button { font-family: inherit; }
         <p class="ez-hero-time" id="hero-time"></p>
     </div>
 
+    <div id="player-zone"></div>
+    <div class="ez-views" role="tablist" aria-label="العرض">
+        <button type="button" role="tab" id="view-btn-lessons" class="ez-view is-active" onclick="setView('lessons')">📚 الدروس<small dir="ltr">Lessons</small></button>
+        <button type="button" role="tab" id="view-btn-plan" class="ez-view ez-view-plan" onclick="setView('plan')">📅 خطة المذاكرة<small dir="ltr">Study Plan</small></button>
+    </div>
+    <div id="view-lessons" class="ez-view-body">
+    <div id="next-zone"></div>
     <div class="ez-tabs" role="tablist">
         <button type="button" role="tab" id="tab-cmd" class="ez-tab ez-tab-cmd" onclick="setTab('cmd')">
             💻 سطر الأوامر <span class="ez-tab-en" dir="ltr">Command Line</span> <span class="ez-tab-count" id="tabcount-cmd">0/8</span>
@@ -943,8 +1072,6 @@ button { font-family: inherit; }
     </div>
 
     <div id="gate-zone"></div>
-    <div id="player-zone"></div>
-    <div id="plan-zone"></div>
 
     <div class="ez-course-head">
         <h2 class="ez-course-title" id="course-title"></h2>
@@ -952,6 +1079,8 @@ button { font-family: inherit; }
     </div>
 
     <div class="ez-sections" id="sections-zone"></div>
+    </div>
+    <div id="view-plan" class="ez-view-body" hidden><div id="plan-zone"></div></div>
 
     <p class="ez-foot">
         محتوى الكورسين من قناة <a href="https://www.youtube.com/@ElzeroWebSchool" target="_blank" rel="noreferrer">Elzero Web School</a> وتكليفات
@@ -1019,11 +1148,33 @@ function renderGate() {
     } else { z.innerHTML = ''; }
 }
 
+const ASSIGN_LESSONS = [
+ [4,8,8,10,6],[11,11,12,12,13,14,14,14,15,15,16,16,18],[19,19,19,19,20],
+ [21,21,21,22,22,22,23,23,23,23],[24,24,25,25],[26,27,28,29,31],[33,34,35,37],
+ [38,40,38,39],[41,43,44,46],[47,48,49,50],[51,52,55,55],[56,58,58,57],
+ [60,61,61],[65,67,66,68],[69,70,70,71],[72,73,74,75],[76,77,77,77],[79,80],
+ [82,83],[86,86,87,88,89],[90,91,94],[96,97,98,100,102],[105,106,107,108,110,111],
+ [117,118,119,120,122],[131,132],[133,134,135,138,139],[141,141],[143,146,146,147,148,149],
+ [150,151]
+];
+const ASSIGN_BY_LESSON = {};
+DATA.python.sections.forEach((sec, si) => sec.assignments.forEach((a, i) => {
+    (ASSIGN_BY_LESSON[ASSIGN_LESSONS[si][i]] = ASSIGN_BY_LESSON[ASSIGN_LESSONS[si][i]] || []).push(a);
+}));
+const VIDEO_BY_N = { python: {}, cmd: {} };
+['python', 'cmd'].forEach(c => DATA[c].sections.forEach(sec => sec.videos.forEach(v => { VIDEO_BY_N[c][v.n] = v; })));
+const openSol = new Set(), openLA = new Set();
+
 function renderPlayer() {
     const z = document.getElementById('player-zone');
-    if (!player || player.course !== tab) { z.innerHTML = ''; return; }
+    if (!player) {
+        // stop playback for real: blank the iframe first (ends the media session), then remove it
+        z.querySelectorAll('iframe').forEach(f => { try { f.src = 'about:blank'; } catch (e) {} f.remove(); });
+        z.innerHTML = ''; document.body.classList.remove('ez-noscroll'); return;
+    }
     const watched = (player.course === 'python' ? state.py : state.cmd).includes(player.n);
-    z.innerHTML = '<div class="ez-player">' +
+    document.body.classList.add('ez-noscroll');
+    z.innerHTML = '<div class="ez-overlay" onclick="if(event.target===this)closePlayer()" role="dialog" aria-modal="true"><div class="ez-player">' +
         '<div class="ez-player-head"><div class="ez-player-title">' +
         '<span class="ez-vnum">#' + String(player.n).padStart(3, '0') + '</span>' +
         '<span dir="ltr">' + esc(player.title) + '</span></div>' +
@@ -1033,7 +1184,49 @@ function renderPlayer() {
         '<div class="ez-player-actions">' +
         '<button type="button" class="' + (watched ? 'ez-btn ez-btn-done' : 'ez-btn ez-btn-primary') + '" onclick="toggleFromPlayer()">' +
         (watched ? '✓ اتشاف — اضغط للتراجع' : 'خلصت الفيديو ده ✓') + '</button>' +
-        '<span class="ez-player-note">بيشتغل جوا الصفحة — علّم عليه لما تخلص ✅</span></div></div>';
+        '<span class="ez-player-note">بيشتغل جوا نافذة فوق الصفحة — علّم عليه لما تخلص ✅</span></div></div></div>';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && player) closePlayer(); });
+
+function lessonHTML(course, v, ctx) {
+    const doneSet = new Set(course === 'python' ? state.py : state.cmd);
+    const w = doneSet.has(v.n), lk = isLocked(course, v.n);
+    const items = course === 'python' ? (ASSIGN_BY_LESSON[v.n] || []) : [];
+    const laKey = ctx + '-' + v.n;
+    const laOpen = openLA.has(laKey);
+    let h = '<div class="ez-lesson' + (w ? ' is-watched' : '') + (lk ? ' is-locked' : '') + '"><div class="ez-video">' +
+        '<button type="button" class="ez-check" ' + (lk ? 'disabled ' : '') + 'onclick="toggleWatch(\'' + course + '\',' + v.n + ')" aria-label="' + (w ? 'إلغاء علامة المشاهدة' : 'تعليم كمشاهد') + '">' + (w ? '✓' : '') + '</button>' +
+        '<span class="ez-vnum">#' + String(v.n).padStart(3, '0') + '</span>' +
+        '<span class="ez-vtitle" dir="ltr">' + esc(v.title) + '</span>' +
+        (items.length ? '<button type="button" class="ez-asbtn' + (laOpen ? ' is-open' : '') + '" onclick="toggleLA(\'' + laKey + '\', this)" aria-expanded="' + laOpen + '" title="تكليفات الدرس">📝 ' + items.length + '</button>' : '') +
+        '<span class="ez-vdur" dir="ltr">' + fmtDur(v.dur) + '</span>' +
+        (lk ? '<span class="ez-lock" title="مقفول لحد ما تخلص كورس سطر الأوامر">🔒</span>'
+            : '<button type="button" class="ez-play" onclick="openPlayer(\'' + course + '\',' + v.n + ')" aria-label="شغل الفيديو">▶</button>') +
+        '</div>';
+    if (items.length) {
+        h += '<div class="ez-acc' + (laOpen ? ' is-open' : '') + '"><div class="ez-acc-inner"><div class="ez-assigns"><div class="ez-assigns-head">' +
+            '<span class="ez-assigns-title">📝 تكليفات درس #' + v.n + '</span>' +
+            '<span class="ez-assigns-en" dir="ltr">Lesson ' + v.n + ' assignments (' + items.length + ')</span></div>';
+        items.forEach((a, i) => {
+            const aid = ctx + '-' + v.n + '-' + i, so = openSol.has(aid);
+            h += '<div class="ez-assign"><div class="ez-assign-head">' +
+                '<span class="ez-assign-num">تكليف ' + (i + 1) + ' • Task ' + (i + 1) + '</span>' +
+                '<button type="button" class="ez-btn ez-btn-ghost" onclick="toggleSol(\'' + aid + '\', this)">' + (so ? 'إخفاء الحل' : 'عرض الحل المقترح 💡') + '</button></div>' +
+                '<p class="ez-assign-text">' + esc(a.text) + '</p>' +
+                '<div class="ez-solwrap' + (so ? ' is-open' : '') + '" id="' + aid + '"><div class="ez-sol">' +
+                '<p class="ez-sol-note">حل مقترح للمراجعة — جرب تحل بنفسك الأول 👊</p>' +
+                '<pre dir="ltr"><code>' + esc(a.solution) + '</code></pre></div></div></div>';
+        });
+        h += '</div></div></div>';
+    }
+    return h + '</div>';
+}
+function toggleLA(key, btn) {
+    const open = !openLA.has(key);
+    if (open) openLA.add(key); else openLA.delete(key);
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.closest('.ez-lesson').querySelector('.ez-acc').classList.toggle('is-open', open);
 }
 
 function renderCourse() {
@@ -1047,59 +1240,55 @@ function renderCourse() {
 
     let html = '';
     course.sections.forEach((s, idx) => {
-        if (!(s.slug in openState)) openState[s.slug] = idx === 0;
+        if (!(s.slug in openState)) openState[s.slug] = idx === Math.max(0, course.sections.findIndex(x => x.videos.some(v => !doneSet.has(v.n))));
         const open = openState[s.slug];
         const done = s.videos.filter(v => doneSet.has(v.n)).length;
         const spct = Math.round((done / s.videos.length) * 100);
-        html += '<section class="ez-section ez-hue-' + (idx % 6) + '">' +
+        html += '<section class="ez-section ez-hue-' + (idx % 6) + (done === s.videos.length ? ' is-complete' : '') + '">' +
             '<button type="button" class="ez-section-head" onclick="toggleSection(\'' + s.slug + '\', this)" aria-expanded="' + open + '">' +
-            '<span class="ez-chev' + (open ? ' is-open' : '') + '">‹</span>' +
+            '<span class="ez-secnum">' + (done === s.videos.length ? '✓' : idx + 1) + '</span>' +
             '<span class="ez-section-titles"><span class="ez-section-title">' + esc(s.titleAr) + '</span>' +
             '<span class="ez-section-sub" dir="ltr">' + esc(s.title) + '</span></span>' +
-            '<span class="ez-section-meta"><span class="ez-section-range">الدروس ' + s.from + ' - ' + s.to + '</span>' +
+            '<span class="ez-section-meta"><span class="ez-chev' + (open ? ' is-open' : '') + '">‹</span><span class="ez-section-range">الدروس <bdi dir="ltr">' + s.from + ' - ' + s.to + '</bdi></span>' +
             '<span class="ez-minibar"><span class="ez-minibar-fill" style="width:' + spct + '%"></span></span>' +
             '<span class="ez-section-count">' + done + '/' + s.videos.length + '</span></span></button>' +
             '<div class="ez-acc' + (open ? ' is-open' : '') + '"><div class="ez-acc-inner"><div class="ez-videos">';
-        s.videos.forEach(v => {
-            const w = doneSet.has(v.n), lk = isLocked(tab, v.n);
-            html += '<div class="ez-video' + (w ? ' is-watched' : '') + (lk ? ' is-locked' : '') + '">' +
-                '<button type="button" class="ez-check" ' + (lk ? 'disabled ' : '') + 'onclick="toggleWatch(\'' + tab + '\',' + v.n + ')" aria-label="' + (w ? 'إلغاء علامة المشاهدة' : 'تعليم كمشاهد') + '">' + (w ? '✓' : '') + '</button>' +
-                '<span class="ez-vnum">#' + String(v.n).padStart(3, '0') + '</span>' +
-                '<span class="ez-vtitle" dir="ltr">' + esc(v.title) + '</span>' +
-                '<span class="ez-vdur" dir="ltr">' + fmtDur(v.dur) + '</span>' +
-                (lk ? '<span class="ez-lock" title="مقفول لحد ما تخلص كورس سطر الأوامر">🔒</span>'
-                    : '<button type="button" class="ez-play" onclick="openPlayer(\'' + tab + '\',' + v.n + ')" aria-label="شغل الفيديو">▶</button>') +
-                '</div>';
-        });
+        s.videos.forEach(v => { html += lessonHTML(tab, v, 'sec'); });
         html += '</div>';
-        if (s.assignments.length > 0) {
-            html += '<div class="ez-assigns"><div class="ez-assigns-head">' +
-                '<span class="ez-assigns-title">📝 تكليفات الدروس ' + s.from + ' - ' + s.to + '</span>' +
-                '<span class="ez-assigns-en" dir="ltr">Assignments (' + s.assignments.length + ')</span></div>';
-            s.assignments.forEach((a, i) => {
-                const aid = tab + '-' + s.slug + '-' + i;
-                html += '<div class="ez-assign"><div class="ez-assign-head">' +
-                    '<span class="ez-assign-num">تكليف ' + (i + 1) + ' • Task ' + (i + 1) + '</span>' +
-                    '<button type="button" class="ez-btn ez-btn-ghost" onclick="toggleSol(\'' + aid + '\', this)">عرض الحل المقترح 💡</button></div>' +
-                    '<p class="ez-assign-text">' + esc(a.text) + '</p>' +
-                    '<div class="ez-solwrap" id="' + aid + '"><div class="ez-sol">' +
-                    '<p class="ez-sol-note">حل مقترح للمراجعة — جرب تحل بنفسك الأول 👊</p>' +
-                    '<pre dir="ltr"><code>' + esc(a.solution) + '</code></pre></div></div></div>';
-            });
-            html += '</div>';
-        }
         html += '</div></div></section>';
     });
     document.getElementById('sections-zone').innerHTML = html;
 }
 
+let view = 'lessons';
+function setView(v) {
+    view = v;
+    document.getElementById('view-lessons').hidden = v !== 'lessons';
+    document.getElementById('view-plan').hidden = v !== 'plan';
+    ['lessons', 'plan'].forEach(k => {
+        const b = document.getElementById('view-btn-' + k);
+        b.classList.toggle('is-active', v === k); b.setAttribute('aria-selected', v === k);
+    });
+}
+function renderNext() {
+    const z = document.getElementById('next-zone');
+    const c = cmdComplete() ? 'python' : 'cmd';
+    const set = new Set(c === 'python' ? state.py : state.cmd);
+    let nv = null, ns = null;
+    for (const s of DATA[c].sections) { const v = s.videos.find(x => !set.has(x.n)); if (v) { nv = v; ns = s; break; } }
+    if (!nv) { z.innerHTML = '<div class="ez-next ez-next-done"><div class="ez-next-info"><span class="ez-next-tag">🏆 خلصت الكورسين!</span><span class="ez-next-sub">مبروك، كل الدروس اتعلّمت.</span></div></div>'; return; }
+    z.innerHTML = '<div class="ez-next"><div class="ez-next-info"><span class="ez-next-tag">▶ كمّل من حيث وقفت • Continue</span>' +
+        '<span class="ez-next-title" dir="ltr">#' + String(nv.n).padStart(3, '0') + ' ' + esc(nv.title) + '</span>' +
+        '<span class="ez-next-sub">' + (c === 'cmd' ? '💻 سطر الأوامر' : '🐍 بايثون') + ' • ' + esc(ns.titleAr) + ' • ' + fmtDur(nv.dur) + '</span></div>' +
+        '<button type="button" class="ez-next-play" aria-label="شغل الدرس الجاي" onclick="openPlayer(\'' + c + '\',' + nv.n + ')">▶</button></div>';
+}
 function setTab(t) {
     tab = t;
     document.getElementById('tab-cmd').classList.toggle('is-active', t === 'cmd');
     document.getElementById('tab-cmd').setAttribute('aria-selected', t === 'cmd');
     document.getElementById('tab-py').classList.toggle('is-active', t === 'python');
     document.getElementById('tab-py').setAttribute('aria-selected', t === 'python');
-    renderGate(); renderPlayer(); renderCourse();
+    renderGate(); renderPlayer(); renderCourse(); renderNext();
 }
 
 function toggleSection(slug, btn) {
@@ -1117,7 +1306,7 @@ function toggleWatch(course, n) {
     if (i >= 0) state[key].splice(i, 1); else state[key].push(n);
     save();
     if (!wasComplete && cmdComplete()) celebrate();
-    updateStats(); renderGate(); renderCourse(); syncPlayerButton();
+    updateStats(); renderGate(); renderCourse(); renderPlan(); renderNext(); syncPlayerButton();
 }
 
 function toggleFromPlayer() { if (player) toggleWatch(player.course, player.n); }
@@ -1140,7 +1329,6 @@ function openPlayer(course, n) {
         if (v) { player = { course, n: v.n, id: v.id, title: v.title, dur: v.dur }; break; }
     }
     renderPlayer();
-    document.getElementById('player-zone').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function closePlayer() { player = null; renderPlayer(); }
 
@@ -1148,15 +1336,18 @@ function toggleSol(id, btn) {
     const w = document.getElementById(id);
     const open = !w.classList.contains('is-open');
     w.classList.toggle('is-open', open);
+    if (open) openSol.add(id); else openSol.delete(id);
     btn.textContent = open ? 'إخفاء الحل' : 'عرض الحل المقترح 💡';
 }
 
 /* Study plan */
 let planOpen = true;
+const openDays = {};
+let planInit = false;
 function buildPlan(days) {
     const plan = [
-        { day: 1, course: 'cmd', from: 1, to: 4, assigns: [] },
-        { day: 2, course: 'cmd', from: 5, to: 8, assigns: [] }
+        { day: 1, course: 'cmd', from: 1, to: 4, assigns: 0 },
+        { day: 2, course: 'cmd', from: 5, to: 8, assigns: 0 }
     ];
     const pyDays = days - 2, total = DATA.python.total;
     const base = Math.floor(total / pyDays), rem = total % pyDays;
@@ -1164,28 +1355,36 @@ function buildPlan(days) {
     for (let i = 0; i < pyDays; i++) {
         const size = base + (i < rem ? 1 : 0);
         const from = cur, to = Math.min(total, cur + size - 1);
-        const assigns = [];
-        for (const s of DATA.python.sections) {
-            if (s.assignments.length > 0 && s.to >= from && s.to <= to) assigns.push({ from: s.from, to: s.to, count: s.assignments.length });
-        }
+        let assigns = 0;
+        for (let n = from; n <= to; n++) assigns += (ASSIGN_BY_LESSON[n] || []).length;
         plan.push({ day: i + 3, course: 'python', from, to, assigns });
         cur = to + 1;
     }
     return plan;
 }
+function dayStats(d) {
+    const set = new Set(d.course === 'python' ? state.py : state.cmd);
+    let done = 0;
+    for (let n = d.from; n <= d.to; n++) if (set.has(n)) done++;
+    return { done, total: d.to - d.from + 1 };
+}
 function renderPlan() {
     const z = document.getElementById('plan-zone');
     const plan = buildPlan(state.planDays);
-    const doneSet = new Set(state.planDone);
-    const pct = Math.round((state.planDone.length / plan.length) * 100);
-    const hint = state.planDays === 30 ? 'خطة مكثفة: حوالي 6 دروس كل يوم. تغيير المدة بيمسح علامات الأيام.'
-        : state.planDays === 45 ? 'خطة متوازنة: حوالي 3-4 دروس كل يوم. تغيير المدة بيمسح علامات الأيام.'
-        : 'خطة مريحة: حوالي 2-3 دروس كل يوم. تغيير المدة بيمسح علامات الأيام.';
+    const isDone = d => { const x = dayStats(d); return x.done === x.total; };
+    const doneDays = plan.filter(isDone).length;
+    const cur = plan.find(d => !isDone(d));
+    const curDay = cur ? cur.day : -1;
+    const pct = Math.round((doneDays / plan.length) * 100);
+    if (!planInit) { planInit = true; if (curDay > 0) openDays[curDay] = true; }
+    const hint = (state.planDays === 30 ? 'خطة مكثفة: حوالي 6 دروس كل يوم.'
+        : state.planDays === 45 ? 'خطة متوازنة: حوالي 3-4 دروس كل يوم.' : 'خطة مريحة: حوالي 2-3 دروس كل يوم.') +
+        ' علامة اليوم متزامنة مع علامات دروسه: علّم الدرس يتعلّم في اليوم، وعلّم اليوم تتعلّم كل دروسه (والعكس).';
     let html = '<div class="ez-plan">' +
         '<button type="button" class="ez-plan-head" onclick="planOpen=!planOpen;renderPlan()" aria-expanded="' + planOpen + '">' +
         '<span class="ez-chev' + (planOpen ? ' is-open' : '') + '">‹</span>' +
         '<span class="ez-plan-title">📅 خطة المذاكرة <span class="ez-plan-en" dir="ltr">Study Plan</span></span>' +
-        '<span class="ez-plan-progress">' + state.planDone.length + '/' + plan.length + ' يوم (' + pct + '%)</span></button>' +
+        '<span class="ez-plan-progress">' + doneDays + '/' + plan.length + ' يوم (' + pct + '%)</span></button>' +
         '<div class="ez-acc' + (planOpen ? ' is-open' : '') + '"><div class="ez-acc-inner"><div class="ez-plan-body">' +
         '<div class="ez-plan-sel" role="group" aria-label="مدة الخطة">';
     [30, 45, 60].forEach(d => {
@@ -1193,28 +1392,43 @@ function renderPlan() {
     });
     html += '</div><p class="ez-plan-hint">' + hint + '</p><div class="ez-plan-days">';
     plan.forEach(d => {
-        const done = doneSet.has(d.day);
-        html += '<div class="ez-day' + (done ? ' is-done' : '') + '">' +
-            '<button type="button" class="ez-check ez-day-check" onclick="togglePlanDay(' + d.day + ')" aria-label="' + (done ? 'إلغاء إنجاز اليوم' : 'خلصت اليوم ده') + '">' + (done ? '✓' : '') + '</button>' +
+        const st = dayStats(d), done = st.done === st.total;
+        const locked = d.course === 'python' && !cmdComplete();
+        const expanded = !!openDays[d.day];
+        html += '<div class="ez-day' + (done ? ' is-done' : '') + (d.day === curDay ? ' is-current' : '') + '"><div class="ez-day-head">' +
+            '<button type="button" class="ez-check ez-day-check" ' + (locked ? 'disabled ' : '') + 'onclick="togglePlanDay(' + d.day + ')" aria-label="' + (done ? 'إلغاء إنجاز اليوم' : 'خلصت اليوم ده') + '">' + (done ? '✓' : '') + '</button>' +
+            '<button type="button" class="ez-day-toggle" aria-expanded="' + expanded + '" onclick="toggleDayOpen(' + d.day + ')">' +
             '<span class="ez-day-num">يوم ' + d.day + '</span>' +
-            '<span class="ez-day-goal">' + (d.course === 'cmd' ? '💻 سطر الأوامر' : '🐍 بايثون') + ': دروس ' + d.from + ' - ' + d.to +
-            (d.course === 'cmd' && d.day === 2 ? ' + راجع كل الأوامر' : '');
-        d.assigns.forEach(a => {
-            html += '<span class="ez-day-assign">📝 تكليفات الدروس ' + a.from + ' - ' + a.to + ' (' + a.count + ')</span>';
-        });
-        html += '</span></div>';
+            '<span class="ez-day-goal"><span class="ez-day-goal-main">' + (d.course === 'cmd' ? '💻 سطر الأوامر' : '🐍 بايثون') + ' • دروس <bdi dir="ltr">' + d.from + ' - ' + d.to + '</bdi></span>' +
+            '<span class="ez-day-goal-sub">' + (locked ? '🔒 مقفول لحد ما تخلص سطر الأوامر' : st.done + '/' + st.total + ' دروس') + (d.assigns > 0 ? ' • 📝 ' + d.assigns + ' تكليف' : '') + '</span></span>' +
+            '<span class="ez-chev' + (expanded ? ' is-open' : '') + '">‹</span></button></div>' +
+            '<div class="ez-acc' + (expanded ? ' is-open' : '') + '"><div class="ez-acc-inner"><div class="ez-day-lessons">';
+        for (let n = d.from; n <= d.to; n++) html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.day);
+        html += '</div></div></div></div>';
     });
     html += '</div></div></div></div>';
     z.innerHTML = html;
 }
+function toggleDayOpen(day) {
+    openDays[day] = !openDays[day];
+    renderPlan();
+}
 function choosePlan(d) {
-    if (state.planDays !== d) { state.planDays = d; state.planDone = []; save(); }
+    if (state.planDays !== d) { state.planDays = d; for (const k in openDays) delete openDays[k]; planInit = false; save(); }
     renderPlan();
 }
 function togglePlanDay(day) {
-    const i = state.planDone.indexOf(day);
-    if (i >= 0) state.planDone.splice(i, 1); else state.planDone.push(day);
-    save(); renderPlan();
+    const d = buildPlan(state.planDays).find(x => x.day === day);
+    if (!d || (d.course === 'python' && !cmdComplete())) return;
+    const key = d.course === 'python' ? 'py' : 'cmd';
+    const wasComplete = cmdComplete();
+    const nums = [];
+    for (let n = d.from; n <= d.to; n++) nums.push(n);
+    const all = nums.every(n => state[key].includes(n));
+    state[key] = all ? state[key].filter(x => x < d.from || x > d.to) : Array.from(new Set(state[key].concat(nums)));
+    save();
+    if (!wasComplete && cmdComplete()) celebrate();
+    updateStats(); renderGate(); renderCourse(); renderPlan(); renderNext(); syncPlayerButton();
 }
 
 /* Confetti */
