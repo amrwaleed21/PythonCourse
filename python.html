@@ -1158,13 +1158,19 @@ function normList(a, max) {
     });
     return out;
 }
+function normToday(t) {
+    if (!t || typeof t !== 'object' || typeof t.date !== 'string' || (t.course !== 'cmd' && t.course !== 'python') || !Array.isArray(t.nums)) return null;
+    const nums = normList(t.nums, DATA[t.course].total);
+    return nums.length ? { date: t.date, day: Math.max(1, parseInt(t.day, 10) || 1), course: t.course, nums: nums } : null;
+}
+function todayKey() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 function loadState() {
     let raw = null;
     try { raw = JSON.parse(localStorage.getItem(STORE_KEY)); } catch (e) { raw = null; }
     if (!raw || typeof raw !== 'object') raw = {};
     const pd = Number(raw.planDays);
     // old generations stored day checkmarks (planDone) separately; day state is now derived from lessons only
-    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30 };
+    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30, dayNo: Math.max(0, parseInt(raw.dayNo, 10) || 0), today: normToday(raw.today) };
 }
 let state = loadState();
 
@@ -1298,7 +1304,7 @@ function renderNext() {
     for (const s of DATA[c].sections) { const v = s.videos.find(x => !set.has(x.n)); if (v) { nv = v; ns = s; break; } }
     if (!nv) { z.innerHTML = '<div class="ez-next ez-next-done"><div class="ez-next-info"><span class="ez-next-tag">🏆 خلصت الكورسين!</span><span class="ez-next-sub">مبروك، كل الدروس اتعلّمت.</span></div></div>'; return; }
     const plan = buildPlan(state.planDays);
-    const pd = plan.find(d => d.course === c && nv.n >= d.from && nv.n <= d.to);
+    const pd = plan.find(d => d.course === c && d.nums.indexOf(nv.n) >= 0);
     z.innerHTML = '<div class="ez-next"><div class="ez-next-info"><span class="ez-next-tag">▶ كمّل من حيث وقفت • Continue</span>' +
         '<span class="ez-next-title" dir="ltr">#' + String(nv.n).padStart(3, '0') + ' ' + esc(nv.title) + '</span>' +
         '<span class="ez-next-sub">' + (pd ? 'يوم ' + num(pd.day) + ' • ' : '') + (c === 'cmd' ? '💻 Command Line' : '🐍 Python') + (c === 'cmd' ? '' : ' • ' + esc(ns.titleAr)) + ' • ' + fmtDur(nv.dur) + '</span></div>' +
@@ -1377,60 +1383,84 @@ const PRACTICE = {
     'numpy': 'اعمل array وجرب العمليات الرياضية والإحصائية عليها، وقارن سرعتها بقائمة عادية.',
     'virtual-environment': 'اعمل venv جديد، فعّله، ثبّت مكتبة، وشوف pip freeze.'
 };
-function buildPlan(days) {
-    const cmdSec = DATA.cmd.sections[0];
-    const plan = [
-        { day: 1, course: 'cmd', from: 1, to: 4, assigns: 0, mins: Math.round(cmdSec.videos.slice(0, 4).reduce((a, v) => a + v.dur, 0) / 60), practice: PRACTICE['command-line-course'] },
-        { day: 2, course: 'cmd', from: 5, to: 8, assigns: 0, mins: Math.round(cmdSec.videos.slice(4).reduce((a, v) => a + v.dur, 0) / 60), practice: PRACTICE['command-line-course'] }
-    ];
-    // python days: balanced by watch minutes; break at section boundaries, split only very long sections
-    const flat = [];
-    DATA.python.sections.forEach(s => s.videos.forEach(v => flat.push({ n: v.n, dur: v.dur, slug: s.slug })));
-    const pyDays = days - 2;
-    const totalSec = flat.reduce((a, v) => a + v.dur, 0);
-    const avgDay = totalSec / pyDays;
-    let idx = 0, cum = 0;
-    for (let d = 0; d < pyDays; d++) {
-        const endTarget = totalSec * (d + 1) / pyDays;
-        const vids = [];
+/* Adaptive plan: days are NOT fixed lesson ranges. Each day serves the next unfinished lessons (recalculated from what was actually completed). */
+function mkDay(day, course, nums) {
+    let m = 0, assigns = 0;
+    const slugs = [];
+    nums.forEach(n => {
+        const v = VIDEO_BY_N[course][n]; m += v.dur;
+        assigns += (ASSIGN_BY_LESSON[n] || []).length;
+        const sl = SECTION_BY_N[course][n].slug;
+        if (slugs.indexOf(sl) < 0) slugs.push(sl);
+    });
+    const practice = course === 'cmd' ? PRACTICE['command-line-course'] : (PRACTICE[slugs[slugs.length - 1]] || '');
+    return { day: day, course: course, nums: nums, assigns: course === 'cmd' ? 0 : assigns, mins: Math.round(m / 60), practice: practice };
+}
+// pack unfinished lessons (in course order) into day-sized chunks; skip = lessons already placed in today's day
+function packRemaining(days, skip) {
+    const chunks = [];
+    const cmdLeft = [], pyFlat = [];
+    DATA.cmd.sections.forEach(sec => sec.videos.forEach(v => { if (state.cmd.indexOf(v.n) < 0 && !(skip.course === 'cmd' && skip.nums.indexOf(v.n) >= 0)) cmdLeft.push(v.n); }));
+    for (let i = 0; i < cmdLeft.length; i += 4) chunks.push({ course: 'cmd', nums: cmdLeft.slice(i, i + 4) });
+    DATA.python.sections.forEach(sec => sec.videos.forEach(v => { if (state.py.indexOf(v.n) < 0 && !(skip.course === 'python' && skip.nums.indexOf(v.n) >= 0)) pyFlat.push({ n: v.n, dur: v.dur, slug: sec.slug }); }));
+    const avgDay = totalSeconds(DATA.python) / Math.max(1, days - 2);
+    let idx = 0;
+    while (idx < pyFlat.length) {
+        const nums = [];
         let m = 0;
-        while (idx < flat.length) {
-            const v = flat[idx];
-            const atBoundary = idx + 1 >= flat.length || flat[idx + 1].slug !== v.slug;
-            if (vids.length && cum >= endTarget && (atBoundary || SEC_MIN[v.slug] > avgDay * 1.6)) break;
-            vids.push(v); m += v.dur; cum += v.dur; idx++;
+        while (idx < pyFlat.length) {
+            const v = pyFlat[idx];
+            const atBoundary = idx + 1 >= pyFlat.length || pyFlat[idx + 1].slug !== v.slug;
+            if (nums.length && m >= avgDay && (atBoundary || SEC_MIN[v.slug] > avgDay * 1.6)) break;
+            nums.push(v.n); m += v.dur; idx++;
         }
-        const from = vids[0].n, to = vids[vids.length - 1].n;
-        let assigns = 0;
-        for (let n = from; n <= to; n++) assigns += (ASSIGN_BY_LESSON[n] || []).length;
-        const slugs = [];
-        vids.forEach(v => { if (slugs.indexOf(v.slug) < 0) slugs.push(v.slug); });
-        plan.push({ day: d + 3, course: 'python', from, to, assigns, mins: Math.round(m / 60), practice: PRACTICE[slugs[slugs.length - 1]] || '' });
+        chunks.push({ course: 'python', nums: nums });
     }
+    return chunks;
+}
+function ensureToday() {
+    const key = todayKey();
+    const t = state.today;
+    if (t && t.date === key) return;
+    const chunks = packRemaining(state.planDays, { course: '', nums: [] });
+    if (!chunks.length) { state.today = null; return; }
+    state.dayNo += 1;
+    state.today = { date: key, day: state.dayNo, course: chunks[0].course, nums: chunks[0].nums };
+    save();
+}
+function buildPlan(days) {
+    ensureToday();
+    const t = state.today;
+    if (!t) return [];
+    const plan = [mkDay(t.day, t.course, t.nums)];
+    packRemaining(days, t).forEach((c, i) => plan.push(mkDay(t.day + 1 + i, c.course, c.nums)));
     return plan;
 }
 function dayStats(d) {
     const set = new Set(d.course === 'python' ? state.py : state.cmd);
     let done = 0;
-    for (let n = d.from; n <= d.to; n++) if (set.has(n)) done++;
-    return { done, total: d.to - d.from + 1 };
+    d.nums.forEach(n => { if (set.has(n)) done++; });
+    return { done, total: d.nums.length };
 }
 function dayTopics(d) {
     const seen = [], out = [];
-    for (let n = d.from; n <= d.to; n++) { const s = SECTION_BY_N[d.course][n]; if (s && seen.indexOf(s.slug) < 0) { seen.push(s.slug); out.push(s.titleAr); } }
+    d.nums.forEach(n => { const s = SECTION_BY_N[d.course][n]; if (s && seen.indexOf(s.slug) < 0) { seen.push(s.slug); out.push(s.titleAr); } });
     return out;
 }
 function renderPlan() {
     const z = document.getElementById('plan-zone');
     const plan = buildPlan(state.planDays);
     const isDone = d => { const x = dayStats(d); return x.done === x.total; };
-    const doneDays = plan.filter(isDone).length;
-    const cur = plan.find(d => !isDone(d));
+    const doneLessons = state.py.length + state.cmd.length, allLessons = DATA.python.total + DATA.cmd.total;
+    const cur = plan.find(d => !isDone(d)) || plan[0];
     const curDay = cur ? cur.day : -1;
     if (!planInit) { planInit = true; if (curDay > 0) openDays[curDay] = true; }
-    const pct = Math.round((doneDays / plan.length) * 100);
-    document.getElementById('plan-progress').innerHTML = num(doneDays + '/' + plan.length) + ' يوم • ' + num(pct + '%');
+    const pct = Math.round((doneLessons / allLessons) * 100);
+    const remDays = plan.filter(d => !isDone(d)).length;
+    document.getElementById('plan-progress').innerHTML = num(doneLessons + '/' + allLessons) + ' درس • ' + (remDays ? 'فاضل ' + num('~' + remDays) + ' يوم' : 'خلصت 🏆');
     let html = '';
+    if (!plan.length) html = '<div class="ez-practice">🏆 خلصت كل الدروس، مفيش حاجة متبقية في الخطة.</div>';
+    else html = '<div class="ez-practice">🔄 الخطة بتتظبط تلقائي: لو خلصت دروس زيادة النهارده، بكرة هتلاقي الدروس الجاية اللي لسه ماخلصتهاش بس.</div>';
     plan.forEach(d => {
         const st = dayStats(d), done = st.done === st.total;
         const locked = isLocked(d.course);
@@ -1442,11 +1472,11 @@ function renderPlan() {
             '<button type="button" class="ez-day-toggle" aria-expanded="' + expanded + '" onclick="toggleDayOpen(' + d.day + ')">' +
             '<span class="ez-day-badge"><small>يوم</small><b>' + d.day + '</b></span>' +
             '<span class="ez-day-goal"><span class="ez-day-goal-main">' + (d.course === 'cmd' ? '💻 Command Line' : '🐍 ' + esc(topics.join(' • '))) + '</span>' +
-            '<span class="ez-day-goal-sub">' + (locked ? '🔒 مقفول لحد ما تخلص Command Line' : 'دروس ' + num(d.from + '–' + d.to) + ' • ' + num(st.done + '/' + st.total) + ' اتعلّموا' + ' • ⏱ ' + num('~' + d.mins + ' د')) + (d.assigns > 0 ? ' • 📝 ' + num(d.assigns) + ' تكليف' : '') + '</span>' +
+            '<span class="ez-day-goal-sub">' + (locked ? '🔒 مقفول لحد ما تخلص Command Line' : 'دروس ' + num(d.nums.length) + ' • ' + num(st.done + '/' + st.total) + ' اتعلّموا' + ' • ⏱ ' + num('~' + d.mins + ' د')) + (d.assigns > 0 ? ' • 📝 ' + num(d.assigns) + ' تكليف' : '') + '</span>' +
             '<span class="ez-day-bar"><span style="width:' + Math.round(st.done / st.total * 100) + '%"></span></span></span>' +
             '<span class="ez-chev' + (expanded ? ' is-open' : '') + '">‹</span></button></div>' +
             '<div class="ez-acc' + (expanded ? ' is-open' : '') + '"><div class="ez-acc-inner">' + (d.practice ? '<div class="ez-practice">🎯 <b>تطبيق اليوم:</b> ' + esc(d.practice) + '</div>' : '') + '<div class="ez-day-lessons">';
-        for (let n = d.from; n <= d.to; n++) html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.day);
+        d.nums.forEach(n => { html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.day); });
         html += '</div></div></div></div>';
     });
     z.innerHTML = html;
@@ -1465,7 +1495,7 @@ function toggleDayOpen(day) {
     el.querySelector('.ez-day-toggle').setAttribute('aria-expanded', openDays[day]);
 }
 function choosePlan(d) {
-    if (state.planDays !== d) { state.planDays = d; for (const k in openDays) delete openDays[k]; planInit = false; save(); renderPlan(); renderNext(); }
+    if (state.planDays !== d) { state.planDays = d; for (const k in openDays) delete openDays[k]; planInit = false; state.today = null; state.dayNo = Math.max(0, state.dayNo - 1); save(); renderPlan(); renderNext(); }
 }
 function togglePlanDay(day) {
     const d = buildPlan(state.planDays).find(x => x.day === day);
@@ -1473,10 +1503,9 @@ function togglePlanDay(day) {
     if (isLocked(d.course)) { lockedMsg(); return; }
     const key = d.course === 'python' ? 'py' : 'cmd';
     const wasComplete = cmdComplete();
-    const nums = [];
-    for (let n = d.from; n <= d.to; n++) nums.push(n);
+    const nums = d.nums.slice();
     const all = nums.every(n => state[key].indexOf(n) >= 0);
-    state[key] = all ? state[key].filter(x => x < d.from || x > d.to) : Array.from(new Set(state[key].concat(nums)));
+    state[key] = all ? state[key].filter(x => nums.indexOf(x) < 0) : Array.from(new Set(state[key].concat(nums)));
     save();
     afterChange(wasComplete);
 }
