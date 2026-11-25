@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
 <title>Python مع أسامة الزيرو | Python Tracker</title>
 <meta name="theme-color" content="#0c1424">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1104,6 +1104,23 @@ button { font-family: inherit; }
     .ez-blob, .ez-shape, .ez-hero-title, .ez-bar-fill::after, .ez-next::before, .ez-next-play::after, .ez-day.is-current, .ez-hero, .ez-hero-art { animation: none !important; }
 }
 
+
+/* ===== hard no-horizontal-overflow guard (v3) ===== */
+html { width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; touch-action: pan-y pinch-zoom; position: relative; }
+body { width: 100%; max-width: 100%; overflow-x: hidden; position: relative; touch-action: pan-y pinch-zoom; }
+.ez-root { overflow-x: hidden; overflow-x: clip; max-width: 100%; position: relative; }
+.ez-root * { max-width: 100%; }
+.ez-root img, .ez-root svg, .ez-root video, .ez-root iframe, .ez-root canvas { max-width: 100%; height: auto; }
+.ez-root iframe { height: revert-layer; }
+.ez-root pre { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ez-root pre code { max-width: none; }
+.ez-root, .ez-root div, .ez-root p, .ez-root span, .ez-root a, .ez-root h1, .ez-root h2, .ez-root h3, .ez-root li { overflow-wrap: anywhere; min-width: 0; }
+.ez-aurora { contain: paint; width: 100%; max-width: 100%; right: auto; }
+@media (max-width: 767px) {
+  .ez-aurora { display: none !important; }
+  .ez-blob, .ez-shape { animation: none !important; will-change: auto !important; }
+  .ez-hero { overflow: hidden; }
+}
 </style>
 </head>
 <body>
@@ -1674,6 +1691,20 @@ document.getElementById('hero-time').textContent =
 updateStats();
 renderPlan();
 renderNext();
+</script>
+<script>
+(function(){
+  function fit(){
+    var de=document.documentElement;
+    if (window.scrollX) window.scrollTo(0, window.scrollY);
+    if (de.scrollLeft) de.scrollLeft = 0;
+    if (document.body.scrollLeft) document.body.scrollLeft = 0;
+  }
+  window.addEventListener('scroll', fit, {passive:true});
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  window.addEventListener('load', fit);
+})();
 </script>
 </body>
 </html>
