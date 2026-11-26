@@ -1470,7 +1470,8 @@ function mkDay(day, course, nums) {
         if (slugs.indexOf(sl) < 0) slugs.push(sl);
     });
     const practice = course === 'cmd' ? PRACTICE['command-line-course'] : (PRACTICE[slugs[slugs.length - 1]] || '');
-    return { day: day, course: course, nums: nums, assigns: course === 'cmd' ? 0 : assigns, mins: Math.round(m / 60), practice: practice };
+    nums = nums.slice().sort((a, b) => a - b);
+    return { key: day + '-' + course, day: day, course: course, nums: nums, assigns: course === 'cmd' ? 0 : assigns, mins: Math.round(m / 60), practice: practice };
 }
 /* Real-time plan: the course has a fixed START DATE and a fixed length (30/45/60 calendar days).
    Today's day number = (today - start date + 1). The unfinished lessons are spread over the days that are left,
@@ -1567,16 +1568,17 @@ function buildPlan(days) {
     const orphan = [];
     ['cmd', 'python'].forEach(c => (c === 'cmd' ? DATA.cmd : DATA.python).sections.forEach(sec => sec.videos.forEach(v => { if (stillDone(c, v.n) && !covered[c].has(v.n)) orphan.push({ c: c, n: v.n }); })));
     const free = []; for (let d = 1; d < cur; d++) if (!frozen[d]) free.push(d);
-    const groups = [];
-    orphan.forEach(o => { const g = groups[groups.length - 1]; if (g && g.course === o.c) g.nums.push(o.n); else groups.push({ course: o.c, nums: [o.n] }); });
+    const groups = [], extras = [];
+    orphan.forEach(o => { const g = groups.find(x => x.course === o.c); if (g) g.nums.push(o.n); else groups.push({ course: o.c, nums: [o.n] }); });
     groups.forEach(g => {
         if (free.length) { frozen[free.shift()] = g; return; }
         if (t && t.course === g.course) { t = { date: t.date, day: t.day, course: t.course, nums: g.nums.concat(t.nums) }; return; }
         const k = Object.keys(frozen).map(Number).filter(d => frozen[d].course === g.course).pop();
         if (k) frozen[k] = { course: g.course, nums: frozen[k].nums.concat(g.nums) };
-        else frozen[0] = g;
+        else extras.push({ day: Math.max(1, cur), course: g.course, nums: g.nums });
     });
     Object.keys(frozen).map(Number).sort((x, y) => x - y).forEach(d => hist.push(mkDay(d, frozen[d].course, frozen[d].nums)));
+    extras.forEach(e => hist.push(mkDay(e.day, e.course, e.nums)));
     if (!t) return hist;
     const plan = hist.concat([mkDay(t.day, t.course, t.nums)]);
     packRemaining(daysLeft() - 1, t).forEach((c, i) => plan.push(mkDay(t.day + 1 + i, c.course, c.nums)));
@@ -1599,8 +1601,8 @@ function renderPlan() {
     const isDone = d => { const x = dayStats(d); return x.done === x.total; };
     const doneLessons = state.py.length + state.cmd.length, allLessons = DATA.python.total + DATA.cmd.total;
     const cur = plan.find(d => !isDone(d)) || plan[0];
-    const curDay = cur ? cur.day : -1;
-    if (!planInit) { planInit = true; if (curDay > 0) openDays[curDay] = true; }
+    const curDay = cur ? cur.key : '';
+    if (!planInit) { planInit = true; if (curDay) openDays[curDay] = true; }
     const pct = Math.round((doneLessons / allLessons) * 100);
     const remDays = plan.filter(d => !isDone(d)).length;
     document.getElementById('plan-progress').innerHTML = num(doneLessons + '/' + allLessons) + ' درس • ' + (remDays ? 'يوم ' + num(curDayNo() > effLen() ? effLen() + '+' : curDayNo()) + ' من ' + num(effLen()) + ' • فاضل ' + num(daysLeft()) + ' يوم • ينتهي ' + num(fmtDate(endDateKey())) : 'خلصت 🏆');
@@ -1610,19 +1612,19 @@ function renderPlan() {
     plan.forEach(d => {
         const st = dayStats(d), done = st.done === st.total;
         const locked = isLocked(d.course);
-        const expanded = !!openDays[d.day];
+        const expanded = !!openDays[d.key];
         const topics = dayTopics(d);
         const hue = d.course === 'cmd' ? 'cmd' : 'py';
-        html += '<div class="ez-day ez-dayhue-' + hue + (done ? ' is-done' : '') + (d.day === curDay ? ' is-current' : '') + (locked ? ' is-locked' : '') + '" id="day-' + d.day + '"><div class="ez-day-head">' +
-            '<button type="button" class="ez-check ez-day-check' + (locked ? ' is-lockedbtn' : '') + '" onclick="' + (locked ? 'lockedMsg()' : 'togglePlanDay(' + d.day + ')') + '" aria-pressed="' + done + '" aria-label="' + (done ? 'إلغاء إنجاز اليوم' : 'خلصت اليوم ده') + '">' + (locked ? LOCK_SVG : CHECK_SVG) + '</button>' +
-            '<button type="button" class="ez-day-toggle" aria-expanded="' + expanded + '" onclick="toggleDayOpen(' + d.day + ')">' +
+        html += '<div class="ez-day ez-dayhue-' + hue + (done ? ' is-done' : '') + (d.key === curDay ? ' is-current' : '') + (locked ? ' is-locked' : '') + '" id="day-' + d.key + '"><div class="ez-day-head">' +
+            '<button type="button" class="ez-check ez-day-check' + (locked ? ' is-lockedbtn' : '') + '" onclick="' + (locked ? 'lockedMsg()' : 'togglePlanDay(\'' + d.key + '\')') + '" aria-pressed="' + done + '" aria-label="' + (done ? 'إلغاء إنجاز اليوم' : 'خلصت اليوم ده') + '">' + (locked ? LOCK_SVG : CHECK_SVG) + '</button>' +
+            '<button type="button" class="ez-day-toggle" aria-expanded="' + expanded + '" onclick="toggleDayOpen(\'' + d.key + '\')">' +
             '<span class="ez-day-badge"><small>يوم</small><b>' + d.day + '</b></span>' +
             '<span class="ez-day-goal"><span class="ez-day-goal-sub">📅 ' + (d.day === curDayNo() ? '<b>النهارده</b> • ' : '') + 'يوم ' + num(d.day) + ' • ' + esc(fmtDateAr(addDays(state.startDate, d.day - 1))) + '</span><span class="ez-day-goal-main">' + (d.course === 'cmd' ? '💻 Command Line' : '🐍 ' + esc(topics.join(' • '))) + '</span>' +
             '<span class="ez-day-goal-sub">' + (locked ? '🔒 مقفول لحد ما تخلص Command Line' : 'دروس ' + num(d.nums.length) + ' • ' + num(st.done + '/' + st.total) + ' اتعلّموا' + ' • ⏱ ' + num('~' + d.mins + ' د')) + (d.assigns > 0 ? ' • 📝 ' + num(d.assigns) + ' تكليف' : '') + '</span>' +
             '<span class="ez-day-bar"><span style="width:' + Math.round(st.done / st.total * 100) + '%"></span></span></span>' +
             '<span class="ez-chev' + (expanded ? ' is-open' : '') + '">‹</span></button></div>' +
             '<div class="ez-acc' + (expanded ? ' is-open' : '') + '"><div class="ez-acc-inner">' + '<div class="ez-practice" dir="auto">' + esc(dayTask(d)) + ' (' + num(d.nums.length) + ' دروس، ~' + num(d.mins) + ' د)</div>' + (d.practice ? '<div class="ez-practice">🎯 <b>تطبيق اليوم:</b> ' + esc(d.practice) + '</div>' : '') + '<div class="ez-day-lessons">';
-        d.nums.forEach(n => { html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.day); });
+        d.nums.forEach(n => { html += lessonHTML(d.course, VIDEO_BY_N[d.course][n], 'plan' + d.key); });
         html += '</div></div></div></div>';
     });
     z.innerHTML = html;
@@ -1655,7 +1657,7 @@ function setStartDate(v) {
     save(); renderPlan(); renderNext();
 }
 function togglePlanDay(day) {
-    const d = buildPlan(state.planDays).find(x => x.day === day);
+    const d = buildPlan(state.planDays).find(x => x.key === day);
     if (!d) return;
     if (isLocked(d.course)) { lockedMsg(); return; }
     const key = d.course === 'python' ? 'py' : 'cmd';
@@ -1670,8 +1672,8 @@ function jumpToCurrent() {
     const plan = buildPlan(state.planDays);
     const cur = plan.find(d => { const x = dayStats(d); return x.done !== x.total; });
     if (!cur) return;
-    if (!openDays[cur.day]) toggleDayOpen(cur.day);
-    const el = document.getElementById('day-' + cur.day);
+    if (!openDays[cur.key]) toggleDayOpen(cur.key);
+    const el = document.getElementById('day-' + cur.key);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
