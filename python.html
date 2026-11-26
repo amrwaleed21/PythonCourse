@@ -1215,13 +1215,21 @@ function dayTask(d) {
     return (d.course === 'cmd' ? '💻 ' : '🐍 ') + 'المطلوب: شوف الدروس من #' + String(a.n).padStart(3, '0') + ' ' + a.title + (b.n !== a.n ? ' لحد #' + String(b.n).padStart(3, '0') + ' ' + b.title : '');
 }
 function fmtDate(k) { const p = k.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+function normHist(h) {
+    const out = {};
+    if (h && typeof h === 'object') Object.keys(h).forEach(k => {
+        const d = parseInt(k, 10), e = h[k];
+        if (d >= 1 && e && (e.course === 'cmd' || e.course === 'python') && Array.isArray(e.nums)) { const nums = normList(e.nums, DATA[e.course].total); if (nums.length) out[d] = { course: e.course, nums: nums }; }
+    });
+    return out;
+}
 function loadState() {
     let raw = null;
     try { raw = JSON.parse(localStorage.getItem(STORE_KEY)); } catch (e) { raw = null; }
     if (!raw || typeof raw !== 'object') raw = {};
     const pd = Number(raw.planDays);
     // old generations stored day checkmarks (planDone) separately; day state is now derived from lessons only
-    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30, dayNo: Math.max(0, parseInt(raw.dayNo, 10) || 0), today: normToday(raw.today), earlyDays: Math.max(0, parseInt(raw.earlyDays, 10) || 0), startDate: normDate(raw.startDate) || (raw.today && normDate(raw.today.date)) || todayKey() };
+    return { v: STORE_VER, py: normList(raw.py, DATA.python.total), cmd: normList(raw.cmd, DATA.cmd.total), planDays: [30, 45, 60].indexOf(pd) >= 0 ? pd : 30, dayNo: Math.max(0, parseInt(raw.dayNo, 10) || 0), today: normToday(raw.today), earlyDays: Math.max(0, parseInt(raw.earlyDays, 10) || 0), hist: normHist(raw.hist), startDate: normDate(raw.startDate) || (raw.today && normDate(raw.today.date)) || todayKey() };
 }
 let state = loadState();
 
@@ -1517,6 +1525,11 @@ function ensureToday() {
     const t = state.today;
     const no = curDayNo();
     if (t && t.date === key && t.day === no) return;
+    // freeze the finished part of the previous day so completed days never get rebuilt or shifted
+    if (t && t.day < no && !state.hist[t.day]) {
+        const set = new Set(t.course === 'python' ? state.py : state.cmd), dn = t.nums.filter(n => set.has(n));
+        if (dn.length) state.hist[t.day] = { course: t.course, nums: dn };
+    }
     const chunks = packRemaining(daysLeft(), { course: '', nums: [] });
     state.dayNo = no;
     if (!chunks.length) { state.today = null; return; }
@@ -1544,19 +1557,27 @@ function buildPlan(days) {
     ensureToday();
     let t = state.today;
     // lessons finished before today (or before today's list was frozen) stay on the board as past days, each with its real date
-    const past = packDone(curDayNo() - 1, t || { course: '', nums: [] });
-    if (!t) {
-        if (!past.length) return [];
-        return past.map((c, i) => mkDay(i + 1, c.course, c.nums));
-    }
-    const hist = [];
-    if (curDayNo() > 1) past.forEach((c, i) => hist.push(mkDay(i + 1, c.course, c.nums)));
-    else if (past.length) {
-        // rare edge: lessons finished on day 1 after today's list was rebuilt - fold them back into today's card
-        const extra = [];
-        past.forEach(c => { if (c.course === t.course) c.nums.forEach(n => { if (t.nums.indexOf(n) < 0) extra.push(n); }); });
-        if (extra.length) t = { date: t.date, day: t.day, course: t.course, nums: extra.concat(t.nums) };
-    }
+    const cur = curDayNo(), hist = [], H = state.hist;
+    const stillDone = (course, n) => (course === 'python' ? state.py : state.cmd).indexOf(n) >= 0;
+    const covered = { cmd: new Set(), python: new Set() };
+    if (t) t.nums.forEach(n => covered[t.course].add(n));
+    const frozen = {};
+    Object.keys(H).forEach(k => { const d = +k; if (d >= cur) return; const nums = H[k].nums.filter(n => stillDone(H[k].course, n) && !covered[H[k].course].has(n)); if (nums.length) { frozen[d] = { course: H[k].course, nums: nums }; nums.forEach(n => covered[H[k].course].add(n)); } });
+    // done lessons that belong to no saved day (older saves, or finished early): fill the empty past days, never drop them
+    const orphan = [];
+    ['cmd', 'python'].forEach(c => (c === 'cmd' ? DATA.cmd : DATA.python).sections.forEach(sec => sec.videos.forEach(v => { if (stillDone(c, v.n) && !covered[c].has(v.n)) orphan.push({ c: c, n: v.n }); })));
+    const free = []; for (let d = 1; d < cur; d++) if (!frozen[d]) free.push(d);
+    const groups = [];
+    orphan.forEach(o => { const g = groups[groups.length - 1]; if (g && g.course === o.c) g.nums.push(o.n); else groups.push({ course: o.c, nums: [o.n] }); });
+    groups.forEach(g => {
+        if (free.length) { frozen[free.shift()] = g; return; }
+        if (t && t.course === g.course) { t = { date: t.date, day: t.day, course: t.course, nums: g.nums.concat(t.nums) }; return; }
+        const k = Object.keys(frozen).map(Number).filter(d => frozen[d].course === g.course).pop();
+        if (k) frozen[k] = { course: g.course, nums: frozen[k].nums.concat(g.nums) };
+        else frozen[0] = g;
+    });
+    Object.keys(frozen).map(Number).sort((x, y) => x - y).forEach(d => hist.push(mkDay(d, frozen[d].course, frozen[d].nums)));
+    if (!t) return hist;
     const plan = hist.concat([mkDay(t.day, t.course, t.nums)]);
     packRemaining(daysLeft() - 1, t).forEach((c, i) => plan.push(mkDay(t.day + 1 + i, c.course, c.nums)));
     return plan;
@@ -1622,12 +1643,14 @@ function toggleDayOpen(day) {
     el.querySelector('.ez-day-toggle').setAttribute('aria-expanded', openDays[day]);
 }
 function choosePlan(d) {
-    if (state.planDays !== d) { state.planDays = d; state.earlyDays = 0; for (const k in openDays) delete openDays[k]; planInit = false; state.today = null; save(); renderPlan(); renderNext(); }
+    if (state.planDays !== d) {
+        if (state.py.length + state.cmd.length > 0 && !confirm('تغيير الخطة هيصفّر كل الدروس اللي اتعلّمت وترجع من الصفر. تكمل؟')) return;
+        state.py = []; state.cmd = []; state.hist = {}; state.startDate = todayKey(); state.planDays = d; state.earlyDays = 0; for (const k in openDays) delete openDays[k]; planInit = false; state.today = null; save(); updateStats(); renderPlan(); renderNext(); }
 }
 function setStartDate(v) {
     const k = normDate(v);
     if (!k) return;
-    state.startDate = k; state.earlyDays = 0; state.today = null; planInit = false;
+    state.startDate = k; state.earlyDays = 0; state.today = null; state.hist = {}; planInit = false;
     for (const x in openDays) delete openDays[x];
     save(); renderPlan(); renderNext();
 }
